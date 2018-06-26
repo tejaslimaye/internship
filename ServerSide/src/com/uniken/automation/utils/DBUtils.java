@@ -23,7 +23,9 @@ public class DBUtils {
 		// TODO Auto-generated constructor stub
 		Properties props = new Properties();
 		try {
-			props.load(new FileInputStream("resources/dbprops.properties"));
+			
+			
+			props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("resources/dbprops.properties"));
 			String strDBDriver = props.getProperty("DB_DRIVER");
 			String strDBURL = props.getProperty("DB_URL");
 			String strDBUser = props.getProperty("DB_USER");
