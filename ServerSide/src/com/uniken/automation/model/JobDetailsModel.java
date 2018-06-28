@@ -39,7 +39,7 @@ public class JobDetailsModel extends BaseModel
 		}
 		else
 		{
-			response.setDevice_avail_code(1); // DEVICE WAS NOT AVAILABLE
+			response.setDevice_avail_code(1); // DEVICE WAS  AVAILABLE
 			
 		}
 		device.setDeviceId(device_id);

@@ -1,6 +1,6 @@
 package com.uniken.automation.responses;
 
-public abstract class Response {
+public class Response {
 	
 	private int response_code;
 	private int error_code;
