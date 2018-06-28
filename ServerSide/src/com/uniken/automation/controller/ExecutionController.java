@@ -58,7 +58,7 @@ public class ExecutionController extends HttpServlet {
 			}
 			ExecutionModel model = new ExecutionModel();
 			model.updateTestExecution(bean);
-			
+			objResponse.setResponse_code(0);	
 		}
 		catch(Exception e)
 		{
@@ -69,7 +69,7 @@ public class ExecutionController extends HttpServlet {
 			objResponse .setError_message(e.getLocalizedMessage());
 		}
 		
-		objResponse.setResponse_code(0);
+		
 		
 		PrintWriter out = response.getWriter();	
 		out.write(gsonResponse.toJson(objResponse));
