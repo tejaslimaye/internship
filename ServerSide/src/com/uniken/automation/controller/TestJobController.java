@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.uniken.automation.beans.UpdateTestJobBean;
+import com.uniken.automation.beans.TestJobBean;
 
 import com.uniken.automation.model.TestJobModel;
 import com.uniken.automation.responses.Response;
@@ -55,11 +55,11 @@ public class TestJobController extends HttpServlet {
 			}
 			
 			Gson gsonTestJob = new Gson();
-			UpdateTestJobBean bean = gsonTestJob.fromJson(buff.toString(), UpdateTestJobBean.class);
+			TestJobBean bean = gsonTestJob.fromJson(buff.toString(), TestJobBean.class);
 			
 			
 			TestJobModel model = new TestJobModel();
-			model.updateTestJobDetials(bean);
+			model.addTestJob(bean);
 			
 			objResp4.setResponse_code(0);
 

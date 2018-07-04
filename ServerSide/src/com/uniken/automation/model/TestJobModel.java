@@ -4,20 +4,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import com.uniken.automation.beans.ServerBean;
-import com.uniken.automation.beans.UpdateTestJobBean;
+import com.uniken.automation.beans.TestJobBean;
 
 public class TestJobModel extends BaseModel {
 	
-	public ArrayList<UpdateTestJobBean> getAllTestJobDetails() throws Exception
+	public ArrayList<TestJobBean> getAllTestJobDetails() throws Exception
 	{
 		
 				ResultSet rs=executeQuery("select * from test_job");
 				
-				ArrayList<UpdateTestJobBean> jobs = new ArrayList<UpdateTestJobBean>();
+				ArrayList<TestJobBean> jobs = new ArrayList<TestJobBean>();
 				 
 				while(rs.next()){
 					
-					UpdateTestJobBean bean = new UpdateTestJobBean();
+					TestJobBean bean = new TestJobBean();
 					bean.setTestjob_id(rs.getInt("testjob_id"));
 					bean.setTest_job_description(rs.getString("test_job_description"));
 					bean.setCreated_time(rs.getString("created_time"));
@@ -50,7 +50,7 @@ public class TestJobModel extends BaseModel {
 	
 	
 	
-		public void updateTestJobDetials(UpdateTestJobBean bean) throws Exception
+		public void addTestJob(TestJobBean bean) throws Exception
 	{
 		
 					execute("insert into test_job (test_job_description,created_time,updated_time,status,server_id,lib_id,auto_create_on_new_device) values ('" + 

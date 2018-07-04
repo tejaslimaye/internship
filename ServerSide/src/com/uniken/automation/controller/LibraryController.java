@@ -56,7 +56,7 @@ public class LibraryController extends HttpServlet {
 			LibraryBean bean = gsonLib.fromJson(buff.toString(), LibraryBean.class);
 			
 			LibraryModel model=new LibraryModel();
-			model.getLibraryDetails(bean);
+			model.addLibrary(bean);
 			
 			objResp3.setResponse_code(0);
 

@@ -55,7 +55,7 @@ public class ServerController extends HttpServlet {
 			
 			
 			ServerModel model = new ServerModel();
-			model.updateServerDetails(bean);
+			model.addServer(bean);
 			
 			objResp2.setResponse_code(0);
 

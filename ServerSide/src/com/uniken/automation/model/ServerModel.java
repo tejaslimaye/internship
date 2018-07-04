@@ -43,7 +43,7 @@ public class ServerModel extends BaseModel{
 
 	
 	
-	public void updateServerDetails(ServerBean bean) throws Exception
+	public void addServer(ServerBean bean) throws Exception
 	{
 		
 					execute("insert into server (gm_port,sdk_port,verify_port,api_port,ip_address,os_version,console_user,console_password,enterprise_id,enterprise_user,enterprise_password,server_user,server_password,agent_info) values (" + 

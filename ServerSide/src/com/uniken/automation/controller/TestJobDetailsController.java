@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.uniken.automation.beans.ServerBean;
-import com.uniken.automation.beans.UpdateTestJobBean;
+import com.uniken.automation.beans.TestJobBean;
 import com.uniken.automation.model.ServerModel;
 import com.uniken.automation.model.TestJobModel;
 import com.uniken.automation.responses.Response;
@@ -42,7 +42,7 @@ public class TestJobDetailsController extends HttpServlet {
 			
 	        
 				TestJobModel model = new TestJobModel();
-			      ArrayList<UpdateTestJobBean> jobs = model.getAllTestJobDetails();
+			      ArrayList<TestJobBean> jobs = model.getAllTestJobDetails();
 			      Gson gson = new Gson();
 			      response.getWriter().print(gson.toJson(jobs));
 			      	

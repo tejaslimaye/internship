@@ -3,7 +3,7 @@ import com.uniken.automation.beans.LibraryBean;
 
 
 public class LibraryModel extends BaseModel {
-	public void getLibraryDetails(LibraryBean bean) throws Exception
+	public void addLibrary(LibraryBean bean) throws Exception
 	{
 		
 					execute("insert into library (lib_name,lib_type,lib_version) values ('" + 

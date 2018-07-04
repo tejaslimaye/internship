@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.uniken.automation.beans.UpdateTestCaseBean;
+import com.uniken.automation.beans.TestCaseBean;
 import com.uniken.automation.model.TestCaseModel;
 import com.uniken.automation.responses.Response;
 
@@ -21,13 +21,13 @@ import com.uniken.automation.responses.Response;
  * Servlet implementation class updateTestCase
  */
 @WebServlet("/updateTestCase.htm")
-public class updateTestCase extends HttpServlet {
+public class TestCaseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public updateTestCase() {
+    public TestCaseController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -52,11 +52,11 @@ public class updateTestCase extends HttpServlet {
 			}
 			
 			Gson gsonTest = new Gson();
-			UpdateTestCaseBean bean = gsonTest.fromJson(buff.toString(), UpdateTestCaseBean.class);
+			TestCaseBean bean = gsonTest.fromJson(buff.toString(), TestCaseBean.class);
 			
 			
 			TestCaseModel model = new TestCaseModel();
-			model.getTestCaseName(bean);
+			model.addTestCase(bean);
 			
 			objResp1.setResponse_code(0);
 

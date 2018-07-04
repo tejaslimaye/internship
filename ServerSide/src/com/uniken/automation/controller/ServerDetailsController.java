@@ -40,8 +40,7 @@ public class ServerDetailsController extends HttpServlet {
 		// TODO Auto-generated method stub
 		try{
 		
-        
-		      ServerModel model = new ServerModel();
+              ServerModel model = new ServerModel();
 		      ArrayList<ServerBean> serves = model.getAllServersDetails();
 		      Gson gson = new Gson();
 		      response.getWriter().print(gson.toJson(serves));
