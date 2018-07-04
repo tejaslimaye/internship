@@ -1,6 +1,6 @@
 package com.uniken.automation.beans;
 
-public class FeatureBean{
+public class FeatureBean {
 	private int feature_id;
 	private String feature_name;
 	private String feature_target;

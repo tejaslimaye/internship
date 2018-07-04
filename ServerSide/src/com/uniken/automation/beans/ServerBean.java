@@ -21,7 +21,9 @@ public class ServerBean {
 		private String os_version;
 		private String console_user;
 		private String console_password;
-		private int enterprise_id;
+		private String enterprise_id;
+		
+
 		private String enterprise_user;
 		private String enterprise_password;
 		private String server_user;
@@ -100,12 +102,12 @@ public class ServerBean {
 			this.console_password=console_password;
 		}
 
-		public int getEnterprise_id(){
+		public String getEnterprise_id() {
 			return enterprise_id;
 		}
 
-		public void setEnterprise_id(int enterprise_id){
-			this.enterprise_id=enterprise_id;
+		public void setEnterprise_id(String enterprise_id) {
+			this.enterprise_id = enterprise_id;
 		}
 
 		public String getEnterprise_user(){
