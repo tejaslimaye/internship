@@ -18,4 +18,20 @@
     <!-- Main styles for this application-->
     <link href="css/style.css" rel="stylesheet">
     <link href="css/pace.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="css/jsgrid.min.css" />
+	<link type="text/css" rel="stylesheet" href="css/jsgrid-theme.min.css" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/pace.min.js"></script>
+    <script src="js/perfect-scrollbar.min.js"></script>
+    <script src="js/coreui.min.js"></script>
+    <!-- Plugins and scripts required by this view-->
+    <script src="js/Chart.min.js"></script>
+    <script src="js/custom-tooltips.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/functions.js"></script>
+    <script type="text/javascript" src="js/jsgrid.min.js"></script>
+    <script src="js/colors.js"></script>
+ 
   </head>

@@ -19,6 +19,7 @@ public class ServerModel extends BaseModel{
 				while(rs.next()){
 					
 					ServerBean bean = new ServerBean();
+					bean.setServer_id(rs.getInt("server_id"));
 					bean.setGm_port(rs.getInt("gm_port"));
 					bean.setSdk_port(rs.getInt("sdk_port"));
 					bean.setVerify_port(rs.getInt("verify_port"));

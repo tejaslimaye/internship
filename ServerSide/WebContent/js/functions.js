@@ -1,18 +1,204 @@
 var execSummaryDevices;
 var execSummaryFeatures;
 var execSummaryRunning;
-
+var execHistory;
+var execServerDetails;
 
 var cardChart1;
 var cardChart2;
 var cardChart4;
-
+var mainChart;
 
 function fetchDetails(){
 	fetchLiveTests();
 	fetchFailuresByFeatures();
 	fetchFailuresByDevices();
+	fetchExecutionHistory();
+	
+   
 }
+
+function fetchServers()
+{
+	
+
+	$.ajax({ url: "http://localhost:8080/automation/getServer.htm",
+	        context: document.body,
+	        method: "POST",
+	        success: function(response){
+	        	execServerDetails = JSON.parse(response);
+	        	
+	       	 $("#jsGrid").jsGrid({
+	 	        width: "100%",
+	 	        height: "400px",
+	 	 
+	 	        inserting: true,
+	 	        editing: true,
+	 	        sorting: true,
+	 	        paging: true,
+	 	 
+	 	        data: execServerDetails.server_details,
+	 	 
+	 	        fields: [
+	 	            { name: "server_id", type: "number", width: 10},
+	 	            { name: "ip_address", type: "text", width: 50, validate:"required"},
+	 	            { name: "os_version", type: "text", width: 50, validate:"required"},
+	 	            { name: "gm_port", type: "number", width: 50, validate:"required" },
+	 	            { name: "verify_port", type: "number", width: 50, validate:"required" },
+	 	            { name: "api_port", type: "number", width: 50, validate:"required" },
+	 	            { name: "console_user", type: "text", width: 50, validate:"required"},
+	 	            { name: "console_password", type: "text", width: 50, validate:"required"},
+	 	            { name: "enterprise_id", type: "text", width: 50, validate:"required"},
+	 	            { name: "enterprise_user", type: "text", width: 50, validate:"required"},
+	 	            { name: "enterprise_password", type: "text", width: 50, validate:"required"},
+	 	            { name: "server_user", type: "text", width: 50, validate:"required"},
+	 	            { name: "server_password", type: "text", width: 50, validate:"required"},
+	 	            { name: "agentInfo", type: "text", width: 50, validate:"required"},
+	 	            { type: "control" }
+	 	        ]
+	 	    });
+
+	        },
+	        error: function(e){
+	        	alert("error:" + eval(e));}
+	   
+	})
+
+}
+
+function fetchExecutionHistory()
+{
+	var min = 0, max = 0;
+
+	$.ajax({ url: "http://localhost:8080/automation/getExceutionHistory.htm",
+	        context: document.body,
+	        method: "POST",
+	        success: function(response){
+	          //alert("done: " + response);
+	        	execHistory = JSON.parse(response);
+	        	
+	        	var labels=[];
+	        	var failedcounts=[]; 
+	        	var passedcounts=[]; 
+	        	var unableToTestcounts=[]; 
+	        	
+	        	var failedList = execHistory.failedList;
+	        	var passedList = execHistory.passedList;
+	        	var unableToTestList = execHistory.unableToTestList;
+	        	
+	        	failedList.forEach(function(item, index, array) {
+	        		  console.log(item, index);
+	        		  labels.push(item.execution_status);
+	        		  failedcounts.push(item.execution_count);
+	        		  if(min==0)
+	        		  {
+	        			  min = item.execution_count;
+	        			  max = item.execution_count;
+	        		  }
+	        		  
+	        		  if(min>=item.execution_count)
+	        			  min = item.execution_count;
+	        		  if(max<=item.execution_count)
+	        			  max = item.execution_count;
+	        		  
+	        	});
+	        	
+	        	passedList.forEach(function(item, index, array) {
+	        		  console.log(item, index);
+	        		  //labels.push(item.execution_status);
+	        		  passedcounts.push(item.execution_count);
+	        		  
+	        		  if(min>=item.execution_count)
+	        			  min = item.execution_count;
+	        		  if(max<=item.execution_count)
+	        			  max = item.execution_count;
+	        		  
+	        	});
+	        	
+	
+	        	unableToTestList.forEach(function(item, index, array) {
+	        		  console.log(item, index);
+	        		  //labels.push(item.execution_status);
+	        		  unableToTestcounts.push(item.execution_count);
+	        		  
+	        		  if(min>=item.execution_count)
+	        			  min = item.execution_count;
+	        		  if(max<=item.execution_count)
+	        			  max = item.execution_count;
+	        		  
+	        	});
+	        	
+	        	
+	
+	        	//alert(min + ":" + max);
+	        	
+	        	mainChart = new Chart($('#main-chart'), {
+	        		  type: 'line',
+	        		  data: {
+	        		    labels: labels,
+	        		    datasets: [{
+	        		      label: 'Unable to Test Count',
+	        		      backgroundColor: hexToRgba(getStyle('--info'), 10),
+	        		      borderColor: getStyle('--info'),
+	        		      pointHoverBackgroundColor: '#fff',
+	        		      borderWidth: 2,
+	        		      data: unableToTestcounts
+	        		    }, {
+	        		      label: 'Passed Test Count',
+	        		      backgroundColor: 'transparent',
+	        		      borderColor: getStyle('--success'),
+	        		      pointHoverBackgroundColor: '#fff',
+	        		      borderWidth: 2,
+	        		      data: passedcounts
+	        		    }, {
+	        		      label: 'Failed Test Count',
+	        		      backgroundColor: 'transparent',
+	        		      borderColor: getStyle('--danger'),
+	        		      pointHoverBackgroundColor: '#fff',
+	        		      borderWidth: 1,
+	        		      borderDash: [8, 5],
+	        		      data: failedcounts
+	        		    }]
+	        		  },
+	        		  options: {
+	        		    maintainAspectRatio: false,
+	        		    legend: {
+	        		      display: false
+	        		    },
+	        		    scales: {
+	        		      xAxes: [{
+	        		        gridLines: {
+	        		          drawOnChartArea: false
+	        		        }
+	        		      }],
+	        		      yAxes: [{
+	        		        ticks: {
+	        		          beginAtZero: true,
+	        		          maxTicksLimit: 5,
+	        		          stepSize: Math.ceil(max/ 5),
+	        		          max: max
+	        		        }
+	        		      }]
+	        		    },
+	        		    elements: {
+	        		      point: {
+	        		        radius: 0,
+	        		        hitRadius: 10,
+	        		        hoverRadius: 4,
+	        		        hoverBorderWidth: 3
+	        		      }
+	        		    }
+	        		  }
+	        		});
+
+	        		                      
+	        },
+	        error: function(e){
+	        	alert("error:" + eval(e));}
+	   
+	})
+}
+
 
 
 function fetchFailuresByDevices()

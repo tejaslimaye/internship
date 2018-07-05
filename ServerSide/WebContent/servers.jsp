@@ -5,7 +5,13 @@
 
 <html lang="en">
  <jsp:include page="head.jsp"/>
-  <body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+ 
+ <script>
+    
+ 
+</script>
+ 
+  <body onload="fetchServers();" class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
  <jsp:include page="header.jsp"/>
  
     <div class="app-body">
@@ -20,8 +26,13 @@
           <div class="animated fadeIn">
             <div class="card">
               <div class="card-header">
-                <i class="icon-drop"></i> Servers</div>
+                <i class="icon-screen-desktop"></i> Servers</div>
+                
               <div class="card-body">
+              	<div id="jsGrid">
+              		
+              	</div>
+              
               </div>
             </div>
            </div>
@@ -31,14 +42,5 @@
     <jsp:include page="aside.jsp"></jsp:include> 
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
-    <!-- CoreUI and necessary plugins-->
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/pace.min.js"></script>
-    <script src="js/perfect-scrollbar.min.js"></script>
-    <script src="js/coreui.min.js"></script>
-    <!-- Plugins and scripts required by this view-->
-    <script src="js/colors.js"></script>
   </body>
 </html>

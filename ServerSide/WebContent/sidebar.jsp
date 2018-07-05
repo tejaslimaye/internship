@@ -7,34 +7,36 @@
             <li class="nav-item">
               <a class="nav-link" href="index.jsp">
                 <i class="nav-icon icon-speedometer"></i> Dashboard
-                <span class="badge badge-primary">NEW</span>
               </a>
             </li>
-            <li class="nav-title">Master Data</li>
+            
+            <li class="nav-title">Manage</li>
             <li class="nav-item">
               <a class="nav-link" href="servers.jsp">
-                <i class="nav-icon icon-drop"></i> Servers</a>
+                <i class="nav-icon icon-screen-desktop"></i> Servers</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="typography.html">
-                <i class="nav-icon icon-pencil"></i> Libraries</a>
+              <a class="nav-link" href="libraries.jsp">
+                <i class="nav-icon icon-settings"></i> Libraries</a>
             </li>
             
             <li class="nav-item">
-              <a class="nav-link" href="typography.html">
-                <i class="nav-icon icon-pencil"></i> Test Cases</a>
+              <a class="nav-link" href="testcases.jsp">
+                <i class="nav-icon icon-note"></i> Test Cases</a>
             </li>
             
             
-            <li class="nav-title">Test Jobs</li>
-            <li class="nav-item nav-dropdown">
-              <a class="nav-link nav-dropdown-toggle" href="#">
-                <i class="nav-icon icon-puzzle"></i> Create</a>
+            <li class="nav-item">
+              <a class="nav-link" href="testjobs.jsp">
+                <i class="nav-icon icon-notebook"></i> Test Jobs</a>
             </li>
-            <li class="nav-item nav-dropdown">
-              <a class="nav-link nav-dropdown-toggle" href="#">
-                <i class="nav-icon icon-cursor"></i> View</a>
-              </li>
+            
+            <li class="nav-item">
+              <a class="nav-link" href="devices.jsp">
+                <i class="nav-icon icon-screen-smartphone"></i> Devices</a>
+            </li>
+            <li class="nav-title">Statistics</li>
+            
             
           </ul>
         </nav>

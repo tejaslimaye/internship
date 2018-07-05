@@ -12,7 +12,6 @@ public class ServerBean {
 		this.server_id = server_id;
 	}
 
-	private int port_no;
 		private int gm_port;
 		private int sdk_port;
 		private int verify_port;
@@ -30,13 +29,6 @@ public class ServerBean {
 		private String server_password;
 		private String agent_info;
 
-		public int getPort_no(){
-			return port_no;
-		}
-
-		public void setPort_no(int port_no){
-			this.port_no=port_no;
-		}
 
 		public int getGm_port(){
 			return gm_port;
