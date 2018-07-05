@@ -16,6 +16,7 @@ import com.uniken.automation.beans.TestJobBean;
 
 import com.uniken.automation.model.TestJobModel;
 import com.uniken.automation.responses.Response;
+import com.uniken.automation.responses.TestJobResponse;
 
 /**
  * Servlet implementation class TestJobDetailsController
@@ -38,18 +39,28 @@ public class TestJobDetailsController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-			try{
+		TestJobResponse resp = new TestJobResponse();
+        	
+		try{
 			
 	        
 				TestJobModel model = new TestJobModel();
 			      ArrayList<TestJobBean> jobs = model.getAllTestJobDetails();
-			      Gson gson = new Gson();
-			      response.getWriter().print(gson.toJson(jobs));
+			      resp.setResponse_code(0);
+			      resp.setList(jobs);
+			        
+			      
 			      	
 	    	}
 			catch(Exception e){
+				resp.setError_code(6);
+				resp.setError_message(e.getMessage());
 				e.printStackTrace();
 			}
+			
+			Gson gson = new Gson();
+		      response.getWriter().print(gson.toJson(resp));
+			
 			}
 }
 

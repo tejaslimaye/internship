@@ -1,10 +1,8 @@
 package com.uniken.automation.model;
 
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import com.uniken.automation.beans.ServerBean;
 import com.uniken.automation.beans.TestExecutionSummaryBean;
 import com.uniken.automation.utils.Validator;
 import com.uniken.automation.beans.TestJobBean;
@@ -25,13 +23,12 @@ public class TestJobModel extends BaseModel {
 					TestJobBean bean = new TestJobBean();
 					bean.setTestjob_id(rs.getInt("testjob_id"));
 					bean.setTest_job_description(rs.getString("test_job_description"));
-					bean.setCreated_time(rs.getString("created_time"));
-					bean.setUpdated_time(rs.getString("updated_time"));
+					bean.setCreated_time(Validator.formatSQLTime(rs.getTime("created_time")));
+					bean.setUpdated_time(Validator.formatSQLTime(rs.getTime("updated_time")));
 					bean.setStatus(rs.getString("status"));
 					bean.setServer_id(rs.getInt("server_id"));
 					bean.setLib_id(rs.getInt("lib_id"));
 					bean.setAuto_create_on_new_device(rs.getInt("auto_create_on_new_device"));
-			
 					jobs.add(bean);
 				
 				}

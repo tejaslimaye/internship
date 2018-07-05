@@ -1,37 +1,15 @@
 package com.uniken.automation.beans;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.text.ParseException;  
-import java.util.Date;
-import com.uniken.automation.utils.Validator;
-import java.sql.Timestamp;
 
 
 public class TestJobBean {
 	
 	private int testjob_id;
 	private String test_job_description;
-	
-	
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-	 Date date = new Date();
-	
-	private String created_time = formatter.format(date);
-
-	
-	
-	private String updated_time = formatter.format(date);
-	
-
-	
-	
+	private String created_time; 
+	private String updated_time; 
 	private String status;
-	
-
 	private int server_id;
 	private int lib_id;
-	
 	private int auto_create_on_new_device;
 	
 	public int getTestjob_id() {
