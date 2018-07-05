@@ -15,6 +15,7 @@ import com.google.gson.Gson;
 import com.uniken.automation.beans.ServerBean;
 import com.uniken.automation.model.ServerModel;
 import com.uniken.automation.responses.Response;
+import com.uniken.automation.responses.ServerResponse;
 
 
 
@@ -38,17 +39,24 @@ public class ServerDetailsController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		ServerResponse resp  = new ServerResponse();
 		try{
 		
               ServerModel model = new ServerModel();
-		      ArrayList<ServerBean> serves = model.getAllServersDetails();
-		      Gson gson = new Gson();
-		      response.getWriter().print(gson.toJson(serves));
+		      resp  = model.getAllServersDetails();
+		      
 		      	
     	}
 		catch(Exception e){
+			resp.setResponse_code(1);
+			resp.setError_code(3);
+			resp.setError_message(e.getMessage());
 			e.printStackTrace();
 		}
+		
+			Gson gson = new Gson();
+	      response.getWriter().print(gson.toJson(resp));
+	      
 		}
 
 }

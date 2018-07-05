@@ -54,7 +54,7 @@ public class JobDetailsController extends HttpServlet {
 			
 			Gson gsonDevices = new Gson();
 			DeviceBean bean = gsonDevices.fromJson(buff.toString(), DeviceBean.class);
-			resp = model.getJobDetails(bean);
+			resp = model.getJobDetailsForDevice(bean);
 			
 		}
 		catch(Exception e)

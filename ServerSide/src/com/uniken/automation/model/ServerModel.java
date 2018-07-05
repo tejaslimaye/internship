@@ -4,11 +4,12 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import com.uniken.automation.beans.ServerBean;
+import com.uniken.automation.responses.ServerResponse;
 
 public class ServerModel extends BaseModel{
 	
 	
-	public ArrayList<ServerBean> getAllServersDetails() throws Exception
+	public ServerResponse getAllServersDetails() throws Exception
 	{
 		
 				ResultSet rs=executeQuery("select * from server");
@@ -37,7 +38,12 @@ public class ServerModel extends BaseModel{
 				}
 				
 				rs.close();
-				return servers;
+				
+				ServerResponse resp = new ServerResponse();
+				resp.setResponse_code(0);
+				resp.setServer_details(servers);
+				
+				return resp;
 				
 	}
 
