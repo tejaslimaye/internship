@@ -1,10 +1,12 @@
 package com.uniken.automation.model;
 
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.uniken.automation.beans.ServerBean;
 import com.uniken.automation.beans.TestExecutionSummaryBean;
+import com.uniken.automation.utils.Validator;
 import com.uniken.automation.beans.TestJobBean;
 import com.uniken.automation.responses.TestExecutionSummaryResponse;
 
@@ -12,6 +14,7 @@ public class TestJobModel extends BaseModel {
 	
 	public ArrayList<TestJobBean> getAllTestJobDetails() throws Exception
 	{
+		
 		
 				ResultSet rs=executeQuery("select * from test_job");
 				
@@ -126,12 +129,11 @@ public class TestJobModel extends BaseModel {
 	
 	
 	
-		public void addTestJob(TestJobBean bean) throws Exception
+			public void addTestJob(TestJobBean bean) throws Exception
 	{
 		
-					execute("insert into test_job (test_job_description,created_time,updated_time,status,server_id,lib_id,auto_create_on_new_device) values ('" + 
+					execute("insert into test_job (test_job_description,updated_time,status,server_id,lib_id,auto_create_on_new_device) values ('" + 
 					bean.getTest_job_description() + "','" + 
-					bean.getCreated_time() +  "','" + 
 					bean.getUpdated_time()+ "','" +
 					bean.getStatus()+ "','" +
 					bean.getServer_id()+"','"+
