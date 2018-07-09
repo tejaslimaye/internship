@@ -20,6 +20,12 @@
                 <i class="nav-icon icon-settings"></i> Libraries</a>
             </li>
             
+            
+            <li class="nav-item">
+              <a class="nav-link" href="features.jsp">
+                <i class="nav-icon icon-note"></i> Features </a>
+            </li>
+            
             <li class="nav-item">
               <a class="nav-link" href="testcases.jsp">
                 <i class="nav-icon icon-note"></i> Test Cases</a>

@@ -3,6 +3,7 @@ var execSummaryFeatures;
 var execSummaryRunning;
 var execHistory;
 var execServerDetails;
+var execFeaturesDetails;
 
 var cardChart1;
 var cardChart2;
@@ -18,10 +19,80 @@ function fetchDetails(){
    
 }
 
+function fetchFeatures()
+{
+	$("#jsGrid_Features").jsGrid({
+		  width: "100%",
+		  height: "auto",
+
+		 inserting: true,
+ 	     editing: true,
+ 	     sorting: true,
+ 	     paging: true,
+ 	      
+ 	     autoload:   true,
+ 	     paging:     true,
+ 	     pageSize:   10,
+ 	     pageButtonCount: 5,
+ 	     pageIndex:  1,
+
+ 	     
+ 	    
+	
+ 		  controller: {
+		    loadData: function(filter) {
+		    return  $.ajax({
+		        url: "http://localhost:8080/automation/getFeatures.htm",
+		        dataType: "json",
+		        method: "POST",
+		        });
+		    },
+		    insertItem: function (item) {
+		    	insertFeature(item);
+		    	
+		 	   },
+		 	  onItemInserted: function(args)
+		 	  {
+		 		  alert(11);
+		 		  location.reload(true);
+		 	  }
+		  },
+	        fields: [
+		 	            { name: "feature_id", type: "number", width: 10},
+		 	            { name: "feature_name", type: "text", width: 50, validate:"required"},
+		 	            { name: "feature_target", type: "text", width: 50, validate:"required"},
+		 	            
+		 	            { type: "control" }
+		 	        ]
+	});
+}
+
+function insertFeature(item)
+{
+
+     $.ajax({
+         type: "POST",
+         url: "http://localhost:8080/automation/addFeature.htm",
+         data: "{\"feature_name\":\""+item.feature_name + "\",\"feature_target\":\""+item.feature_target +"\"}",
+         success: function(response)
+         {
+        	 if(response.response_code==1)
+        		 {
+        		 	alert("error while inserting feature : Check server logs");
+        		 }
+         },
+         error: function(response)
+         {
+        	 
+         }
+     });
+     
+}
+
+
+
 function fetchServers()
 {
-	
-
 	$.ajax({ url: "http://localhost:8080/automation/getServer.htm",
 	        context: document.body,
 	        method: "POST",

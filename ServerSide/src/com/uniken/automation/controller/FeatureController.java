@@ -20,7 +20,7 @@ import com.uniken.automation.responses.Response;
 /**
  * Servlet implementation class FeatureController
  */
-@WebServlet("/FeatureController.htm")
+@WebServlet("/addFeature.htm")
 public class FeatureController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -51,6 +51,8 @@ public class FeatureController extends HttpServlet {
 				buff.append(reader.readLine());
 			}
 			
+			System.out.println("data: " + buff.toString());
+			
 			Gson gsonFeat = new Gson();
 			FeatureBean bean = gsonFeat.fromJson(buff.toString(), FeatureBean.class);
 			
@@ -68,11 +70,13 @@ public class FeatureController extends HttpServlet {
 				e.printStackTrace();
 				objResp.setError_code(1);
 				objResp.setResponse_code(1);
+				objResp.setError_message("NULL");
 				System.out.println("MESSAGE: " +e.getLocalizedMessage());
-				objResp.setError_message(e.getLocalizedMessage());
+				//objResp.setError_message(e.getLocalizedMessage());
 			}
 			
 			PrintWriter out = response.getWriter();	
+			System.out.println(gsonResponse.toJson(objResp));
 			out.write(gsonResponse.toJson(objResp));
 		
 		}
