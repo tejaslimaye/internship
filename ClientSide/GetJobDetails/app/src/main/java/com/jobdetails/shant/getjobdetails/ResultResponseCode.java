@@ -4,9 +4,7 @@ public class ResultResponseCode {
 
 
     /**
-     * response_code : 1
-     * error_code : <error_code>
-     * error_message : <error_message>
+     Created for declaring final response from server after sending it the result of completion of test cases
      */
 
     private int response_code;

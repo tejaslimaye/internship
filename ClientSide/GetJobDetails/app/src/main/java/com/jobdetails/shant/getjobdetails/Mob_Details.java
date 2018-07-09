@@ -1,7 +1,7 @@
 package com.jobdetails.shant.getjobdetails;
 
 /**
- * Created by shant on 28-06-2018.
+ * Created for declaring Mobile Details to be sent to server as http request
  */
 
 public class Mob_Details {

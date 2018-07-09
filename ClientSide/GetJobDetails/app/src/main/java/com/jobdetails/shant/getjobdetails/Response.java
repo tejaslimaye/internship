@@ -1,9 +1,10 @@
 package com.jobdetails.shant.getjobdetails;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by shant on 29-06-2018.
+ * Created for Json parsing got from server as response containing test case details .
  */
 
 public class Response {
@@ -13,6 +14,14 @@ public class Response {
     private int response_code;
     private int error_code;
     public List<TestExecutionDetailsBean> test_execution_details;
+
+    public Response() {
+        this.device_avail_code = device_avail_code;
+        this.job_avail_code = job_avail_code;
+        this.response_code = response_code;
+        this.error_code = error_code;
+        this.test_execution_details = test_execution_details;
+    }
 
     public int getDevice_avail_code() {
         return device_avail_code;
@@ -45,6 +54,20 @@ public class Response {
         private String testcase_desc;
         private int device_id;
         private int testjob_id;
+
+        public TestExecutionDetailsBean(int execution_id, int testrun_id, int testcase_id, int feature_id, String feature_name, String testcase_name, String testcase_desc, int device_id, int testjob_id) {
+            this.execution_id = execution_id;
+            this.testrun_id = testrun_id;
+            this.testcase_id = testcase_id;
+            this.feature_id = feature_id;
+            this.feature_name = feature_name;
+            this.testcase_name = testcase_name;
+            this.testcase_desc = testcase_desc;
+            this.device_id = device_id;
+            this.testjob_id = testjob_id;
+        }
+
+
 
         public int getExecution_id() {
             return execution_id;
@@ -81,5 +104,8 @@ public class Response {
         public int getTestjob_id() {
             return testjob_id;
         }
+
+
+
     }
 }

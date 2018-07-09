@@ -3,10 +3,7 @@ package com.jobdetails.shant.getjobdetails;
 public class ResultDetails {
 
     /**
-     * execution_id : <execution_id>
-     * execution_result : <execution_result>
-     * start_time : <start_time>
-     * end_time : <end_time>
+     Created for declaring Test Cases Results after completion of test cases to be sent as request to server as json
      */
 
     private String execution_id;
