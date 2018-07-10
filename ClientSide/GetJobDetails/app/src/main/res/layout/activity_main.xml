@@ -50,8 +50,8 @@
         android:layout_toRightOf="@id/txtTotal"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Completed Test"
-        android:textSize="25sp"/>
+        android:text="Completed"
+        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/txtCompletedValue"

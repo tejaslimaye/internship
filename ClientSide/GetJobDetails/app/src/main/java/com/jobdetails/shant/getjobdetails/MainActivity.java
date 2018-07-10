@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     private void senddatatoserver(String json) {         //To call onBackground Method in class FetchData.
 
         FetchData process = new FetchData(this);
-        process.execute("http://192.168.1.101:8080/automation/getJobDetails.htm",json);    // OnBackground Fn. call
+        process.execute("http://192.168.1.100:8080/automation/getJobDetails.htm",json);    // OnBackground Fn. call
 
     }
 
