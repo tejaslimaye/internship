@@ -4,6 +4,8 @@ var execSummaryRunning;
 var execHistory;
 var execServerDetails;
 var execFeaturesDetails;
+var execTestCasesDetails;
+var execTestJobsDetails;
 
 var cardChart1;
 var cardChart2;
@@ -30,7 +32,7 @@ function fetchFeatures()
  	     sorting: true,
  	     paging: true,
  	      
- 	     autoload:   true,
+ 	      autoload:   true,
  	     paging:     true,
  	     pageSize:   10,
  	     pageButtonCount: 5,
@@ -65,7 +67,7 @@ function fetchFeatures()
 		 	            { type: "control" }
 		 	        ]
 	});
-}
+}  
 
 function insertFeature(item)
 {
@@ -89,7 +91,80 @@ function insertFeature(item)
      
 }
 
+function fetchTestCases()
+{
+	$("#jsGrid_TestCases").jsGrid({
+		width: "100%",
+	        height: "auto",
 
+		 inserting: true,
+ 	     editing: true,
+ 	     sorting: true,
+ 	     paging: true,
+ 	      
+ 	     autoload:   true,
+ 	    paging:     true,
+	     pageSize:   10,
+	     pageButtonCount: 5,
+	     pageIndex:  1,
+
+
+ 	    
+ 	     
+ 	    
+	
+ 		  controller: {
+		    loadData: function(filter) {
+		    return  $.ajax({
+		        url: "http://localhost:8080/automation/getTestCase.htm",
+		        dataType: "json",
+		        method: "POST",
+		        });
+		    },
+		   insertItem: function (item) {
+		    	insertTestCase(item);
+		    	
+		 	   },
+		 	  onItemInserted: function(args)
+		 	  {
+		 		  alert(11);
+		 		  location.reload(true);
+		 	  }
+		  },
+	        fields: [
+		 	            { name: "testcase_id", type: "number", width: 30},
+		 	            { name: "testcase_name", type: "text", width: 100, validate:"required"},
+		 	          { name: "created_time", type: "text", width: 50},
+		 	            { name: "update_time", type: "text", width: 50},
+		 	           { name: "test_feature_id", type: "number", width: 30, validate:"required"},
+		 	            { name: "testcase_desc", type: "text", width: 100, validate:"required"},
+		 	           { type: "control" }
+		 	        ]
+	});
+	
+}
+
+function insertTestCase(item)
+{
+
+     $.ajax({
+         type: "POST",
+         url: "http://localhost:8080/automation/updateTestCase.htm",
+         data: "{\"testcase_name\":\""+item.testcase_name + "\",\"update_time\":\""+item.update_time+"\",\"test_feature_id\":\""+item.test_feature_id+"\",\"testcase_desc\":\""+item.testcase_desc+"\"}",
+         success: function(response)
+         {
+        	 if(response.response_code==1)
+        		 {
+        		 	alert("error while inserting feature : Check server logs");
+        		 }
+         },
+         error: function(response)
+         {
+        	 
+         }
+     });
+     
+}
 
 function fetchServers()
 {
@@ -137,6 +212,79 @@ function fetchServers()
 
 }
 
+function fetchTestJobs()
+{
+	$("#jsGrid_TestJobs").jsGrid({
+		width: "100%",
+	        height: "auto",
+
+		 inserting: true,
+ 	     editing: true,
+ 	     sorting: true,
+ 	     paging: true,
+ 	      
+ 	     autoload:   true,
+ 	    paging:     true,
+	     pageSize:   10,
+	     pageButtonCount: 5,
+	     pageIndex:  1,
+
+
+	
+ 		  controller: {
+		    loadData: function(filter) {
+		    return  $.ajax({
+		        url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
+		        dataType: "json",
+		        method: "POST",
+		        });
+		    },
+		   insertItem: function (item) {
+		    	insertTestJob(item);
+		    	
+		 	   },
+		 	  onItemInserted: function(args)
+		 	  {
+		 		  alert(11);
+		 		  location.reload(true);
+		 	  }
+		  },
+	        fields: [
+		 	            { name: "testjob_id", type: "number", width: 30},
+		 	            { name: "test_job_description", type: "text", width: 100, validate:"required"},
+		 	          { name: "created_time", type: "text", width: 50},
+		 	            { name: "updated_time", type: "text", width: 50, validate:"required"},
+		 	          { name: "status", type: "text", width: 50, validate:"required"},
+		 	         { name: "server_id", type: "number", width: 30, validate:"required"},
+		 	          { name: "lib_id", type: "number", width: 30, validate:"required"},
+		 	            { name: "auto_create_on_new_device", type: "number", width: 30, validate:"required"},
+		 	           { type: "control" }
+		 	        ]
+	});
+	
+}
+
+function insertTestJob(item)
+{
+
+     $.ajax({
+         type: "POST",
+         url: "http://localhost:8080/automation/updateTestJobDetails.htm",
+         data: "{\"test_job_description\":\""+item.test_job_description + "\",\"updated_time\":\""+item.updated_time+"\",\"status\":\""+item.status+"\",\"server_id\":\""+item.server_id+"\",\"lib_id\":\""+item.lib_id+"\",\"auto_create_on_new_device\":\""+item.auto_create_on_new_device+"\"}",
+         success: function(response)
+         {
+        	 if(response.response_code==1)
+        		 {
+        		 	alert("error while inserting feature : Check server logs");
+        		 }
+         },
+         error: function(response)
+         {
+        	 
+         }
+     });
+     
+}
 function fetchExecutionHistory()
 {
 	var min = 0, max = 0;
