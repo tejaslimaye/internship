@@ -12,6 +12,7 @@ public class LibraryModel extends BaseModel {
 					bean.getLib_version() 
 					+"')" );
 				
+				//	execute("select count(*)");
 		}	
 
 }

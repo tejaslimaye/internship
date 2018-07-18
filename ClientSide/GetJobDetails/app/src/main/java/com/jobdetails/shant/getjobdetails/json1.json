@@ -1,0 +1,138 @@
+{
+  "device_avail_code": 0,
+  "job_avail_code": 1,
+  "server_execution_details": [
+    {
+      "server_id": 7,
+      "gm_port": 8443,
+      "sdk_port": 4443,
+      "verify_port": 8007,
+      "api_port": 9080,
+      "ip_address": "100",
+      "os_version": "Linux 7",
+      "console_user": "gmuser",
+      "console_password": "uniken123$",
+      "enterprise_id": "CBC",
+      "enterprise_user": "sruser",
+      "enterprise_password": "uniken123$",
+      "server_user": "sruser",
+      "server_password": "uniken123$",
+      "agent_info": "AGENRT_INFO",
+      "testjobexecutions": [
+        {
+          "testjob_id": 1,
+          "test_job_description": "TEST JOB1",
+          "created_time": "2018-07-16 17:25:07.0",
+          "updated_time": "2018-07-01 12:22:22.0",
+          "status": "CREATED",
+          "server_id": 7,
+          "lib_id": 1,
+          "auto_create_on_new_device": 1,
+          "test_run_id": 125,
+          "executions": [
+            {
+              "execution_id": 204,
+              "testrun_id": 125,
+              "testcase_id": 4,
+              "feature_id": 1,
+              "feature_name": "Initialization on Mobile",
+              "testcase_name": "INIT_FAIL_WRONG_PORT",
+              "testcase_desc": "Initialization failure on Mobile on incorrect port",
+              "device_id": 57,
+              "testjob_id": 1
+            },
+            {
+              "execution_id": 202,
+              "testrun_id": 125,
+              "testcase_id": 1,
+              "feature_id": 1,
+              "feature_name": "Initialization on Mobile",
+              "testcase_name": "INIT",
+              "testcase_desc": "Initialization on Mobile",
+              "device_id": 57,
+              "testjob_id": 1
+            },
+            {
+              "execution_id": 203,
+              "testrun_id": 125,
+              "testcase_id": 3,
+              "feature_id": 1,
+              "feature_name": "Initialization on Mobile",
+              "testcase_name": "INIT_FAIL_WRONG_APPID",
+              "testcase_desc": "Initialization failure on Mobile on incorrect APP_ID",
+              "device_id": 57,
+              "testjob_id": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "server_id": 8,
+      "gm_port": 4415,
+      "sdk_port": 4414,
+      "verify_port": 1353,
+      "api_port": 1435,
+      "ip_address": "3142",
+      "os_version": "dummy",
+      "console_user": "dumy",
+      "console_password": "dummy",
+      "enterprise_id": "dummy",
+      "enterprise_user": "dummy",
+      "enterprise_password": "dummy",
+      "server_user": "dummy",
+      "server_password": "dummy",
+      "agent_info": "dummy",
+      "testjobexecutions": [
+        {
+          "testjob_id": 2,
+          "test_job_description": "Second JOb",
+          "created_time": "2018-07-16 17:25:07.0",
+          "updated_time": "2018-07-11 16:43:15.0",
+          "status": "CREATED",
+          "server_id": 8,
+          "lib_id": 1,
+          "auto_create_on_new_device": 1,
+          "test_run_id": 126,
+          "executions": [
+            {
+              "execution_id": 205,
+              "testrun_id": 126,
+              "testcase_id": 1,
+              "feature_id": 1,
+              "feature_name": "Initialization on Mobile",
+              "testcase_name": "INIT",
+              "testcase_desc": "Initialization on Mobile",
+              "device_id": 57,
+              "testjob_id": 2
+            },
+            {
+              "execution_id": 206,
+              "testrun_id": 126,
+              "testcase_id": 3,
+              "feature_id": 1,
+              "feature_name": "Initialization on Mobile",
+              "testcase_name": "INIT_FAIL_WRONG_APPID",
+              "testcase_desc": "Initialization failure on Mobile on incorrect APP_ID",
+              "device_id": 57,
+              "testjob_id": 2
+            },
+            {
+              "execution_id": 207,
+              "testrun_id": 126,
+              "testcase_id": 4,
+              "feature_id": 1,
+              "feature_name": "Initialization on Mobile",
+              "testcase_name": "INIT_FAIL_WRONG_PORT",
+              "testcase_desc": "Initialization failure on Mobile on incorrect port",
+              "device_id": 57,
+              "testjob_id": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "response_code": 0,
+  "error_code": 0
+}

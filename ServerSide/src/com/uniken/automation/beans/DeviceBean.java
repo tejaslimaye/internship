@@ -9,6 +9,16 @@ public class DeviceBean{
 	private String serial_num;
 	private String brand;
 	private String manufacturer;
+	private String library_version;
+	
+	
+	public String getLibrary_version() {
+		return library_version;
+	}
+
+	public void setLibrary_version(String library_version) {
+		this.library_version = library_version;
+	}
 	
 	public int getDevice_Id()
 	{
@@ -75,4 +85,8 @@ public class DeviceBean{
 	public void setManufacturer(String manufacturer){
 		this.manufacturer=manufacturer;
 	}
+	
+	
+	
+	
 }

@@ -3,18 +3,19 @@ package com.uniken.automation.responses;
 import java.util.ArrayList;
 
 import com.uniken.automation.beans.ExecutionBean;
+import com.uniken.automation.beans.ServerBean;
 
 public class JobDetailsResponse extends Response {
 
 	private int device_avail_code;
 	private int job_avail_code;
-	private ArrayList<ExecutionBean> test_execution_details;
+	private ArrayList<ServerBean> server_execution_details;
 	
-	public ArrayList<ExecutionBean> getTest_execution_details() {
-		return test_execution_details;
+	public ArrayList<ServerBean> getServer_execution_details() {
+		return server_execution_details;
 	}
-	public void setTest_execution_details(ArrayList<ExecutionBean> test_execution_details) {
-		this.test_execution_details = test_execution_details;
+	public void setServer_execution_details(ArrayList<ServerBean> server_execution_details) {
+		this.server_execution_details = server_execution_details;
 	}
 	public void setDevice_avail_code(int device_avail_code) {
 		this.device_avail_code = device_avail_code;

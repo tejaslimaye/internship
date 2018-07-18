@@ -28,15 +28,20 @@ public class FetchData extends AsyncTask<String,Void,String> {
     String data="";  // String data for response json parsing.
     Object cntxt;
 
+    boolean isFetchCompleted;
     public FetchData(Object cntxt){
         this.cntxt = cntxt;
     }
 
     private String TAG;
 
+    public boolean isFetchCompleted(){
+        return isFetchCompleted;
+    }
     @Override
     protected String doInBackground(String... params) {
         try {
+            isFetchCompleted = false;
             Log.d(TAG, "In doinback");
             URL url = new URL(params[0]);       // params[0] contains url from senddatatoserver fn. in MainActivity.java
            Log.d(TAG, "get url");
@@ -59,10 +64,20 @@ public class FetchData extends AsyncTask<String,Void,String> {
                 if(line!=null)                                  //For avoiding to add null in String data at last loop run
                     data = data + line;
                 }
-            } catch (MalformedURLException e) {
+            isFetchCompleted = true;
+            }
+            catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        if(isFetchCompleted == false) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         return data;                             // Returns String data to onPostExecute
@@ -73,7 +88,8 @@ public class FetchData extends AsyncTask<String,Void,String> {
 
         super.onPostExecute(avoid);
 
+
         //MainActivity.jsontovalues(data);
-        ((MainActivity)cntxt).jsontovalues(data);     //String data as parameter to jsontovalues fn. in MainActivity.java
+        ((MainActivity)cntxt).jsontovalues(data); //String data as parameter to jsontovalues fn. in MainActivity.java
     }
 }

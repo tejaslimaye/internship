@@ -11,35 +11,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static com.jobdetails.shant.getjobdetails.Constant.cannotTestCount;
+import static com.jobdetails.shant.getjobdetails.Constant.completedCount;
+import static com.jobdetails.shant.getjobdetails.Constant.failedCount;
+import static com.jobdetails.shant.getjobdetails.Constant.passedCount;
+import static com.jobdetails.shant.getjobdetails.Constant.serverBean;
+
 public class TestResult extends Activity {
-
-    //Response r =new Response();
-
-   // private static TextView txtview;
-    //private static TextView txtview1;
-
-
-
-
-    private static int cannotTestCount=0;
-    private static int completedCount=0;
-    private static int passedCount=0;
-    private static int failedCount=0;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.testresults);
-
-       // txtview= (TextView) findViewById(R.id.tv1);
-      //  txtview1 =(TextView) findViewById(R.id.tv2);
-
-
-      // txtview.setText("Execution Id\t\tResult\t\tStart Time\t\tEnd Time\n\n");
-     //  txtview1.append("\t\tResponse\n\t\t"+"Code\n\n");
-        //fetchdatafromresponse();
-       // startTesting();
 
         }
 
@@ -55,47 +39,79 @@ public class TestResult extends Activity {
     }
 
 
-    static void fetchdatafromresponse() {
+    static void fetchdatafromresponse(String ip) {
         int i = 0;
+        int j=0;
+        int k=0;
 
-        for (  i = 0; i <Constant.resp.getTest_execution_details().size(); i++) {
-            Response.TestExecutionDetailsBean obj = Constant.resp.getTest_execution_details().get(i);
-            String ex_id= Integer.toString(obj.getExecution_id());
-          //  txtview1.append("\t\t\t" + x + "\n");
-            beforeTestExecution(ex_id,obj);
-          //  count=count+1;
+     getTotalSize();
 
-            //startTesting(x);
+        for (i = 0; i <Constant.resp.getServer_execution_details().size(); i++) {
+            ServerBean serverBean= Constant.resp.getServer_execution_details().get(i);
+
+            for(j=0;j<serverBean.getTestJobExecutions().size();j++)
+            {
+                TestJobBean testJobBean = serverBean.getTestJobExecutions().get(j);
+                //int y = serverBean.getTestJobExecutions().size();
+                for(k=0; k< testJobBean.getExecutions().size(); k++ )
+                {
+
+                    ExecutionBean obj = testJobBean.getExecutions().get(k);
+                    String ex_id= Integer.toString(obj.getExecution_id());
+                    beforeTestExecution(ip,ex_id,obj);
+                }
             }
 
-            if(i==Constant.resp.getTest_execution_details().size()){
-
-                MainActivity.inprogress.setText("All Tests Completed !");
-                MainActivity.featureName.setText("--");
-                MainActivity.testName.setText("--");
-                MainActivity.testCaseDesc.setText("--");
-                MainActivity.startTime.setText("--");
-
-
             }
 
 
+        if(i==Constant.resp.getServer_execution_details().size()){
+
+            MainActivity.inprogress.setText("All Tests Completed !");
+            MainActivity.featureName.setText("--");
+            MainActivity.testName.setText("--");
+            MainActivity.testCaseDesc.setText("--");
+            MainActivity.startTime.setText("--");
+
+
+        }
+        }
+
+    private static void getTotalSize() {
+
+        int totalTestCount= 0;
+        for (int i = 0; i <Constant.resp.getServer_execution_details().size(); i++) {
+            ServerBean serverBean= Constant.resp.getServer_execution_details().get(i);
+
+            for(int j=0;j<serverBean.getTestJobExecutions().size();j++)
+            {
+                TestJobBean testJobBean = serverBean.getTestJobExecutions().get(j);
+                //int y = serverBean.getTestJobExecutions().size();
+                for(int k=0; k< testJobBean.getExecutions().size(); k++ )
+                {
+
+                    totalTestCount=totalTestCount+1;
+                }
+            }
+
+        }
+        MainActivity.totalTest.setText(String.valueOf(totalTestCount));
     }
 
-    private static void beforeTestExecution(String id, Response.TestExecutionDetailsBean obj) {
+    private static void beforeTestExecution(String ip, String id, ExecutionBean obj) {
 
-        String resultTest ="CANNOT_TEST";
+        String resultTest ="CANNOT";
         if(resultTest == "CANNOT_TEST")
         {
             //DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
            //String time = df1.format(Calendar.getInstance().getTime());
-            ResultDetails resultCannotTest = new ResultDetails(id,resultTest,"null","null");
+            ResultDetails resultCannotTest = new ResultDetails(id,resultTest,"0000-00-00 00:00:00","0000-00-00 00:00:00");
             Gson gson1 = new Gson();
             String json1 =gson1.toJson(resultCannotTest);
             SendResult send1 = new SendResult();
-            send1.execute("http://192.168.1.101:8080/automation/updateTestResults.htm",json1);
+            send1.execute("http://"+ip+":8080/automation/updateTestResults.htm",json1);
             cannotTestCount=cannotTestCount+1;
-            completedCount=completedCount+1;
+            completedCount= completedCount+1;
            MainActivity.cannotTest.setText(String.valueOf(cannotTestCount));
            MainActivity.completedTest.setText(String.valueOf(completedCount));
 
@@ -106,11 +122,11 @@ public class TestResult extends Activity {
             String resultBeforeTest = "EXECUTION_STARTED";
             DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String time = df1.format(Calendar.getInstance().getTime());
-            ResultDetails resultDetailsBeforeTest = new ResultDetails(id,resultBeforeTest,time,"null");
+            ResultDetails resultDetailsBeforeTest = new ResultDetails(id,resultBeforeTest,time,"0000-00-00 00:00:00");
             Gson gson2 = new Gson();
             String json2 =gson2.toJson(resultDetailsBeforeTest);
             SendResult send2 = new SendResult();
-            send2.execute("http://192.168.1.100:8080/automation/updateTestResults.htm",json2);
+            send2.execute("http://"+ip+":8080/automation/updateTestResults.htm",json2);
 
 
             MainActivity.featureName.setText(obj.getFeature_name());
@@ -118,11 +134,11 @@ public class TestResult extends Activity {
             MainActivity.testCaseDesc.setText(obj.getTestcase_desc());
             MainActivity.startTime.setText(time);
 
-            startTesting(id);
+            startTesting(ip,id);
         }
     }
 
-    private static void startTesting(String id) {
+    private static void startTesting(String ip, String id) {
 
         String resultStatus = "PASSED";
         if(resultStatus=="PASSED"){
@@ -149,7 +165,7 @@ public class TestResult extends Activity {
         Gson gson = new Gson();
         String json2 =gson.toJson(resultDetails);
         SendResult send = new SendResult();
-        send.execute("http://192.168.1.100:8080/automation/updateTestResults.htm",json2);
+        send.execute("http://"+ip+":8080/automation/updateTestResults.htm",json2);
 
     }
 

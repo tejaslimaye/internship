@@ -1,23 +1,33 @@
 package com.jobdetails.shant.getjobdetails;
 
 
-import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.jobdetails.shant.getjobdetails.Response.TestExecutionDetailsBean;
+
+import java.lang.*;
+
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import static com.jobdetails.shant.getjobdetails.Constant.cannotTestCount;
+import static com.jobdetails.shant.getjobdetails.Constant.completedCount;
+import static com.jobdetails.shant.getjobdetails.Constant.failedCount;
+import static com.jobdetails.shant.getjobdetails.Constant.passedCount;
+import static com.uniken.rdna.RDNA.getSDKVersion;
+
+
+public class MainActivity extends AppCompatActivity{
 
     public static TextView totalTest;
    public static TextView completedTest;
@@ -29,15 +39,9 @@ public class MainActivity extends AppCompatActivity {
     public static TextView testCaseDesc;
     public static TextView startTime;
 
-
+    String ip="192.168.1.100";
     public static TextView inprogress;
     public Button btn;             //For Start Test Button
- //  public static RecyclerView rv_testdetails;
-   //public static LinearLayoutManager layoutManager;
-
-
-
-   // public static ArrayList<PrintResponse> printResponses = new ArrayList<>();    //To display Test Cases Information in recycler view.
 
 
    private static String TAG ="";
@@ -46,13 +50,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-      // rv_testdetails = (RecyclerView) findViewById(R.id.rv_response);
+        converttojson(ip);
 
-    // layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
-
-
-
-      //  btn = (Button) findViewById(R.id.startbtn);
+        btn = (Button) findViewById(R.id.add);
         totalTest=(TextView) findViewById(R.id.txtTotalValue);
         completedTest=(TextView) findViewById(R.id.txtCompletedValue);
         passedTest=(TextView) findViewById(R.id.txtPassesValue);
@@ -63,66 +63,62 @@ public class MainActivity extends AppCompatActivity {
         testCaseDesc=(TextView) findViewById(R.id.txtTestDesc_Value);
         startTime= (TextView) findViewById(R.id.txtStartTime_Value);
         inprogress= (TextView) findViewById(R.id.txtInProgress);
-        // senddatatoserver();
-        converttojson();
-    }
-
-/*    public void onButtonClick(View v)        // For Start Test Button which on click shows test results.
-    {
-        if(v.getId() == R.id.startbtn)
-        {
-            Intent i = new Intent(MainActivity.this,TestResult.class);
-            startActivity(i);
-        }
-
 
     }
-*/
 
     public void jsontovalues(String data) {     // For Parsing Json response from Server
 
         Gson testdetails = new Gson();
 
-        Log.d(TAG, "Afterloop : data received:" + data.toString());
+        Log.i(TAG, "Afterloop : data received:" + data.toString());
         Constant.resp = testdetails.fromJson(data, Response.class);       //Resp is object of Response Class.
 
-        totalTest.setText(String.valueOf(Constant.resp.getTest_execution_details().size()));
 
-        TestResult.fetchdatafromresponse();
+        if(Constant.resp.getJob_avail_code()==0)
+        {
+            inprogress.setText("No Tests Available");
+        }
 
-        //Log.d(TAG, "In Senddatatoserver" + Integer.toString(Constant.resp.getTest_execution_details().size()));
+    //    int arjun = Constant.testJobBean.getExecutions().size();
 
-
-
-    /*    for (int i = 0; i <Constant.resp.getTest_execution_details().size(); i++) {
-            //*Fetching and adding execution details to arrayList to print it in RecyclerView
-            TestExecutionDetailsBean obj = Constant.resp.getTest_execution_details().get(i);
-           // printResponses.add(new PrintResponse(String.valueOf(obj.getExecution_id()),String.valueOf(obj.getTestcase_id()),obj.getTestcase_name()));
-        }*/
-
-
-       // ResponseAdapter adapter = new ResponseAdapter(this, (ArrayList<PrintResponse>) printResponses);
-
-    //    rv_testdetails.setLayoutManager(layoutManager);
-     //   rv_testdetails.setAdapter(adapter);
+      else
+          TestResult.fetchdatafromresponse(ip);
 
     }
 
-    private void senddatatoserver(String json) {         //To call onBackground Method in class FetchData.
+    private void senddatatoserver(String ip,String json) {         //To call onBackground Method in class FetchData.
 
         FetchData process = new FetchData(this);
-        process.execute("http://192.168.1.100:8080/automation/getJobDetails.htm",json);    // OnBackground Fn. call
+        process.execute("http://"+ip+":8080/automation/getJobDetails.htm",json);    // OnBackground Fn. call
 
     }
 
-    private void converttojson() {        //To create a Json of Mobile Details to send as a request to server
+    private void converttojson(String ip) {//To create a Json of Mobile Details to send as a request to server
 
-        Mob_Details mob_details = new Mob_Details(Build.SERIAL,Build.MODEL,""+Build.VERSION_CODES.BASE,Build.VERSION.RELEASE,Build.ID,Build.MANUFACTURER,Build.BRAND);
+        String lib_version = getLibraryVersion();
 
+        Mob_Details mob_details = new Mob_Details(Build.SERIAL,Build.MODEL,"ios",Build.VERSION.RELEASE,Build.ID,Build.MANUFACTURER,Build.BRAND,lib_version);
+
+        Log.d(TAG,"Serial = " +mob_details.getSerial_num());
+        Log.d(TAG,"Model = " +mob_details.getDevice_model());
+        Log.d(TAG,"OS = " +mob_details.getDevice_os());
+        Log.d(TAG,"OS version  = " +mob_details.getOs_version());
+        Log.d(TAG,"ID = " +mob_details.getBuild_id());
         Gson gson = new Gson();
         String json =gson.toJson(mob_details);
 
-        senddatatoserver(json);
+        senddatatoserver(ip,json);
+
+        }
+
+    private String getLibraryVersion() {
+
+        String version = getSDKVersion();
+        Log.d(TAG,"LibraryVersion: "+ version);
+       return version;
+      // return "1.1";
+
     }
+
 
 }

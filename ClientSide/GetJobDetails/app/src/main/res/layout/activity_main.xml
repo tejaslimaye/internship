@@ -1,69 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.jobdetails.shant.getjobdetails.MainActivity">
 
 
-    <View
-        android:id="@+id/txtCenterMark"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignTop="@+id/txtTotal"/>
 
-    <TextView
-        android:id="@+id/txtTotal"
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<Spinner-->
+            <!--android:id="@+id/spinner"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+
+        <!--android:orientation="horizontal">-->
+
+        <!--<EditText-->
+            <!--android:id="@+id/txt_IP"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="center"-->
+            <!--android:hint="Enter IP Address..." />-->
+
+        <!--<Button-->
+            <!--android:id="@+id/add"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="2"-->
+            <!--android:gravity="center"-->
+            <!--android:text="ADD" />-->
+
+    <!--</LinearLayout>-->
+
+
+
+
+    <!--<View-->
+        <!--android:id="@+id/txtCenterMark"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_centerHorizontal="true"-->
+
+        <!--android:layout_alignTop="@+id/txtTotal"/>-->
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@id/txtCenterMark"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="Total Test"
-        android:textSize="25sp"
-        />
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:layout_weight="2">
 
-    <TextView
-        android:id="@+id/txtTotalValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/txtTotal"
-        android:layout_alignRight="@id/txtTotal"
-        android:layout_below="@+id/txtTotal"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="0"
-        android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            >
+
+            <TextView
+                android:id="@+id/txtTotal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Total Test"
+                android:textSize="25sp"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:id="@+id/txtCompleted"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/txtTotal"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="Completed"
+                android:textSize="25sp"
+                android:layout_weight="1"/>
 
 
-    <TextView
-        android:id="@+id/txtCompleted"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/txtCenterMark"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/txtTotal"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="Completed"
-        android:textSize="25sp" />
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtCompletedValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/txtCompleted"
-        android:layout_alignRight="@id/txtCompleted"
-        android:layout_below="@id/txtCompleted"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="0"
-        android:textSize="25sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+
+            <TextView
+                android:id="@+id/txtTotalValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignLeft="@id/txtTotal"
+                android:layout_alignRight="@id/txtTotal"
+                android:layout_below="@+id/txtTotal"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="0"
+                android:textSize="25sp"
+                android:layout_weight="1"/>
+
+
+
+
+            <TextView
+                android:id="@+id/txtCompletedValue"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignLeft="@id/txtCompleted"
+                android:layout_alignRight="@id/txtCompleted"
+                android:layout_below="@id/txtCompleted"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="0"
+                android:textSize="25sp"
+                android:layout_weight="1"/>
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/testStatus"
@@ -72,7 +155,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/txtTotalValue"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="3"
+        android:layout_weight="3">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,7 +179,7 @@
             <TextView
                 android:id="@+id/txtPassesValue"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignLeft="@+id/txtPassed"
                 android:layout_alignParentStart="true"
                 android:layout_alignRight="@+id/txtPassed"
@@ -128,7 +212,7 @@
             <TextView
                 android:id="@+id/txtFailedValue"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignLeft="@+id/txtFailedValue"
                 android:layout_alignRight="@+id/txtFailedValue"
                 android:gravity="center"
@@ -159,7 +243,7 @@
             <TextView
                 android:id="@+id/txtCannotTestValue"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignLeft="@+id/txtCannotTest"
                 android:layout_alignParentEnd="true"
                 android:layout_alignRight="@+id/txtCannotTest"
@@ -183,7 +267,8 @@
         android:layout_below="@+id/testStatus"
         android:orientation="vertical"
         android:weightSum="6"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_weight="5">
 
         <TextView
             android:id="@+id/txtInProgress"
@@ -322,4 +407,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

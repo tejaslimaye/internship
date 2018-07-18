@@ -45,6 +45,7 @@ public class SendResult extends AsyncTask<String,Void,String> {
                     responsecode = responsecode + line;
             }
 
+            return responsecode;
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

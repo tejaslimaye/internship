@@ -1,5 +1,7 @@
 package com.uniken.automation.beans;
 
+import java.util.ArrayList;
+
 public class ServerBean {
 		
 	private int server_id;
@@ -16,7 +18,7 @@ public class ServerBean {
 		private int sdk_port;
 		private int verify_port;
 		private int api_port;
-		private int ip_address;
+		private String ip_address;
 		private String os_version;
 		private String console_user;
 		private String console_password;
@@ -28,7 +30,17 @@ public class ServerBean {
 		private String server_user;
 		private String server_password;
 		private String agent_info;
+		
+		ArrayList<TestJobBean> testjobexecutions = new ArrayList<TestJobBean>();
 
+
+		public ArrayList<TestJobBean> getTestJobExecutions() {
+			return testjobexecutions;
+		}
+
+		public void setTestJobExecutions(ArrayList<TestJobBean> executions) {
+			this.testjobexecutions = executions;
+		}
 
 		public int getGm_port(){
 			return gm_port;
@@ -62,11 +74,11 @@ public class ServerBean {
 			this.api_port=api_port;
 		}
 
-		public int getIp_address(){
+		public String getIp_address(){
 			return ip_address;
 		}
 
-		public void setIp_address(int ip_address){
+		public void setIp_address(String ip_address){
 			this.ip_address=ip_address;
 		}
 

@@ -3,6 +3,12 @@ package com.uniken.automation.beans;
 public class TestExecutionBean {
 	
 	private int execution_id;
+	private int testrun_id;
+	private int testcase_id;
+	private String execution_status;
+	
+	
+	
 	public int getExecution_id() {
 		return execution_id;
 	}
@@ -11,9 +17,7 @@ public class TestExecutionBean {
 		this.execution_id = execution_id;
 	}
 
-	private int testrun_id;
-	private int testcase_id;
-	private String execution_status;
+
 
 	public int getTestrun_id(){
 		return testrun_id;

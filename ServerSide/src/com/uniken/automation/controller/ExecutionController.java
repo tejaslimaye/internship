@@ -57,6 +57,8 @@ public class ExecutionController extends HttpServlet {
 				throw new Exception("Please provide execution id");
 			}
 			ExecutionModel model = new ExecutionModel();
+			System.out.println("UpdateResults called for Execution bean with id = ["+bean.getExecution_id()+"]");
+
 			model.updateTestExecution(bean);
 			objResponse.setResponse_code(0);	
 		}

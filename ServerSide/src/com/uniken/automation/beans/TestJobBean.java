@@ -1,5 +1,6 @@
 package com.uniken.automation.beans;
 
+import java.util.ArrayList;
 
 public class TestJobBean {
 	
@@ -11,6 +12,25 @@ public class TestJobBean {
 	private int server_id;
 	private int lib_id;
 	private int auto_create_on_new_device;
+	private int test_run_id;
+	
+	ArrayList<ExecutionBean> executions = new ArrayList<ExecutionBean>();
+	
+	public ArrayList<ExecutionBean> getExecutions() {
+		return executions;
+	}
+
+	public void setExecutions(ArrayList<ExecutionBean> executions) {
+		this.executions = executions;
+	}
+
+	public int getTest_run_id() {
+		return test_run_id;
+	}
+
+	public void setTest_run_id(int test_run_id) {
+		this.test_run_id = test_run_id;
+	}
 	
 	public int getTestjob_id() {
 		return testjob_id;

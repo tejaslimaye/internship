@@ -24,7 +24,7 @@ public class ServerModel extends BaseModel{
 					bean.setSdk_port(rs.getInt("sdk_port"));
 					bean.setVerify_port(rs.getInt("verify_port"));
 					bean.setApi_port(rs.getInt("api_port"));
-					bean.setIp_address(rs.getInt("ip_address"));
+					bean.setIp_address(rs.getString("ip_address"));
 					bean.setOs_version(rs.getString("os_version"));
 					bean.setConsole_user(rs.getString("console_user"));
 					bean.setConsole_password(rs.getString("console_password"));

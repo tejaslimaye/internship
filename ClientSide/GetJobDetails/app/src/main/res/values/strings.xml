@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">GetJobDetails</string>
+
+    <string-array name="Servers">
+        <item>Select another server...</item>
+        <item>192.168.1.100</item>
+        <item>192.168.1.101</item>
+        <item>192.168.1.104</item>
+    </string-array>
 </resources>
