@@ -26,7 +26,7 @@
           <div class="animated fadeIn">
             <div class="card">
               <div class="card-header">
-                <i class="icon-screen-desktop"></i> Servers</div>
+                <i class="icon-note"></i>Features</div>
                 
               <div class="card-body">
               	<div id="jsGrid_Features">

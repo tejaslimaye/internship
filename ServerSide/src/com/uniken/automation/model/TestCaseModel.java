@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import com.uniken.automation.beans.TestCaseBean;
 
 import com.uniken.automation.responses.TestCaseResponse;
-
+import com.uniken.automation.utils.Validator;
 
 public class TestCaseModel extends BaseModel {
 	public void addTestCase(TestCaseBean bean) throws Exception
 	{
 		
-					execute("insert into test_case (testcase_name,update_time,test_feature_id,testcase_desc) values ('" + 
+					execute("insert into test_case (testcase_name,test_feature_id,testcase_desc) values ('" + 
 					bean.getTestcase_name() + "','" +
-					bean.getUpdate_time()+ "','" +
+					//bean.getUpdate_time()+ "','" +
 					bean.getTest_feature_id()+ "','" +
 					bean.getTestcase_desc()+"')" );
 				

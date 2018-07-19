@@ -2,14 +2,14 @@ package com.uniken.automation.beans;
 
 public class TestCaseBean {
 	
-	private int test_case_id;
+	private int testcase_id;
 	private String testcase_name,created_time,update_time,testcase_desc;
 	private int test_feature_id;
-	public int getTest_case_id() {
-		return test_case_id;
+	public int getTestcase_id() {
+		return testcase_id;
 	}
-	public void setTest_case_id(int test_case_id) {
-		this.test_case_id = test_case_id;
+	public void setTestcase_id(int testcase_id) {
+		this.testcase_id = testcase_id;
 	}
 	public String getTestcase_name() {
 		return testcase_name;

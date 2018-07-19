@@ -14,6 +14,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.uniken.automation.beans.ServerBean;
 import com.uniken.automation.model.ServerModel;
+import com.uniken.automation.model.TestJobModel;
 import com.uniken.automation.responses.Response;
 import com.uniken.automation.responses.ServerResponse;
 
@@ -41,10 +42,9 @@ public class ServerDetailsController extends HttpServlet {
 		// TODO Auto-generated method stub
 		ServerResponse resp  = new ServerResponse();
 		try{
-		
-              ServerModel model = new ServerModel();
-		      resp  = model.getAllServersDetails();
-		      
+			resp= new ServerModel().getAllServersDetails();
+			resp.setResponse_code(0);
+		      resp.setError_code(0);
 		      	
     	}
 		catch(Exception e){
@@ -54,8 +54,9 @@ public class ServerDetailsController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-			Gson gson = new Gson();
-	      response.getWriter().print(gson.toJson(resp));
+	response.getWriter().write(new Gson().toJson(resp.getServer_details()));
+		//	Gson gson = new Gson();
+	    //  response.getWriter().print(gson.toJson(resp));
 	      
 		}
 

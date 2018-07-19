@@ -51,6 +51,7 @@ public class TestCaseController extends HttpServlet {
 				buff.append(reader.readLine());
 			}
 			
+			System.out.println(buff.toString());
 			Gson gsonTest = new Gson();
 			TestCaseBean bean = gsonTest.fromJson(buff.toString(), TestCaseBean.class);
 			

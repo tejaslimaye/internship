@@ -3,28 +3,30 @@ package com.uniken.automation.model;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+
 import com.uniken.automation.beans.TestExecutionSummaryBean;
 import com.uniken.automation.utils.Validator;
 import com.uniken.automation.beans.TestJobBean;
+import com.uniken.automation.responses.TestCaseResponse;
 import com.uniken.automation.responses.TestExecutionSummaryResponse;
+import com.uniken.automation.responses.TestJobResponse;
 
 public class TestJobModel extends BaseModel {
 	
-	public ArrayList<TestJobBean> getAllTestJobDetails() throws Exception
+	
+	public TestJobResponse getAllTestJobDetails() throws Exception
 	{
+		TestJobResponse resp = new TestJobResponse();
 		
-		
-				ResultSet rs=executeQuery("select * from test_job");
-				
 				ArrayList<TestJobBean> jobs = new ArrayList<TestJobBean>();
-				 
+				ResultSet rs=executeQuery("select * from test_job"); 
 				while(rs.next()){
 					
 					TestJobBean bean = new TestJobBean();
 					bean.setTestjob_id(rs.getInt("testjob_id"));
 					bean.setTest_job_description(rs.getString("test_job_description"));
-					bean.setCreated_time(Validator.formatSQLTime(rs.getTime("created_time")));
-					bean.setUpdated_time(Validator.formatSQLTime(rs.getTime("updated_time")));
+					bean.setCreated_time(rs.getString("created_time"));
+					bean.setUpdated_time(rs.getString("updated_time"));
 					bean.setStatus(rs.getString("status"));
 					bean.setServer_id(rs.getInt("server_id"));
 					bean.setLib_id(rs.getInt("lib_id"));
@@ -33,8 +35,8 @@ public class TestJobModel extends BaseModel {
 				
 				}
 				
-				rs.close();
-				return jobs;
+				resp.setList(jobs);
+				return resp;
 				
 	}
 	
@@ -129,9 +131,9 @@ public class TestJobModel extends BaseModel {
 			public void addTestJob(TestJobBean bean) throws Exception
 	{
 		
-					execute("insert into test_job (test_job_description,updated_time,status,server_id,lib_id,auto_create_on_new_device) values ('" + 
+					execute("insert into test_job (test_job_description,status,server_id,lib_id,auto_create_on_new_device) values ('" + 
 					bean.getTest_job_description() + "','" + 
-					bean.getUpdated_time()+ "','" +
+					//bean.getUpdated_time()+ "','" +
 					bean.getStatus()+ "','" +
 					bean.getServer_id()+"','"+
 					bean.getLib_id()+"','"+

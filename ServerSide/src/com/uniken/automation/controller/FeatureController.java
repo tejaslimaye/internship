@@ -58,7 +58,7 @@ public class FeatureController extends HttpServlet {
 			
 			
 			FeaturesModel model = new FeaturesModel();
-			model.getFeatureName(bean);
+			model.getFeature(bean);
 			
 			objResp.setResponse_code(0);
 

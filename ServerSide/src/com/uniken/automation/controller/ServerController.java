@@ -49,6 +49,7 @@ public class ServerController extends HttpServlet {
 			{
 				buff.append(reader.readLine());
 			}
+			System.out.println("data: " + buff.toString());
 			
 			Gson gsonServer = new Gson();
 			ServerBean bean = gsonServer.fromJson(buff.toString(), ServerBean.class);
@@ -71,6 +72,7 @@ public class ServerController extends HttpServlet {
 		}
 		
 		PrintWriter out = response.getWriter();	
+		System.out.println(gsonResponse.toJson(objResp2));
 		out.write(gsonResponse.toJson(objResp2));
 		
 	}

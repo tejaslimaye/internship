@@ -50,6 +50,10 @@ public class JobDetailsModel extends BaseModel
 		
 		response.setJob_avail_code(0);
 		
+		
+		
+		
+		
 		ResultSet rs = executeQuery(" select te.execution_id,tr.testrun_id,tc.testcase_id,f.feature_id, "
 				+ " f.feature_name , tc.testcase_name , tc.testcase_desc,tr.device_id , tj.testjob_id  "
 				+ " from test_execution te,test_run tr,test_case tc , test_job tj , test_case_job_mapping tcmj , features f "
