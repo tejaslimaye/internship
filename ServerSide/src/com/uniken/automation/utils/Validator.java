@@ -18,7 +18,7 @@ public class Validator {
 		return true;
 	}
 	
-	private static SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MMM-dd HH:mm:ss");
 	
 	public static java.util.Date parseJavaDate(String str) throws Exception
 	{

@@ -31,7 +31,7 @@ public class TestCaseModel extends BaseModel {
 		while(rs.next())
 		{
 			TestCaseBean bean = new TestCaseBean();
-			bean.setTestcase_id(rs.getInt("testcase_id"));
+			bean.setTest_case_id(rs.getInt("testcase_id"));
 			bean.setTestcase_name(rs.getString("testcase_name"));
 			bean.setCreated_time(rs.getString("created_time"));
 			bean.setUpdate_time(rs.getString("update_time"));

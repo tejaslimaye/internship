@@ -5,12 +5,14 @@ import java.util.ArrayList;
 
 import com.uniken.automation.beans.ServerBean;
 import com.uniken.automation.responses.ServerResponse;
+import com.uniken.automation.responses.TestJobResponse;
 
 public class ServerModel extends BaseModel{
 	
 	
 	public ServerResponse getAllServersDetails() throws Exception
 	{
+		ServerResponse resp = new ServerResponse();
 		
 				ResultSet rs=executeQuery("select * from server");
 				
@@ -37,14 +39,9 @@ public class ServerModel extends BaseModel{
 					servers.add(bean);
 				
 				}
-				
-				rs.close();
-				
-				ServerResponse resp = new ServerResponse();
-				resp.setResponse_code(0);
 				resp.setServer_details(servers);
-				
 				return resp;
+				
 				
 	}
 

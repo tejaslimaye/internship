@@ -23,7 +23,7 @@ import com.uniken.automation.responses.Response;
 /**
  * Servlet implementation class TestJobController
  */
-@WebServlet("/updateTestJobDetials.htm")
+@WebServlet("/updateTestJobDetails.htm")
 public class TestJobController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
