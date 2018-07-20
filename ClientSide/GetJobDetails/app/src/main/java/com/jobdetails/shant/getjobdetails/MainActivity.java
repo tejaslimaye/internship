@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity{
 
         String lib_version = getLibraryVersion();
 
-        Mob_Details mob_details = new Mob_Details("NEW115",Build.MODEL,"ios",Build.VERSION.RELEASE,Build.ID,Build.MANUFACTURER,Build.BRAND,lib_version);
+        Mob_Details mob_details = new Mob_Details("NEW118",Build.MODEL,"ios",Build.VERSION.RELEASE,Build.ID,Build.MANUFACTURER,Build.BRAND,lib_version);
 
         Log.d(TAG,"Serial = " +mob_details.getSerial_num());
         Log.d(TAG,"Model = " +mob_details.getDevice_model());

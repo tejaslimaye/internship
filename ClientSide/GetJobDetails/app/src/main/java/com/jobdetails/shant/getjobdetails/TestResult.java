@@ -151,35 +151,56 @@ public class TestResult  {
     }
 
     private void startTesting(String ip, String id, String feature_name) {
-
+        String resultStatus = "";
         if(feature_name.equalsIgnoreCase("Initialization on Mobile"))
         {
             CallBacks callBacks = new CallBacks(mainApplication);
+
             String agentinfo= "";
+
             String authGateWayHNIP = "";
+
             String authGateWayPort = "";
+
             //RDNA.RDNAStatus<String> cipherSpecs =  ;
 
          //   String cipherSalt = RDNA.;
             RDNA.RDNALoggingLevel loggingLevel = RDNA.RDNALoggingLevel.RDNA_LOG_DEBUG;
 
 
-            RDNA.RDNAStatus<RDNA> obj = Initialize(agentinfo,callBacks,authGateWayHNIP, Integer.parseInt(authGateWayPort),null,null,null,null,null,loggingLevel, this);
-          //  obj.result.
-            int sumeet =6;
-        }
+            RDNA.RDNAStatus<RDNA> obj = Initialize(agentinfo,callBacks,authGateWayHNIP, Integer.parseInt(authGateWayPort),null,null,null,null,null,loggingLevel, this);//  obj.result.
+            //callBacks.onInitializeCompleted();
+
+            //obj.errorCode=1;
 
 
-        String resultStatus = "CREATED";
-        if(resultStatus.equalsIgnoreCase("CREATED")){
-            passedCount=passedCount+1;
-          MainActivity.passedTest.setText(String.valueOf(passedCount));
-        }
-        else
+            if(obj.errorCode==0)
         {
-            failedCount=failedCount+1;
-            MainActivity.failedTest.setText(String.valueOf(failedCount));
+            resultStatus = "PASSED";
+            passedCount=passedCount+1;
+            MainActivity.passedTest.setText(String.valueOf(passedCount));
+
         }
+        else {
+            resultStatus = "FAILED";
+            failedCount = failedCount + 1;
+            MainActivity.failedTest.setText(String.valueOf(failedCount));
+
+        }
+        }
+        else {
+            resultStatus = "FAILED";
+            failedCount = failedCount + 1;
+            MainActivity.failedTest.setText(String.valueOf(failedCount));
+
+        }
+
+
+//        String resultStatus = "CREATED";
+//        if(resultStatus.equalsIgnoreCase("CREATED")){
+//
+//        }
+
 
         completedCount=completedCount+1;
         MainActivity.completedTest.setText(String.valueOf(completedCount));
