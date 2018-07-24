@@ -71,10 +71,28 @@ public class JobDetailsModel extends BaseModel
 				+ " and l.lib_version = '" + device.getLibrary_version()+ "' and l.lib_type= '" + device.getDevice_os()+ "' and l.lib_id = tj.lib_id ";
 		*/
 	
+			
 		
 	//	String strSQL = "  select te.*, f.* , tc.* , s.*, tj.*, tr.*, tcmj.*, l.*  from  test_execution te, test_run tr, test_case tc , test_job tj , test_case_job_mapping tcmj , features f, library l  , server s   where  tr.device_id = 42   and  l.lib_version = '1.1'   and l.lib_type= 'ios'   and l.lib_id = tj.lib_id   and tj.testjob_id = tr.test_job_id  and   tc.testcase_id = tcmj.testcase_id    and   te.testcase_id = tc.testcase_id   and  f.feature_id = tc.test_feature_id   and tj.testjob_id = tcmj.testjob_id   and s.server_id = tj.server_id  and te.execution_status = 'CREATED'  order by s.server_id, tj.testjob_id limit 2";
 		
-		String strSQL="select te.*, f.* , tc.* , s.*, tj.*, tr.*, tcmj.*, l.*  from  test_execution te, test_run tr, test_case tc , test_job tj , test_case_job_mapping tcmj , features f, library l  , server s   where  tr.device_id =" +device_id+ "   and   l.lib_version = '" + device.getLibrary_version()+ "' and l.lib_type= '" + device.getDevice_os()+ "' and l.lib_id = tj.lib_id   and tj.testjob_id = tr.test_job_id  and   tc.testcase_id = tcmj.testcase_id    and   te.testcase_id = tc.testcase_id   and  f.feature_id = tc.test_feature_id   and tj.testjob_id = tcmj.testjob_id   and s.server_id = tj.server_id  and te.execution_status = 'CREATED'  and te.testrun_id=  tr.testrun_id  order by s.server_id, tj.testjob_id";
+		String strSQL="select te.*, f.* , tc.* , s.*, tj.*, tr.*, tcmj.*, l.*  from  test_execution te, test_run tr, test_case tc , "
+				+ " test_job tj , test_case_job_mapping tcmj , features f, library l  , server s   "
+				+ " where  tr.device_id =" +device_id+ "   "
+						+ " and   l.lib_version = '" + device.getLibrary_version()+ "' "
+								+ " and l.lib_type= '" + device.getDevice_os()+ "' "
+										+ " and l.lib_id = tj.lib_id   and tj.testjob_id = tr.test_job_id  "
+										+ " and   tc.testcase_id = tcmj.testcase_id    and   te.testcase_id = tc.testcase_id   "
+										+ " and  f.feature_id = tc.test_feature_id   and tj.testjob_id = tcmj.testjob_id   "
+										+ " and s.server_id = tj.server_id  and te.execution_status = 'CREATED'  "
+										+ " and te.testrun_id=  tr.testrun_id  ";
+
+		if(device.getSerial_num()!=null && device.getSerial_num().equals("AUTOMATION_CLIENT"))
+		{
+			strSQL = strSQL + " and f.feature_target = 'AUTOMATION_CLIENT'";
+		}
+		
+		strSQL = strSQL  +" order by s.server_id, tj.testjob_id";
+
 		
 		System.out.println(strSQL);
 		ResultSet rs = executeQuery(strSQL);

@@ -18,7 +18,8 @@ public class ExecutionModel extends BaseModel {
 	{
 		
 		execute("update test_execution set execution_status = '" + bean.getExecution_result() + "', execution_start_time = '" + 
-				bean.getStart_time() + "', execution_end_time = '" + bean.getEnd_time() +"' where execution_id = " + bean.getExecution_id());
+				bean.getStart_time() + "', execution_end_time = '" + bean.getEnd_time() +"', params_used = '"+bean.getParams_used()+"' , "
+						+ " result_data = '"+bean.getResult_data()+"'  where execution_id = " + bean.getExecution_id());
 	}
 	
 	public static void main(String[] args) {
