@@ -13,6 +13,8 @@ var execTestJobsDetails;
     { "id": 3,"test_feature_id": "3"}
 ];
 */
+var feature;
+var feature_id
 var execFeature;
 var cardChart1;
 var cardChart2;
@@ -54,6 +56,110 @@ function fetchDetails(){
 	fetchExecutionHistory();
 	
    
+}
+function fetchExecutions(){
+	$("#jsGrid_Executions").jsGrid({
+		  width: "100%",
+		  height: "auto",
+
+		
+	     sorting: true,
+	     paging: true,
+	      
+	      autoload:   true,
+	     paging:     true,
+	     pageSize:   10,
+	     pageButtonCount: 5,
+	     pageIndex:  1,
+
+	     
+	    
+	
+		  controller: {
+		    loadData: function(filter) {
+		    return  $.ajax({
+		        url: "http://localhost:8080/automation/getExecutionDetails.htm",
+		        dataType: "json",
+		        method: "POST",
+		        });
+		    },},
+		    	        fields: [
+	        	 		{ name: "execution_id", type: "number", width: 10 },
+		 	            { name: "execution_result", type: "text", width: 50, validate:"required"},
+		 	            { name: "start_time", type: "text", width: 50, validate:"required"},
+		 	            { name: "end_time", type: "text", width: 50, validate:"required"}
+		 	        ]
+		  
+		  });
+	
+}
+function fetchLibraries(){
+	$("#jsGrid_Libraries").jsGrid({
+		  width: "100%",
+		  height: "auto",
+
+		 inserting: true,
+	     editing: true,
+	     sorting: true,
+	     paging: true,
+	      
+	      autoload:   true,
+	     paging:     true,
+	     pageSize:   10,
+	     pageButtonCount: 5,
+	     pageIndex:  1,
+
+	     
+	    
+	
+		  controller: {
+		    loadData: function(filter) {
+		    return  $.ajax({
+		        url: "http://localhost:8080/automation/getLibraryDetails.htm",
+		        dataType: "json",
+		        method: "POST",
+		        });
+		    },
+		    insertItem: function (item) {
+		    	insertLibrary(item);
+		    	
+		 	   },
+		 	  onItemInserted: function(args)
+		 	  {
+		 		  alert(11);
+		 		  location.reload(true);
+		 	  }
+		  },
+	        fields: [
+	        	 		{ name: "lib_id", type: "number", width: 10 },
+		 	            { name: "lib_name", type: "text", width: 50, validate:"required"},
+		 	            { name: "lib_type", type: "text", width: 50, validate:"required"},
+		 	            { name: "lib_version", type: "text", width: 50, validate:"required"},
+		 	            
+		 	            { type: "control" }
+		 	        ]
+	});
+	
+}
+function insertLibrary(item){
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/automation/addLibrary.htm",
+        data: "{\"lib_name\":\""+item.lib_name + "\",\"lib_type\":\""+item.lib_type+"\",\"lib_version\":\""+item.lib_version+"\"}",
+        success: function(response)
+        {
+       	 if(response.response_code==1)
+       		 {
+       		 	alert("error while inserting feature : Check server logs");
+       		 }
+        },
+        error: function(response)
+        {
+       	 
+        }
+    });
+    
 }
 
 function fetchFeatures()
@@ -128,6 +234,16 @@ function insertFeature(item)
 
 function fetchTestCases()
 {
+//	$.ajax({
+//        type: "POST",
+//        url: "http://localhost:8080/automation/getFeatures.htm"
+//        
+//    }).done(function(response) {
+//
+//        
+//        feature = JSON.parse(response);
+//        feature_id = JSONObject["feature_id"];
+	
 	$("#jsGrid_TestCases").jsGrid({
 		width: "100%",
 	        height: "auto",
@@ -171,23 +287,13 @@ function fetchTestCases()
 		 	            { name: "testcase_name", type: "text", width: 100, validate:"required"},
 		 	          { name: "created_time", type: "text", width: 50},
 		 	            { name: "update_time", type: "text", width: 50},
-		 	           { name: "test_feature_id", type: "select",validate:"required",width: 100,items:selectFeature(item),valueField: "item.feature_id", 
-		 	               textField: "item.feature_name",insertTemplate: function () {
-		 	               
-		 	                  var $insertControl = jsGrid.fields.select.prototype.insertTemplate.call(this);
-
-		 	                  
-		 	                  $insertControl.change(function () {
-		 	                      var selectedValue = $(this).val();
-
-		 	                      
-		 	                  });
-
-		 	                  return $insertControl;}},
+		 	           { name: "test_feature_id", type:"number", /*"select", items: feature_id, valueField: "id", textField: "id",*/validate:"required",width: 100},
+		 	          { name: "feature_name", type: "text", width: 100},
 		 	            { name: "testcase_desc", type: "text", width: 100, validate:"required"},
 		 	           { type: "control" }
 		 	        ]
 	});
+	//});
 	
 }
  

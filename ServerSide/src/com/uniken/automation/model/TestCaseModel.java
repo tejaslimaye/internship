@@ -11,10 +11,10 @@ import com.uniken.automation.responses.TestCaseResponse;
 public class TestCaseModel extends BaseModel {
 	public void addTestCase(TestCaseBean bean) throws Exception
 	{
-		
-					execute("insert into test_case (testcase_name,update_time,test_feature_id,testcase_desc) values ('" + 
+				
+					execute("insert into test_case (testcase_name,test_feature_id,testcase_desc) values ('" + 
 					bean.getTestcase_name() + "','" +
-					bean.getUpdate_time()+ "','" +
+					//bean.getUpdate_time()+ "','" +
 					bean.getTest_feature_id()+ "','" +
 					bean.getTestcase_desc()+"')" );
 				
@@ -27,7 +27,7 @@ public class TestCaseModel extends BaseModel {
 
 		
 		ArrayList<TestCaseBean> list = new ArrayList<TestCaseBean>();
-		ResultSet rs = executeQuery("select * from test_case");
+		ResultSet rs = executeQuery("select tc.*,f.feature_name from test_case tc,features f where tc.test_feature_id = f.feature_id");
 		while(rs.next())
 		{
 			TestCaseBean bean = new TestCaseBean();
@@ -37,6 +37,7 @@ public class TestCaseModel extends BaseModel {
 			bean.setUpdate_time(rs.getString("update_time"));
 			bean.setTest_feature_id(rs.getInt("test_feature_id"));
 			bean.setTestcase_desc(rs.getString("testcase_desc"));
+			bean.setFeature_name(rs.getString("feature_name"));
 			list.add(bean);
 			
 			
