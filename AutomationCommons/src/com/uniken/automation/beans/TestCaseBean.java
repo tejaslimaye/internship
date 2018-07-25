@@ -3,7 +3,13 @@ package com.uniken.automation.beans;
 public class TestCaseBean {
 	
 	private int test_case_id;
-	private String testcase_name,created_time,update_time,testcase_desc;
+	private String testcase_name,created_time,update_time,testcase_desc,feature_name;
+	public String getFeature_name() {
+		return feature_name;
+	}
+	public void setFeature_name(String feature_name) {
+		this.feature_name = feature_name;
+	}
 	private int test_feature_id;
 	public int getTest_case_id() {
 		return test_case_id;

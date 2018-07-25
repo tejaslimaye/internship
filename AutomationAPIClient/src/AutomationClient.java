@@ -149,8 +149,8 @@ public class AutomationClient {
 			bean.setExecution_result("SYSTEM_ERROR");
 			bean.setResult_data(e.getMessage());
 		}
+		bean.setEnd_time(format.format(new Date()));
 		updateTestResult(bean); // mark final
-		
 		
 		
 		
@@ -162,7 +162,9 @@ public class AutomationClient {
 		{
 				case "VERIFY_API_REQUEST_SUCCESS": VerifyTest.verifyApiRequestSuccess(execution,bean,sbean,"shreyasb"); break;
 				case "VERIFY_API_REQUEST_NOUSER": VerifyTest.verifyApiRequestNoUser(execution,bean,sbean,"DUMMY"); break;
-				
+				case "VERIFY_API_REQUEST_NOENTID": VerifyTest.verifyApiRequestNoEntId(execution,bean,sbean,"shreyasb"); break;
+				case "VERIFY_API_INVALID_CONTEXT": VerifyTest.verifyApiRequestInvalidContext(execution,bean,sbean,"shreyasb"); break;
+					
 			
 		}
 	}

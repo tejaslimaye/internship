@@ -18,11 +18,58 @@ import com.uniken.reild.automation.serverapi.responses.GenResponse;
 
 
 public class VerifyTest {
+	
+	
+	public static void verifyApiRequestNoEntId(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
+		// TODO Auto-generated method stub
 
+		String url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
+		String jSon =  "{msg_id:\"21134\",enterprise_id:\"CBCVeri\",user_id: \""+userid+"\",expiry_time:30,"+
+					"msg:{body:\"You are attempting to login to EA01, do you want to proceed\", subject:\"Login Attempt\"},"+
+							"notification_msg:{body:\"You have a RELIDverify notification\", subject:\"RELIDverify notification\"},"+
+					 "actions:[{label:\"Accept\",action:\"Accept\",authlevel:\"0\"}, {label:\"Reject\",action:\"Reject\",authlevel:\"0\"}]}";
+		
+		String responseString = executeVerifyAPI(url, jSon, bean,sbean);
+		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
+		if(resp.getResponse_code()==1 && resp.getError_code()==3527 && resp.getError_msg().equals("Invalid ENTERPRISE ID"))
+		{
+			bean.setExecution_result("PASSED");
+		}
+		else
+			bean.setExecution_result("FAILED");
+	}
+
+	public static void verifyApiRequestInvalidContext(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
+		// TODO Auto-generated method stub
+
+		String url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRV.htm";
+		String jSon =  "{msg_id:\"21134\",enterprise_id:\"CBCVeri\",user_id: \""+userid+"\",expiry_time:30,"+
+					"msg:{body:\"You are attempting to login to EA01, do you want to proceed\", subject:\"Login Attempt\"},"+
+							"notification_msg:{body:\"You have a RELIDverify notification\", subject:\"RELIDverify notification\"},"+
+					 "actions:[{label:\"Accept\",action:\"Accept\",authlevel:\"0\"}, {label:\"Reject\",action:\"Reject\",authlevel:\"0\"}]}";
+		
+		String responseString = executeVerifyAPI(url, jSon, bean,sbean);
+		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
+		if(resp.getResponse_code()==1 && resp.getError_code()==2600 && resp.getError_msg().equals("Invalid Request uri"))
+		{
+			bean.setExecution_result("PASSED");
+		}
+		else
+			bean.setExecution_result("FAILED");
+	}
+
+	
+	
 	public static void verifyApiRequestNoUser(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
 		// TODO Auto-generated method stub
 
-		String responseString = executeVerifyAPI(bean,sbean,userid);
+		String url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
+		String jSon =  "{msg_id:\"21134\",enterprise_id:\"CBCVerify\",user_id: \""+userid+"\",expiry_time:30,"+
+					"msg:{body:\"You are attempting to login to EA01, do you want to proceed\", subject:\"Login Attempt\"},"+
+							"notification_msg:{body:\"You have a RELIDverify notification\", subject:\"RELIDverify notification\"},"+
+					 "actions:[{label:\"Accept\",action:\"Accept\",authlevel:\"0\"}, {label:\"Reject\",action:\"Reject\",authlevel:\"0\"}]}";
+			
+		String responseString = executeVerifyAPI(url,jSon, bean,sbean);
 		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
 		if(resp.getResponse_code()==1 && resp.getError_code()==3560 && resp.getError_msg().equals("User not present"))
 		{
@@ -32,15 +79,10 @@ public class VerifyTest {
 			bean.setExecution_result("FAILED");
 	}
 	
-	public static String executeVerifyAPI(ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception
+	public static String executeVerifyAPI(String url, String jSon, ExecutionResultBean bean, ServerBean sbean) throws Exception
 	{
-		String url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
 		System.out.println(url);
 		HttpPost post = new HttpPost(url);
-		String jSon =  "{msg_id:\"21134\",enterprise_id:\"CBCVerify\",user_id: \""+userid+"\",expiry_time:30,"+
-				"msg:{body:\"You are attempting to login to EA01, do you want to proceed\", subject:\"Login Attempt\"},"+
-						"notification_msg:{body:\"You have a RELIDverify notification\", subject:\"RELIDverify notification\"},"+
-				 "actions:[{label:\"Accept\",action:\"Accept\",authlevel:\"0\"}, {label:\"Reject\",action:\"Reject\",authlevel:\"0\"}]}";
 		StringEntity entity = new StringEntity(jSon);
 		post.setEntity(entity);
 	    post.setHeader("Accept", "application/json");
@@ -63,7 +105,13 @@ public class VerifyTest {
 	public static void verifyApiRequestSuccess(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
 		// TODO Auto-generated method stub
 
-		String responseString = executeVerifyAPI(bean,sbean,userid);
+		String url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
+		String jSon =  "{msg_id:\"21134\",enterprise_id:\"CBCVerify\",user_id: \""+userid+"\",expiry_time:30,"+
+					"msg:{body:\"You are attempting to login to EA01, do you want to proceed\", subject:\"Login Attempt\"},"+
+							"notification_msg:{body:\"You have a RELIDverify notification\", subject:\"RELIDverify notification\"},"+
+					 "actions:[{label:\"Accept\",action:\"Accept\",authlevel:\"0\"}, {label:\"Reject\",action:\"Reject\",authlevel:\"0\"}]}";
+		
+		String responseString = executeVerifyAPI(url,jSon,bean,sbean);
 		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
 		if(resp.getResponse_code()==0)
 		{
