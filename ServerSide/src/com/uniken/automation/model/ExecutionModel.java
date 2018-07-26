@@ -8,9 +8,12 @@ import java.util.Date;
 
 import com.uniken.automation.beans.ExecutionBean;
 import com.uniken.automation.beans.ExecutionResultBean;
+import com.uniken.automation.beans.FeatureBean;
 import com.uniken.automation.beans.TestExecutionSummaryBean;
+import com.uniken.automation.responses.FeatureResponse;
 import com.uniken.automation.responses.Response;
 import com.uniken.automation.responses.TestExecutionHistoryResponse;
+import com.uniken.automation.responses.ExecutionResponse;
 
 public class ExecutionModel extends BaseModel {
 	
@@ -21,6 +24,35 @@ public class ExecutionModel extends BaseModel {
 				bean.getStart_time() + "', execution_end_time = '" + bean.getEnd_time() +"', params_used = '"+bean.getParams_used()+"' , "
 						+ " result_data = '"+bean.getResult_data()+"'  where execution_id = " + bean.getExecution_id());
 	}
+	
+	
+	public ExecutionResponse getExecutions() throws Exception
+	{
+		ExecutionResponse resp = new ExecutionResponse();
+
+		
+		ArrayList<ExecutionResultBean> list = new ArrayList<ExecutionResultBean>();
+		ResultSet rs = executeQuery("select * from test_execution");
+		while(rs.next())
+		{
+			ExecutionResultBean bean = new ExecutionResultBean();
+			bean.setExecution_id(rs.getInt("execution_id"));
+			bean.setExecution_result(rs.getString("execution_status"));
+			bean.setStart_time(rs.getString("execution_start_time"));
+			bean.setEnd_time(rs.getString("execution_end_time"));
+			list.add(bean);
+			
+			
+		}
+		
+		resp.setExecution_details(list);
+		return resp;
+		
+	}
+	
+	
+	
+	
 	
 	public static void main(String[] args) {
 		

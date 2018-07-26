@@ -14,19 +14,20 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.uniken.automation.beans.LibraryBean;
 import com.uniken.automation.model.LibraryModel;
+import com.uniken.automation.responses.LibraryResponse;
 import com.uniken.automation.responses.Response;
 
 /**
- * Servlet implementation class LibraryController
+ * Servlet implementation class GetLibraryController
  */
-@WebServlet("/addLibrary.htm")
-public class LibraryController extends HttpServlet {
+@WebServlet("/getLibraryDetails.htm")
+public class GetLibraryController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LibraryController() {
+    public GetLibraryController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,45 +37,25 @@ public class LibraryController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		Response objResp3 = new Response();
-		Gson gsonResponse = new Gson();
-		
-		
+LibraryResponse resp = new LibraryResponse();
 		
 		try
 		{
-		
-			StringBuffer buff = new StringBuffer();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
-			while(reader.ready())
-			{
-				buff.append(reader.readLine());
-			}
-			
-			Gson gsonLib = new Gson();
-			LibraryBean bean = gsonLib.fromJson(buff.toString(), LibraryBean.class);
-			
-			LibraryModel model=new LibraryModel();
-			model.addLibrary(bean);
-			
-			objResp3.setResponse_code(0);
-
-			
+			resp= new LibraryModel().getLibraryDetails();
+			resp.setError_code(0);
+			resp.setResponse_code(0);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			objResp3.setError_code(1);
-			objResp3.setResponse_code(1);
-			System.out.println("MESSAGE: " +e.getLocalizedMessage());
-			objResp3.setError_message(e.getLocalizedMessage());
+			resp.setError_code(8);
+			resp.setResponse_code(1);
+			resp.setError_message(e.getMessage());
+
 		}
-		
-		PrintWriter out = response.getWriter();	
-		out.write(gsonResponse.toJson(objResp3));
-		
-	
+		response.getWriter().write(new Gson().toJson(resp.getLibrary_details()));
 	}
+
+	
 
 }

@@ -38,8 +38,8 @@
             </li>
             
             <li class="nav-item">
-              <a class="nav-link" href="devices.jsp">
-                <i class="nav-icon icon-screen-smartphone"></i> Devices</a>
+              <a class="nav-link" href="executions.jsp">
+                <i class="nav-icon icon-screen-smartphone"></i> Execution Result</a>
             </li>
             <li class="nav-title">Statistics</li>
             
