@@ -90,7 +90,10 @@ public class JobDetailsModel extends BaseModel
 		{
 			strSQL = strSQL + " and f.feature_target = 'AUTOMATION_CLIENT'";
 		}
-		
+		else if(device.getSerial_num()!=null && device.getSerial_num().equals("MOBILE"))
+		{
+				strSQL = strSQL + " and f.feature_target = 'MOBILE'";
+		}
 		strSQL = strSQL  +" order by s.server_id, tj.testjob_id";
 
 		
@@ -129,6 +132,9 @@ public class JobDetailsModel extends BaseModel
 				executionBean.setTestcase_desc(rs.getString("testcase_desc"));
 				executionBean.setDevice_id(rs.getInt("device_id"));
 				int testjobId = rs.getInt("testjob_id");
+				executionBean.setResponse_code(rs.getInt("response_code"));
+				executionBean.setError_code(rs.getInt("error_code"));
+				executionBean.setError_message(rs.getString("error_message"));
 				executionBean.setTestjob_id(testjobId);
 //				executionbeanlist.add(executionBean);
 				

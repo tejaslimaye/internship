@@ -158,15 +158,11 @@ public class AutomationClient {
 
 	private void performTask(ExecutionBean execution,ExecutionResultBean bean, ServerBean sbean) throws Exception{
 		// TODO Auto-generated method stub
-		switch(execution.getTestcase_name())
+		switch(execution.getFeature_name())
 		{
-				case "VERIFY_API_REQUEST_SUCCESS": VerifyTest.verifyApiRequestSuccess(execution,bean,sbean,"shreyasb"); break;
-				case "VERIFY_API_REQUEST_NOUSER": VerifyTest.verifyApiRequestNoUser(execution,bean,sbean,"DUMMY"); break;
-				case "VERIFY_API_REQUEST_NOENTID": VerifyTest.verifyApiRequestNoEntId(execution,bean,sbean,"shreyasb"); break;
-				case "VERIFY_API_INVALID_CONTEXT": VerifyTest.verifyApiRequestInvalidContext(execution,bean,sbean,"shreyasb"); break;
-					
-			
+			case "VERIFY_API": VerifyTest.execute(execution, bean, sbean); break;
 		}
+		
 	}
 
 	private void updateTestResult(ExecutionResultBean bean) throws Exception {
