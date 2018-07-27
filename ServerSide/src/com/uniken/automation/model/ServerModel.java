@@ -50,20 +50,20 @@ public class ServerModel extends BaseModel{
 	public void addServer(ServerBean bean) throws Exception
 	{
 		
-					execute("insert into server (gm_port,sdk_port,verify_port,api_port,ip_address,os_version,console_user,console_password,enterprise_id,enterprise_user,enterprise_password,server_user,server_password,agent_info) values (" + 
-					bean.getGm_port() + "," + 
-					bean.getSdk_port() +  "," + 
-					bean.getVerify_port()+ "," +
-					bean.getApi_port()+ "," +
+					execute("insert into server (ip_address,os_version,enterprise_password,agent_info) values (" + 
+				//	bean.getGm_port() + "," + 
+				//  bean.getSdk_port() +  "," + 
+				//	bean.getVerify_port()+ "," +
+				//	bean.getApi_port()+ "," +
 					bean.getIp_address()+",'"+
 					bean.getOs_version()+"','"+
-					bean.getConsole_user()+"','"+
-					bean.getConsole_password()+"','"+
-					bean.getEnterprise_id()+"','"+
-					bean.getEnterprise_user()+"','"+
+//					bean.getConsole_user()+"','"+
+//					bean.getConsole_password()+"','"+
+//					bean.getEnterprise_id()+"','"+
+//					bean.getEnterprise_user()+"','"+
 					bean.getEnterprise_password()+"','"+
-					bean.getServer_user()+"','"+
-					bean.getServer_password()+"','"+
+//					bean.getServer_user()+"','"+
+//					bean.getServer_password()+"','"+
 					bean.getAgent_info()+ "')" );
 				
 		}	
