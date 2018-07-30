@@ -37,6 +37,11 @@
                 <i class="nav-icon icon-notebook"></i> Test Jobs</a>
             </li>
             
+             <li class="nav-item">
+              <a class="nav-link" href="tcmjs.jsp">
+                <i class="nav-icon icon-notebook"></i> Job Mapping</a>
+            </li>
+            
             <li class="nav-item">
               <a class="nav-link" href="executions.jsp">
                 <i class="nav-icon icon-screen-smartphone"></i> Execution Result</a>

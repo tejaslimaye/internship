@@ -1,5 +1,4 @@
 
-
 var execSummaryDevices;
 var execSummaryFeatures;
 var execSummaryRunning;
@@ -14,15 +13,15 @@ var execTestJobsDetails;
 ];
 */
 var feature;
-var feature_id
+var feat;
 var execFeature;
 var cardChart1;
 var cardChart2;
 var cardChart4;
 var mainChart;
-
-
-
+var servers;
+var libraries=[];
+var tcmj;
 function fetchDetails(){
 	fetchLiveTests();
 	fetchFailuresByFeatures();
@@ -208,15 +207,22 @@ function insertFeature(item)
 
 function fetchTestCases()
 {
-//	$.ajax({
-//        type: "POST",
-//        url: "http://localhost:8080/automation/getFeatures.htm"
-//        
-//    }).done(function(response) {
+$.ajax({
+method: "POST",
+url: "http://localhost:8080/automation/getFeatures.htm",
+dataType: "json"
+}).done(function(response) {
 //
-//        
-//        feature = JSON.parse(response);
-//        feature_id = JSONObject["feature_id"];
+////    	var data = loadFeatures(response.value);
+////        createGrid(data);
+	feature = response;
+	//feature[0].feature_name;
+    //feature_name = JSONObject["feature_name"];
+	//var featureList = [];
+//	for(var i=0;i<feature.length;i++){
+//		featureList.push(feature[i].feature_name)
+//	}
+	
 	
 	$("#jsGrid_TestCases").jsGrid({
 		width: "100%",
@@ -257,20 +263,30 @@ function fetchTestCases()
 		 	  }
 		  },
 	        fields: [
-		 	            { name: "testcase_id", type: "number", width: 30},
+		 	            { name: "test_case_id", type: "number", width: 30},
 		 	            { name: "testcase_name", type: "text", width: 100, validate:"required"},
 		 	          { name: "created_time", type: "text", width: 50},
 		 	            { name: "update_time", type: "text", width: 50},
-		 	           { name: "test_feature_id", type:"number", /*"select", items: feature_id, valueField: "id", textField: "id",*/width: 100},
-		 	          { name: "feature_name", type: "text",validate:"required", width: 100},
-		 	            { name: "testcase_desc", type: "text", width: 100, validate:"required"},
+		 	           { name: "test_feature_id", type:"number", /*"select", items: feature_id, valueField: "id", textField: "id",*/width: 50},
+		 	        //  { name: "feature_name",type:"select", items:featureList, valueField: "text", textField: "text",validate:"required", width: 100},
+		 	          { name: "feature_name",type:"select", items:feature, valueField: "feature_name", textField: "feature_name", validate:"required", width: 100}, 
+		 	           { name: "testcase_desc", type: "text", width: 100, validate:"required"},
 		 	           { type: "control" }
 		 	        ]
 	});
-	//});
+	});
 	
 }
  
+//function loads(data){
+//    var names = [{Item: ""}];
+//    for(var i =0; i< data.length; i++){
+//        var name = data[i].Name;
+//        names.push({ Item: name});
+//    }
+//    return names;
+//}
+
 function insertTestCase(item)
 {
 
@@ -293,19 +309,6 @@ function insertTestCase(item)
      
 }
 
-function selectFeature(item)
-{$.ajax({
-	 url: "http://localhost:8080/automation/getFeatures.htm",
-     dataType: "json",
-     method: "POST",
-     data:"{\"feature_id\":\""+item.feature_id + "\",\"feature_name\":\""+item.feature_name + "\"}",
-     success:
-    function(response){
-	          //alert("done: " + response);
-	        	execFeature = JSON.parse(response);
-     }
-     });
-}
 
 
 function fetchServers()
@@ -412,10 +415,19 @@ function insertServer(item){
 
 
 
-
+function loadServer(){
+	$.ajax({
+        url: "http://localhost:8080/automation//getServer.htm",
+        dataType: "json",
+        method: "POST",
+        }).done(function(response) {
+        	servers = response;
+        });
+}
 
 function fetchTestJobs()
 {
+	loadServer();
 	$("#jsGrid_TestJobs").jsGrid({
 		width: "100%",
 	        height: "auto",
@@ -468,6 +480,7 @@ function fetchTestJobs()
 		 	          { name: "created_time", type: "text", width: 100},
 		 	            { name: "updated_time", type: "text", width: 100},
 		 	          { name: "status", type: "text", width: 100, validate:"required"},
+		 	          
 		 	         { name: "server_id", type: "number", width: 30, validate:"required"},
 		 	          { name: "lib_id", type: "number", width: 30, validate:"required"},
 		 	            { name: "auto_create_on_new_device", type: "number", width: 30, validate:"required"},
@@ -498,6 +511,83 @@ function insertTestJob(item)
      });
      
 }
+
+function fetchMappingJobs(){
+	$.ajax({
+		method: "POST",
+		url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
+		dataType: "json"
+		}).done(function(response) {
+
+			tcmj = response;
+	
+		$("#jsGrid_MappingJobs").jsGrid({
+		  width: "100%",
+		  height: "auto",
+
+		 inserting: true,
+	     editing: true,
+	     sorting: true,
+	     paging: true,
+	      
+	      autoload:   true,
+	     paging:     true,
+	     pageSize:   10,
+	     pageButtonCount: 5,
+	     pageIndex:  1,
+
+	     
+	    
+	
+		  controller: {
+		    loadData: function(filter) {
+		    return  $.ajax({
+		        url: "http://localhost:8080/automation/GetTCMJ.htm",
+		        dataType: "json",
+		        method: "POST",
+		        });
+		    },
+		    insertItem: function (item) {
+		    	insertMappingJob(item);
+		    	
+		 	   },
+		 	  onItemInserted: function(args)
+		 	  {
+		 		  alert(11);
+		 		  location.reload(true);
+		 	  }
+		  },
+	        fields: [
+		 	            { name: "test_case_id", type: "number", width: 50, validate:"required"},
+		 	            { name: "testjob_id", type: "select", items:tcmj, valueField: "testjob_id", textField: "test_job_description", width: 100, validate:"required"},
+		 	            { type: "control" }
+		 	        ]
+	});
+		});
+}
+
+function insertMappingJob(item)
+{
+
+     $.ajax({
+         type: "POST",
+         url: "http://localhost:8080/automation/addTCMJ.htm",
+         data: "{\"test_case_id\":\""+item.test_case_id+ "\",\"testjob_id\":\""+item.testjob_id+"\"}",
+         success: function(response)
+         {
+        	 if(response.response_code==1)
+        		 {
+        		 	alert("error while inserting feature : Check server logs");
+        		 }
+         },
+         error: function(response)
+         {
+        	 
+         }
+     });
+     
+}
+
 function fetchExecutionHistory()
 {
 	var min = 0, max = 0;
