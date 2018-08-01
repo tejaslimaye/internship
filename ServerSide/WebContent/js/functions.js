@@ -20,8 +20,9 @@ var cardChart2;
 var cardChart4;
 var mainChart;
 var servers;
-var libraries=[];
-var tcmj;
+var libraries;
+var testjob;
+var testcase;
 function fetchDetails(){
 	fetchLiveTests();
 	fetchFailuresByFeatures();
@@ -30,6 +31,105 @@ function fetchDetails(){
 	
    
 }
+function fetchServers()
+{		$("#jsGrid_Servers").jsGrid({
+	width: "100%",
+    height: "auto",
+
+    
+ 
+    	
+     inserting: true,
+     editing: true,
+     sorting: true,
+     paging: true,
+   
+    	autoload:   true,
+    	paging:     true,
+    	pageSize:   10,
+	     pageButtonCount: 5,
+	     pageIndex:  1,
+
+
+    	  /* rowClick: function(args) {
+               showDetailsDialog("Edit", args.item);
+           },
+     
+          insertItem: function (item) {
+		    	insertServer(item);
+		    	$("#jsGrid_Servers").jsGrid("refresh");
+		    	
+		 	   },
+		 	  onItemInserted: function(args)
+		 	  {
+		 		  alert(11);
+		 		  location.reload(true);
+		 		 $("#jsGrid_Servers").jsGrid("refresh");
+		 	  },*/
+    	controller: {
+    	loadData: function(filter) {
+    	return  $.ajax({
+        url: "http://localhost:8080/automation/getServer.htm",
+        dataType: "json",
+        method: "POST",
+        });
+    },
+    	insertItem: function (item) {
+    		insertServer(item);
+    	
+    	},
+    	onItemInserted: function(args)
+    	{
+    		alert(11);
+    		location.reload(true);
+    	}
+    	
+     },
+  	        fields: [
+	 	            { name: "server_id", type: "number", width: 10},
+	 	        
+//	 	            { name: "gm_port", type: "number", width: 50 },
+//	 	           { name: "sdk_port", type: "number", width: 50},
+//	 	            { name: "verify_port", type: "number", width: 50},
+//	 	            { name: "api_port", type: "number", width: 50},
+	 	           { name: "ip_address", type: "number", width: 50, validate:"required"},
+	 	            { name: "os_version", type: "text", width: 50, validate:"required"},
+//	 	            { name: "console_user", type: "text", width: 50},
+//	 	            { name: "console_password", type: "text", width: 50},
+//	 	            { name: "enterprise_id", type: "text", width: 50},
+//	 	            { name: "enterprise_user", type: "text", width: 50},
+	 	            { name: "enterprise_password", type: "text", width: 50, validate:"required"},
+//	 	            { name: "server_user", type: "text", width: 50},
+//	 	            { name: "server_password", type: "text", width: 50},
+	 	            { name: "agent_info", type: "text", width: 50, validate:"required"},
+	 	           { type: "control"}
+	 	            ]
+
+
+				});
+
+
+}
+function insertServer(item){
+ $.ajax({
+     type: "POST",
+     url: "http://localhost:8080/automation/updateServerDetails.htm",
+     data: "{\"ip_address\":\""+item.ip_address + "\",\"os_version\":\""+item.os_version+ "\",\"enterprise_password\":\""+item.enterprise_password+"\",\"agent_info\":\""+item.agent_info+"\"}",
+     success: function(response)
+     {
+    	 if(response.response_code==1)
+    		 {
+    		 	alert("error while inserting Server : Check server logs");
+    		 }
+     },
+     error: function(response)
+     {
+    	 
+     }
+ });
+}
+
+
 function fetchExecutions(){
 	$("#jsGrid_Executions").jsGrid({
 		  width: "100%",
@@ -264,14 +364,17 @@ dataType: "json"
 		  },
 	        fields: [
 		 	            { name: "test_case_id", type: "number", width: 30},
-		 	            { name: "testcase_name", type: "text", width: 100, validate:"required"},
-		 	          { name: "created_time", type: "text", width: 50},
-		 	            { name: "update_time", type: "text", width: 50},
-		 	           { name: "test_feature_id", type:"number", /*"select", items: feature_id, valueField: "id", textField: "id",*/width: 50},
+		 	            { name: "testcase_name", type: "text", width: 130, validate:"required"},
+		 	          //{ name: "created_time", type: "text", width: 50},
+		 	          //{ name: "update_time", type: "text", width: 50},
+		 	          //{ name: "test_feature_id", type:"number", /*"select", items: feature_id, valueField: "id", textField: "id",*/width: 50},
 		 	        //  { name: "feature_name",type:"select", items:featureList, valueField: "text", textField: "text",validate:"required", width: 100},
-		 	          { name: "feature_name",type:"select", items:feature, valueField: "feature_name", textField: "feature_name", validate:"required", width: 100}, 
-		 	           { name: "testcase_desc", type: "text", width: 100, validate:"required"},
-		 	           { type: "control" }
+		 	            { name: "feature_name",type:"select", items:feature, valueField: "feature_name", textField: "feature_name", validate:"required", width: 100}, 
+		 	            { name: "testcase_desc", type: "text", width: 100, validate:"required"},
+		 	            { name: "response_code", type: "number", width: 75, validate:"required"},
+		 	            { name: "error_code", type: "number", width: 65, validate:"required"},
+		 	            { name: "error_message", type: "text", width: 100/*, validate:"required"*/},
+		 	            { type: "control" }
 		 	        ]
 	});
 	});
@@ -293,7 +396,7 @@ function insertTestCase(item)
      $.ajax({
          type: "POST",
          url: "http://localhost:8080/automation/updateTestCase.htm",
-         data: "{\"testcase_name\":\""+item.testcase_name + "\",\"update_time\":\""+item.update_time+"\",\"feature_name\":\""+item.feature_name+"\",\"testcase_desc\":\""+item.testcase_desc+"\"}",
+         data: "{\"testcase_name\":\""+item.testcase_name + "\",\"update_time\":\""+item.update_time+"\",\"feature_name\":\""+item.feature_name+"\",\"testcase_desc\":\""+item.testcase_desc+"\",\"response_code\":\""+item.response_code+"\",\"error_code\":\""+item.error_code+"\",\"error_message\":\""+item.error_message+"\"}",
          success: function(response)
          {
         	 if(response.response_code==1)
@@ -311,123 +414,50 @@ function insertTestCase(item)
 
 
 
-function fetchServers()
-{		$("#jsGrid_Servers").jsGrid({
-	width: "100%",
-    height: "auto",
-
-    
- 
-    	
-     inserting: true,
-     editing: true,
-     sorting: true,
-     paging: true,
-   
-    	autoload:   true,
-    	paging:     true,
-    	pageSize:   10,
-	     pageButtonCount: 5,
-	     pageIndex:  1,
-
-
-    	  /* rowClick: function(args) {
-               showDetailsDialog("Edit", args.item);
-           },
-     
-          insertItem: function (item) {
-		    	insertServer(item);
-		    	$("#jsGrid_Servers").jsGrid("refresh");
-		    	
-		 	   },
-		 	  onItemInserted: function(args)
-		 	  {
-		 		  alert(11);
-		 		  location.reload(true);
-		 		 $("#jsGrid_Servers").jsGrid("refresh");
-		 	  },*/
-    	controller: {
-    	loadData: function(filter) {
-    	return  $.ajax({
-        url: "http://localhost:8080/automation/getServer.htm",
-        dataType: "json",
-        method: "POST",
-        });
-    },
-    	insertItem: function (item) {
-    		insertServer(item);
-    	
-    	},
-    	onItemInserted: function(args)
-    	{
-    		alert(11);
-    		location.reload(true);
-    	}
-    	
-     },
-  	        fields: [
-	 	            { name: "server_id", type: "number", width: 10},
-	 	        
-//	 	            { name: "gm_port", type: "number", width: 50 },
-//	 	           { name: "sdk_port", type: "number", width: 50},
-//	 	            { name: "verify_port", type: "number", width: 50},
-//	 	            { name: "api_port", type: "number", width: 50},
-	 	           { name: "ip_address", type: "number", width: 50, validate:"required"},
-	 	            { name: "os_version", type: "text", width: 50, validate:"required"},
-//	 	            { name: "console_user", type: "text", width: 50},
-//	 	            { name: "console_password", type: "text", width: 50},
-//	 	            { name: "enterprise_id", type: "text", width: 50},
-//	 	            { name: "enterprise_user", type: "text", width: 50},
-	 	            { name: "enterprise_password", type: "text", width: 50, validate:"required"},
-//	 	            { name: "server_user", type: "text", width: 50},
-//	 	            { name: "server_password", type: "text", width: 50},
-	 	            { name: "agent_info", type: "text", width: 50, validate:"required"},
-	 	           { type: "control"}
-	 	            ]
-
-
-				});
-
-
-}
-function insertServer(item){
- $.ajax({
-     type: "POST",
-     url: "http://localhost:8080/automation/updateServerDetails.htm",
-     data: "{\"ip_address\":\""+item.ip_address + "\",\"os_version\":\""+item.os_version+ "\",\"enterprise_password\":\""+item.enterprise_password+"\",\"agent_info\":\""+item.agent_info+"\"}",
-     success: function(response)
-     {
-    	 if(response.response_code==1)
-    		 {
-    		 	alert("error while inserting Server : Check server logs");
-    		 }
-     },
-     error: function(response)
-     {
-    	 
-     }
- });
-}
 
 
 
 
 
+//function loadLibraries(){
+//	$.ajax({
+//		method: "POST",
+//		url: "http://localhost:8080/automation/getLibraryDetails.htm",
+//		dataType: "json"
+//        }).done(function(response) {
+//        	Libraries = response;
+//        	loadServer();
+//        });
+//}
 
-
-function loadServer(){
-	$.ajax({
-        url: "http://localhost:8080/automation//getServer.htm",
-        dataType: "json",
-        method: "POST",
-        }).done(function(response) {
-        	servers = response;
-        });
-}
+//function loadServer(){
+//	$.ajax({
+//		method: "POST",
+//		url: "http://localhost:8080/automation/getServer.htm",
+//		dataType: "json"
+//        }).done(function(response) {
+//        	servers = response;
+//        	fetchTestJobs();
+//        });
+//}
 
 function fetchTestJobs()
 {
-	loadServer();
+	//loadServer();	
+	$.ajax({
+	method: "POST",
+	url: "http://localhost:8080/automation/getServer.htm",
+	dataType: "json"
+    }).done(function(response) {
+    	servers = response;
+    	
+	$.ajax({
+	method: "POST",
+	url: "http://localhost:8080/automation/getLibraryDetails.htm",
+	dataType: "json"
+    }).done(function(response) {
+    	libraries = response;
+    	
 	$("#jsGrid_TestJobs").jsGrid({
 		width: "100%",
 	        height: "auto",
@@ -477,17 +507,18 @@ function fetchTestJobs()
 	        fields: [
 		 	            { name: "testjob_id", type: "number", width: 30},
 		 	            { name: "test_job_description", type: "text", width: 100, validate:"required"},
-		 	          { name: "created_time", type: "text", width: 100},
-		 	            { name: "updated_time", type: "text", width: 100},
+//		 	          { name: "created_time", type: "text", width: 100},
+//		 	            { name: "updated_time", type: "text", width: 100},
 		 	          { name: "status", type: "text", width: 100, validate:"required"},
 		 	          
-		 	         { name: "server_id", type: "number", width: 30, validate:"required"},
-		 	          { name: "lib_id", type: "number", width: 30, validate:"required"},
+		 	         { name: "server_id", type: "select", items: servers, valueField: "server_id", textField: "server_id",width: 50, validate:"required"},
+		 	          { name: "lib_id", type: "select", items: libraries, valueField: "lib_id", textField: "lib_id",width: 50, validate:"required"},
 		 	            { name: "auto_create_on_new_device", type: "number", width: 30, validate:"required"},
 		 	           { type: "control" }
 		 	        ]
 	});
-	
+    });
+    });
 }
 
 function insertTestJob(item)
@@ -513,57 +544,30 @@ function insertTestJob(item)
 }
 
 function fetchMappingJobs(){
-	$.ajax({
-		method: "POST",
-		url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
-		dataType: "json"
-		}).done(function(response) {
+	  var test_case_id = document.getElementById("test_case_id").value;
+	  var testjob_id = document.getElementById("testjob_id").value;
+	  
+	  // Returns successful data submission message when the entered information is stored in database.
+	  var dataString = 'name1=' + name + '&email1=' + email + '&password1=' + password + '&contact1=' + contact;
+	  if (name == '' || email == '' || password == '' || contact == '') {
+	  alert("Please Fill All Fields");
+	  } else {
+	  // AJAX code to submit form.
+	  $.ajax({
+	  type: "POST",
+	  url: "http://localhost:8080/automation/addTCMJ.htm",
+	  dataType: "json",
+	  cache: false,
+	  success: function(html) {
+	  alert(html);
+	  }
+	  });
+	  }
+	  return false;
 
-			tcmj = response;
+		    
+
 	
-		$("#jsGrid_MappingJobs").jsGrid({
-		  width: "100%",
-		  height: "auto",
-
-		 inserting: true,
-	     editing: true,
-	     sorting: true,
-	     paging: true,
-	      
-	      autoload:   true,
-	     paging:     true,
-	     pageSize:   10,
-	     pageButtonCount: 5,
-	     pageIndex:  1,
-
-	     
-	    
-	
-		  controller: {
-		    loadData: function(filter) {
-		    return  $.ajax({
-		        url: "http://localhost:8080/automation/GetTCMJ.htm",
-		        dataType: "json",
-		        method: "POST",
-		        });
-		    },
-		    insertItem: function (item) {
-		    	insertMappingJob(item);
-		    	
-		 	   },
-		 	  onItemInserted: function(args)
-		 	  {
-		 		  alert(11);
-		 		  location.reload(true);
-		 	  }
-		  },
-	        fields: [
-		 	            { name: "test_case_id", type: "number", width: 50, validate:"required"},
-		 	            { name: "testjob_id", type: "select", items:tcmj, valueField: "testjob_id", textField: "test_job_description", width: 100, validate:"required"},
-		 	            { type: "control" }
-		 	        ]
-	});
-		});
 }
 
 function insertMappingJob(item)

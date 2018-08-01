@@ -14,14 +14,17 @@ public class TestCaseModel extends BaseModel {
 			//String feat_id = "select feature_id from features where feature_name ="+ bean.getFeature_name();
 		
 		//execute("select feature_id from features where feature_name='" + bean.getFeature_name()+ "'");
-					execute("insert into test_case (testcase_name,test_feature_id,testcase_desc) values ('" + 
+					execute("insert into test_case (testcase_name,test_feature_id,testcase_desc,response_code,error_code,error_message) values ('" + 
 					bean.getTestcase_name() + "'," +
 					//bean.getUpdate_time()+ "','" +
 					"(" +"select feature_id from features where feature_name='" + bean.getFeature_name() + "'),'" +
 				// "("+"select feature_id from features where feature_name=" + bean.getFeature_name()+ ")"+ "','" +
 				//	bean.getTest_feature_id()+ "','" +
-					
-					bean.getTestcase_desc()+"')" );
+				
+					bean.getTestcase_desc()+ "','" +
+					bean.getResponse_code() + "','" +
+					bean.getError_code() + "','" +
+					bean.getError_message() +"')" );
 				
 		}	
 		
@@ -43,6 +46,9 @@ public class TestCaseModel extends BaseModel {
 			bean.setTest_feature_id(rs.getInt("test_feature_id"));
 			bean.setTestcase_desc(rs.getString("testcase_desc"));
 			bean.setFeature_name(rs.getString("feature_name"));
+			bean.setResponse_code(rs.getInt("response_code"));
+			bean.setError_code(rs.getInt("error_code"));
+			bean.setError_message(rs.getString("error_message"));
 			list.add(bean);
 			
 			

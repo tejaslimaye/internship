@@ -138,6 +138,9 @@ public class TestJobModel extends BaseModel {
 					bean.getServer_id()+"','"+
 					bean.getLib_id()+"','"+
 					bean.getAuto_create_on_new_device()+"')" );
+					
+//					execute("insert into test_case_job_mapping (testjob_id) values ('"
+//							+"(" +"select testjob_id from test_job where testjob_id='" + bean.getTestjob_id() + "')");
 				
 		}	
 }

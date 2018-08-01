@@ -4,7 +4,26 @@ public class TestCaseBean {
 	
 	private int test_case_id;
 	private String testcase_name,created_time,update_time,testcase_desc,feature_name;
-	
+	private int error_code,response_code;
+	public int getError_code() {
+		return error_code;
+	}
+	public void setError_code(int error_code) {
+		this.error_code = error_code;
+	}
+	public int getResponse_code() {
+		return response_code;
+	}
+	public void setResponse_code(int response_code) {
+		this.response_code = response_code;
+	}
+	public String getError_message() {
+		return error_message;
+	}
+	public void setError_message(String error_message) {
+		this.error_message = error_message;
+	}
+	private String error_message;
 	
 	public String getFeature_name() {
 		return feature_name;
