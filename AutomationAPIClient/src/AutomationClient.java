@@ -24,6 +24,8 @@ import com.uniken.reild.automation.serverapi.tasks.VerifyTest;
 public class AutomationClient {
 	
 	static SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+	//static String sererBaseURL = "http://localhost:8080/";
+	static String sererBaseURL = "http://34.235.131.241:8080/";
 
 	public static void main(String[] args) {
 		
@@ -58,7 +60,7 @@ public class AutomationClient {
 		bean.setManufacturer("AUTOMATION_CLIENT");
 		bean.setLibrary_version("1.0");
 	
-		String url = "http://localhost:8080/automation/getJobDetails.htm";
+		String url = sererBaseURL+ "automation/getJobDetails.htm";
 		HttpPost post = new HttpPost(url);
 		StringEntity entity = new StringEntity(new Gson().toJson(bean));
 	    post.setEntity(entity);
@@ -167,7 +169,7 @@ public class AutomationClient {
 
 	private void updateTestResult(ExecutionResultBean bean) throws Exception {
 		// TODO Auto-generated method stub
-		String url = "http://localhost:8080/automation/updateTestResults.htm";
+		String url = sererBaseURL+"automation/updateTestResults.htm";
 		HttpPost post = new HttpPost(url);
 		StringEntity entity = new StringEntity(new Gson().toJson(bean));
 	    post.setEntity(entity);
