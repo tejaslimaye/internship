@@ -8,13 +8,15 @@ import com.uniken.automation.beans.TestCaseJobMappingBean;
 import com.uniken.automation.responses.TestCaseJobMappingResponse;
 
 public class TestCaseJobMappingModel extends BaseModel {
+	
+		
 		public void getTCMJ_ID(TestCaseJobMappingBean bean) throws Exception
 		{
 			
-						execute("insert into test_case_job_mapping (testcase_id,testjob_id) values ('" + 
-						bean.getTest_case_id() + "','" + 
-						bean.getTestjob_id() +  "')" );
-					
+						execute("insert into test_case_job_mapping (testjob_id,testcase_id) values ('" + 
+								bean.getTestjob_id() + "','" + 
+								bean.getTest_case_id() +  "')" );
+					System.out.println(bean.getTest_case_id());
 		}	
 
 		public TestCaseJobMappingResponse getTCMJ_ID() throws Exception
@@ -27,7 +29,7 @@ public class TestCaseJobMappingModel extends BaseModel {
 			while(rs.next())
 			{
 				TestCaseJobMappingBean bean = new TestCaseJobMappingBean();
-				bean.setTest_case_id(rs.getInt("testcase_id"));
+			//	bean.setTest_case_id(rs.get("testcase_id"));
 				bean.setTestjob_id(rs.getInt("testjob_id"));
 				
 				list.add(bean);
