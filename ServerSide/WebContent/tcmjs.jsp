@@ -78,20 +78,7 @@
 <br><input id="submit" type="button" name="submit" value="submit">
 </div>
 </form>
-<script>
-$.ajax({
-            type: "POST",
-            url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
-            success: function(data)
-            {
-                helpers.buildDropdown(
-                    jQuery.parseJSON(data),
-                    $('#dropdown'),
-                    'Select an option'
-                );
-            }
-        });
-</script>
+
 <script>
 var helpers =
 {
@@ -112,23 +99,24 @@ var helpers =
     }
 }
 </script>
+
 <script>
- $.ajax({ 
-            type: "POST", 
-             url: "http://localhost:8080/automation/getTestCase.htm",
+$.ajax({
+            type: "POST",
+            url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
             success: function(data)
-           { 
+            {
                 helpers.buildDropdown(
                     jQuery.parseJSON(data),
-                    $('#dropdown1'), 
-                   'Select an option'
-                 ); 
-           } 
-        }); 
+                    $('#dropdown'),
+                    'Select an option'
+                );
+            }
+        });
 </script>
 
 <script>
-var helpers =
+var helpers1 =
 {
     buildDropdown: function(result, dropdown1, emptyMessage)
     {
@@ -147,7 +135,21 @@ var helpers =
     }
 }
  </script>
-
+ 
+<script>
+ $.ajax({ 
+            type: "POST", 
+             url: "http://localhost:8080/automation/getTestCase.htm",
+            success: function(data)
+           { 
+                helpers1.buildDropdown(
+                    jQuery.parseJSON(data),
+                    $('#dropdown1'), 
+                   'Select an option'
+                 ); 
+           } 
+        }); 
+</script>
 
 
 
@@ -171,6 +173,7 @@ var helpers =
                     // you can see the result from the console
                     // tab of the developer tools
                     console.log(result);
+                    alert("data inserted");
                 },
                 error: function(xhr, resp, text) {
                     console.log(xhr, resp, text);
