@@ -3,7 +3,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
-<script src="js/select-widget-min.js"></script>
 
 <html lang="en">
  <jsp:include page="head.jsp"/>
@@ -11,7 +10,7 @@
   #feedback { font-size: 1.4em; }
   #selectable .ui-selecting { background: #FECA40; }
   #selectable .ui-selected { background: #F39814; color: white; }
-  #selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  #selectable { list-style-type: none; margin: 0; padding: 0; width: 15%; }
   #selectable li { margin: 8px; padding: 0.4em; font-size: 1.5em; height: 40px; }
   </style>
  <script>
@@ -19,19 +18,10 @@
  
 </script>
   <script>
-  $(document).ready(function(){
-	
-	  $("select").selectWidget({
-	 
-	  change : function (changes) {
-	    return changes;
-	  },scrollHeight : 250
-
-	  });
-	
-	  });
-
-
+  
+   $( function() {
+     $( "#selectable" ).selectable();
+   } );
   </script>
   <body >
  <jsp:include page="header.jsp"/>
@@ -55,14 +45,14 @@
               <div class="card-body">
               	<form id="form" name="form">
 <h3>Enter Test job!</h3>
-<div>testjob_id:<select name="testjob_id">
-    <option value="50">50</option>
-    <option value="51">51</option>
-    <option value="52">52</option>
-    <option value="53">53</option>
+<div>testjob_id:<select name="testjob_id" id="dropdown" >
+<!--     <option value="volvo">50</option> -->
+<!--     <option value="saab">51</option> -->
+<!--     <option value="fiat">52</option> -->
+<!--     <option value="audi">53</option> -->
   </select><br>
-<!-- test_case_id:<input type="text" name="test_case_id" id="test_case_id"><br> -->
-test_case_id:<input type="text" name="test_case_id" id="test_case_id"><br>
+test_case_id:<input type="text" name="test_case_id" id="test_case_id"><br> 
+<!-- test_case_id:<ol id="selectable" ><br>  -->
 
 
 <!--      <label>test_case_id:</label> -->
@@ -70,22 +60,91 @@ test_case_id:<input type="text" name="test_case_id" id="test_case_id"><br>
 <!-- <label>testjob_id :</label> -->
 <!-- <input id="testjob_id" type="text"> -->
 
-
-
-
-
-<!--    <ol id="selectable"> -->
-<!--   <li class="ui-widget-content">Item 1</li> -->
-<!--   <li class="ui-widget-content">Item 2</li> -->
-<!--   <li class="ui-widget-content">Item 3</li> -->
-<!--   <li class="ui-widget-content">Item 4</li> -->
-<!--   <li class="ui-widget-content">Item 5</li> -->
-<!--   <li class="ui-widget-content">Item 6</li> -->
-<!--   <li class="ui-widget-content">Item 7</li> -->
-<!-- </ol> -->
+<!--  <ol id="selectable"> -->
+<!--  <li class="ui-widget-content">Item 1</li> 
+<li class="ui-widget-content">Item 2</li> 
+<li class="ui-widget-content">Item 3</li> 
+<li class="ui-widget-content">Item 4</li> 
+<li class="ui-widget-content">Item 5</li> 
+<li class="ui-widget-content">Item 6</li> 
+<li class="ui-widget-content">Item 7</li> -->
+</ol> 
 <input id="submit" type="button" name="submit" value="submit">
 </div>
 </form>
+<script>
+$.ajax({
+            type: "POST",
+            url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
+            success: function(data)
+            {
+                helpers.buildDropdown(
+                    jQuery.parseJSON(data),
+                    $('#dropdown'),
+                    'Select an option'
+                );
+            }
+        });
+</script>
+
+<!-- <script>
+ $.ajax({ 
+            type: "POST", 
+             url: "http://localhost:8080/automation/getTestCase.htm",
+            success: function(data)
+           { 
+                helpers1.buildDropdown(
+                    jQuery.parseJSON(data),
+                    $('#selectable'), 
+                   'Select an option'
+                 ); 
+           } 
+        }); 
+</script> -->
+
+<!-- <script>
+var helpers1 =
+{
+    buildDropdown: function(result, selectable, emptyMessage)
+    {
+        // Remove current options
+        selectable.html('');
+        // Add the empty option with the empty message
+        selectable.append('<option value="">' + emptyMessage + '</option>');
+        // Check result isnt empty
+        if(result != '')
+        {
+//             Loop through each of the results and append the option to the dropdown
+            $.each(result, function(k, v) {
+            	selectable.append('<option value="' + v.test_case_id + '">' + v.test_case_name + '</option>');
+            });
+        }
+    }
+}
+</script>-->
+
+
+
+<script>
+var helpers =
+{
+    buildDropdown: function(result, dropdown, emptyMessage)
+    {
+        // Remove current options
+        dropdown.html('');
+        // Add the empty option with the empty message
+        dropdown.append('<option value="">' + emptyMessage + '</option>');
+        // Check result isnt empty
+        if(result != '')
+        {
+            // Loop through each of the results and append the option to the dropdown
+            $.each(result, function(k, v) {
+                dropdown.append('<option value="' + v.testjob_id + '">' + v.test_job_description + '</option>');
+            });
+        }
+    }
+}
+</script>
 <script>
     $(document).ready(function(){
         // click on button submit
@@ -93,7 +152,7 @@ test_case_id:<input type="text" name="test_case_id" id="test_case_id"><br>
         	
         	var tt={
                 	test_case_id: $("#test_case_id").val(),
-                	testjob_id: $("#testjob_id").val()
+                	testjob_id: $("#dropdown").val()
                 }
         	
             // send ajax
