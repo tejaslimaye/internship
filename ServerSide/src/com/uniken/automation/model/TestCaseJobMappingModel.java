@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.uniken.automation.beans.TestCaseBean;
 import com.uniken.automation.beans.TestCaseJobMappingBean;
 import com.uniken.automation.responses.TestCaseJobMappingResponse;
 
@@ -25,17 +26,22 @@ public class TestCaseJobMappingModel extends BaseModel {
 			}
 		}	
 
-		public TestCaseJobMappingResponse getTCMJ_ID() throws Exception
+		public TestCaseJobMappingResponse getTCMJDetails() throws Exception
 		{
 			TestCaseJobMappingResponse resp = new TestCaseJobMappingResponse();
-
 			
 			ArrayList<TestCaseJobMappingBean> list = new ArrayList<TestCaseJobMappingBean>();
 			ResultSet rs = executeQuery("select * from test_case_job_mapping");
+//			List<Integer> tempList = new ArrayList<>();
+//			int tempTestCase;
+			
 			while(rs.next())
 			{
+//				tempTestCase = rs.getInt("testcase_id");
+//				Integer tempInt = new Integer(tempTestCase);
+//				tempList.add(tempInt);
 				TestCaseJobMappingBean bean = new TestCaseJobMappingBean();
-			//	bean.setTest_case_id(rs.get("testcase_id"));
+				bean.setTestcase_id(rs.getInt("testcase_id"));
 				bean.setTestjob_id(rs.getInt("testjob_id"));
 				
 				list.add(bean);

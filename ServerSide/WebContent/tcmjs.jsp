@@ -23,7 +23,7 @@
 //      $( "#selectable" ).selectable();
 //    } );
  </script> -->
-  <body >
+  <body onload="fetchMappingJobs();" class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show" >
  <jsp:include page="header.jsp"/>
  
     <div class="app-body">
@@ -76,8 +76,9 @@
 <li class="ui-widget-content">Item 7</li>
 </ol>  -->
 <br><input id="submit" type="button" name="submit" value="submit">
+
 </div>
-</form>
+
 
 <script>
 var helpers =
@@ -100,6 +101,7 @@ var helpers =
 }
 </script>
 
+<!-- ajax for populating test job id dropdown -->
 <script>
 $.ajax({
             type: "POST",
@@ -114,6 +116,7 @@ $.ajax({
             }
         });
 </script>
+
 
 <script>
 var helpers1 =
@@ -136,6 +139,7 @@ var helpers1 =
 }
  </script>
  
+<!--  populating test_case_id dropdown -->
 <script>
  $.ajax({ 
             type: "POST", 
@@ -152,7 +156,7 @@ var helpers1 =
 </script>
 
 
-
+<!-- Ajax for Insertion into db -->
 <script>
     $(document).ready(function(){
         // click on button submit
@@ -183,7 +187,8 @@ var helpers1 =
     });
 
 </script>
-              
+<div id="jsGrid_MappingJobs">
+         </div>     
               </div>
             </div>
            </div>
@@ -193,5 +198,6 @@ var helpers1 =
     <jsp:include page="aside.jsp"></jsp:include> 
     </div>
     <jsp:include page="footer.jsp"></jsp:include>
+    
   </body>
 </html>

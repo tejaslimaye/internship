@@ -544,26 +544,39 @@ function insertTestJob(item)
 }
 
 function fetchMappingJobs(){
-	  var test_case_id = document.getElementById("test_case_id").value;
-	  var testjob_id = document.getElementById("testjob_id").value;
-	  
-	  // Returns successful data submission message when the entered information is stored in database.
-	  var dataString = 'name1=' + name + '&email1=' + email + '&password1=' + password + '&contact1=' + contact;
-	  if (name == '' || email == '' || password == '' || contact == '') {
-	  alert("Please Fill All Fields");
-	  } else {
-	  // AJAX code to submit form.
-	  $.ajax({
-	  type: "POST",
-	  url: "http://localhost:8080/automation/addTCMJ.htm",
-	  dataType: "json",
-	  cache: false,
-	  success: function(html) {
-	  alert(html);
-	  }
-	  });
-	  }
-	  return false;
+	$("#jsGrid_MappingJobs").jsGrid({
+		  width: "100%",
+		  height: "auto",
+
+		 inserting: true,
+	     editing: true,
+	     sorting: true,
+	     paging: true,
+	      
+	      autoload:   true,
+	     paging:     true,
+	     pageSize:   10,
+	     pageButtonCount: 5,
+	     pageIndex:  1,
+
+	     
+	    
+	
+		  controller: {
+		    loadData: function(filter) {
+		    return  $.ajax({
+		        url: "http://localhost:8080/automation/GetTCMJ.htm",
+		        dataType: "json",
+		        method: "POST",
+		        });
+		    },},
+		   
+	        fields: [
+		 	            { name: "testcase_id", type: "number",  width: 50, validate:"required"},
+		 	            { name: "testjob_id", type: "number", width: 50, validate:"required"}
+
+		 	        ]
+	});
 
 		    
 

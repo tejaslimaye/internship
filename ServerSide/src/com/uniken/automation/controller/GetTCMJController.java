@@ -36,7 +36,7 @@ public class GetTCMJController extends HttpServlet {
 		
 		try
 		{
-			resp= new TestCaseJobMappingModel().getTCMJ_ID();
+			resp= new TestCaseJobMappingModel().getTCMJDetails();
 			resp.setError_code(0);
 			resp.setResponse_code(0);
 		}

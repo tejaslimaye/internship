@@ -5,7 +5,17 @@ import java.util.ArrayList;
 public class TestCaseJobMappingBean {
 	private int testjob_id;
 	ArrayList<Integer> test_case_id = new ArrayList<>();
+	private int testcase_id ;
 	
+	
+	public int getTestcase_id() {
+		return testcase_id;
+	}
+
+	public void setTestcase_id(int testcase_id) {
+		this.testcase_id = testcase_id;
+	}
+
 	public ArrayList<Integer> getTest_case_id() {
 		return test_case_id;
 	}
