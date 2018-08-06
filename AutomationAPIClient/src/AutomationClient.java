@@ -24,8 +24,9 @@ import com.uniken.reild.automation.serverapi.tasks.VerifyTest;
 public class AutomationClient {
 	
 	static SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
-	//static String sererBaseURL = "http://localhost:8080/";
-	static String sererBaseURL = "http://34.235.131.241:8080/";
+	static String sererBaseURL = "http://localhost:8080/";
+	//static String sererBaseURL = "http://34.235.131.241:8080/";
+	
 
 	public static void main(String[] args) {
 		

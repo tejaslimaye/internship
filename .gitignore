@@ -1,2 +1,6 @@
 *.classpath
 ServerSide/.settings/org.eclipse.wst.common.project.facet.core.xml
+*.class
+AutomationAPIClient/bin/AutomationClient.class
+*.properties
+AutomationAPIClient/bin/com/uniken/reild/automation/serverapi/tasks/VerifyTest.class
