@@ -4,3 +4,4 @@ ServerSide/.settings/org.eclipse.wst.common.project.facet.core.xml
 AutomationAPIClient/bin/AutomationClient.class
 *.properties
 AutomationAPIClient/bin/com/uniken/reild/automation/serverapi/tasks/VerifyTest.class
+*.class
