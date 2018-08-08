@@ -23,14 +23,14 @@ import com.uniken.automation.responses.Response;
 @WebServlet("/updateTestResults.htm")
 public class ExecutionController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ExecutionController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public ExecutionController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -39,17 +39,17 @@ public class ExecutionController extends HttpServlet {
 		// TODO Auto-generated method stub
 		Response objResponse = new Response();
 		Gson gsonResponse = new Gson();
-		
+
 		try
 		{
-		
+
 			StringBuffer buff = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			while(reader.ready())
 			{
 				buff.append(reader.readLine());
 			}
-			
+
 			Gson gsonExecution= new Gson();
 			ExecutionResultBean bean = gsonExecution.fromJson(buff.toString(), ExecutionResultBean.class);
 			if(bean.getExecution_id()==0)
@@ -70,12 +70,12 @@ public class ExecutionController extends HttpServlet {
 			System.out.println("MESSAGE: " +e.getLocalizedMessage());
 			objResponse .setError_message(e.getLocalizedMessage());
 		}
-		
-		
-		
+
+
+
 		PrintWriter out = response.getWriter();	
 		out.write(gsonResponse.toJson(objResponse));
-	
+
 	}
 
 }

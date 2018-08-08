@@ -101,8 +101,8 @@ function fetchServers()
 	 	            { name: "enterprise_password", type: "text", width: 50, validate:"required"},
 //	 	            { name: "server_user", type: "text", width: 50},
 //	 	            { name: "server_password", type: "text", width: 50},
-	 	            { name: "agent_info", type: "text", width: 50, validate:"required"},
-	 	           { type: "control"}
+//	 	            { name: "agent_info", type: "text", width: 50, validate:"required"},
+	 	           { type: "control", width: 10}
 	 	            ]
 
 
@@ -548,8 +548,8 @@ function fetchMappingJobs(){
 		  width: "100%",
 		  height: "auto",
 
-		 inserting: true,
-	     editing: true,
+//		 inserting: true,
+//	     editing: true,
 	     sorting: true,
 	     paging: true,
 	      
