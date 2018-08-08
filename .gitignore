@@ -9,3 +9,4 @@ AutomationAPIClient/bin/com/uniken/reild/automation/serverapi/tasks/VerifyTest.c
 *.properties
 dbdesign/execupdate_trigger.sql
 *.properties
+*.class

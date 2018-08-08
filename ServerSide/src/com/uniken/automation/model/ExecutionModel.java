@@ -26,9 +26,9 @@ public class ExecutionModel extends BaseModel {
 //			System.out.println("STARTED");
 			
 			bean.setStart_time(format.format(new Date()));
-			execute("update test_execution set execution_status = '" + bean.getExecution_result() + "', execution_start_time = '" + 
+		/*	execute("update test_execution set execution_status = '" + bean.getExecution_result() + "', execution_start_time = '" + 
 					bean.getStart_time() + "', params_used = '"+bean.getParams_used()+"' , " + " result_data = '"+bean.getResult_data()+"'  where execution_id = " + bean.getExecution_id());
-		}
+		*/}
 		else {
 			
 			bean.setEnd_time(format.format(new Date()));
