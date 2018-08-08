@@ -64,7 +64,7 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-sm-5">
-                    <h4 class="card-title mb-0">Test Execution History (Last 90 days)</h4>
+                    <h4 class="card-title mb-0">Test Execution History (Last 7 days)</h4>
                     <div class="small text-muted"><%=new java.util.Date()%></div>
                   </div>
                   <!-- /.col-->

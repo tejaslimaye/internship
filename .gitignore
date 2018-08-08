@@ -6,3 +6,6 @@ AutomationAPIClient/bin/AutomationClient.class
 AutomationAPIClient/bin/com/uniken/reild/automation/serverapi/tasks/VerifyTest.class
 *.class
 *.class
+*.properties
+dbdesign/execupdate_trigger.sql
+*.properties
