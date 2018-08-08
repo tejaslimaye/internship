@@ -50,17 +50,29 @@ public class JobDetailsModel extends BaseModel
 					device.getSerial_num() + "','" + 
 					device.getBrand() + "','" + 
 					device.getManufacturer() + "')" );
-			device_id = getIDByName("device", "device_id", "serial_num",device.getSerial_num());
+			device_id = getIDByName("device", "device_id", "serial_num",device.getSerial_num()); 
+			// Trigger would run and create test run and test execution here
 			
 		}
 		else
 		{
 			response.setDevice_avail_code(1); // DEVICE WAS  AVAILABLE
-			
 		}
-	
-		device.setDeviceId(device_id);
 		
+		ResultSet rs = executeQuery("select tj.testjob_id from test_job tj, "
+					+ "    library l , device d "
+					+ " where d.device_os = l.lib_type "
+					+ " and l.lib_version = '" + device.getLibrary_version()+"' "
+					+ " and l.lib_id = tj.lib_id "
+					+ " and d.device_id =  " + device_id
+					+ " and tj.auto_create_on_new_device=1");
+			
+		if(rs.next())
+		{
+			execute("insert into test_run(test_job_id,device_id) values ("+rs.getInt(1)+","+device_id+")");
+		}
+			
+		device.setDeviceId(device_id);
 		response.setJob_avail_code(0);
 	
 		/*String strSQL = " select te.execution_id, tr.testrun_id, tc.testcase_id, f.feature_id, "
@@ -98,7 +110,7 @@ public class JobDetailsModel extends BaseModel
 
 		
 		System.out.println(strSQL);
-		ResultSet rs = executeQuery(strSQL);
+		rs = executeQuery(strSQL);
 
 		
 		ArrayList<ServerBean> serverBeans = new ArrayList<ServerBean>();

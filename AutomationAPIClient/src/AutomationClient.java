@@ -56,7 +56,7 @@ public class AutomationClient {
 		bean.setBuild_id("AUTOMATION_CLIENT");
 		bean.setDevice_model("AUTOMATION_CLIENT");
 		bean.setDevice_os("SERVER_API");
-		bean.setSerial_num(format.format(new Date()));
+		bean.setSerial_num("TEJAS_LAPTOP");
 		bean.setManufacturer("AUTOMATION_CLIENT");
 		bean.setLibrary_version("auto.api");
 	
