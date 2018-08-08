@@ -74,7 +74,7 @@ public class ExecutionModel extends BaseModel {
 	{
 
 		Calendar instance = Calendar.getInstance();
-		instance.add(Calendar.DAY_OF_YEAR, -89);
+		instance.add(Calendar.DAY_OF_YEAR, -6);
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
 		ArrayList<String> strDates = new ArrayList<String>();
 		for(int i=0;i<90;i++)
@@ -93,14 +93,14 @@ public class ExecutionModel extends BaseModel {
 
 
 		ResultSet rs = executeQuery("select date_format(update_time,'%m-%d') as run_date,count(1) as test_count  "
-				+ " from test_execution where update_time > curdate() - interval 90 day "
+				+ " from test_execution where update_time > curdate() - interval 7 day "
 				+ " and execution_status = 'FAILED' group by run_date order by run_date");
 
 		failedList = populateList(rs,failedList,(ArrayList<String>)strDates.clone());
 		response.setFailedList(failedList);
 		rs.close();
 		rs = executeQuery("select date_format(update_time,'%m-%d') as run_date,count(1) as test_count  "
-				+ " from test_execution where update_time > curdate() - interval 90 day "
+				+ " from test_execution where update_time > curdate() - interval 7 day "
 				+ " and execution_status = 'PASSED' group by run_date order by run_date");
 		passedList = populateList(rs, passedList,(ArrayList<String>)strDates.clone());
 		rs.close();
@@ -108,7 +108,7 @@ public class ExecutionModel extends BaseModel {
 
 
 		rs = executeQuery("select date_format(update_time,'%m-%d') as run_date,count(1) as test_count  "
-				+ " from test_execution where update_time > curdate() - interval 90 day "
+				+ " from test_execution where update_time > curdate() - interval 7 day "
 				+ " and execution_status = 'CANNOT_TEST' group by run_date order by run_date");
 		unableList = populateList(rs, unableList,(ArrayList<String>)strDates.clone());
 		rs.close();

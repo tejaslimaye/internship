@@ -10,3 +10,6 @@ AutomationAPIClient/bin/com/uniken/reild/automation/serverapi/tasks/VerifyTest.c
 dbdesign/execupdate_trigger.sql
 *.properties
 *.class
+ServerSide/WebContent/WEB-INF/lib/automation_commons.jar
+*.properties
+*.class
