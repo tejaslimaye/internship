@@ -92,23 +92,23 @@ public class ExecutionModel extends BaseModel {
 		ArrayList<TestExecutionSummaryBean> unableList = new ArrayList<TestExecutionSummaryBean>();
 
 
-		ResultSet rs = executeQuery("select date_format(update_time,'%m-%d') as run_date,count(1) as test_count  "
-				+ " from test_execution where update_time > curdate() - interval 7 day "
+		ResultSet rs = executeQuery("select date_format(execution_end_time,'%m-%d') as run_date,count(1) as test_count  "
+				+ " from test_execution where execution_end_time > curdate() - interval 7 day "
 				+ " and execution_status = 'FAILED' group by run_date order by run_date");
 
 		failedList = populateList(rs,failedList,(ArrayList<String>)strDates.clone());
 		response.setFailedList(failedList);
 		rs.close();
-		rs = executeQuery("select date_format(update_time,'%m-%d') as run_date,count(1) as test_count  "
-				+ " from test_execution where update_time > curdate() - interval 7 day "
+		rs = executeQuery("select date_format(execution_end_time,'%m-%d') as run_date,count(1) as test_count  "
+				+ " from test_execution where execution_end_time > curdate() - interval 7 day "
 				+ " and execution_status = 'PASSED' group by run_date order by run_date");
 		passedList = populateList(rs, passedList,(ArrayList<String>)strDates.clone());
 		rs.close();
 		response.setPassedList(passedList);
 
 
-		rs = executeQuery("select date_format(update_time,'%m-%d') as run_date,count(1) as test_count  "
-				+ " from test_execution where update_time > curdate() - interval 7 day "
+		rs = executeQuery("select date_format(execution_end_time,'%m-%d') as run_date,count(1) as test_count  "
+				+ " from test_execution where execution_end_time> curdate() - interval 7 day "
 				+ " and execution_status = 'CANNOT_TEST' group by run_date order by run_date");
 		unableList = populateList(rs, unableList,(ArrayList<String>)strDates.clone());
 		rs.close();

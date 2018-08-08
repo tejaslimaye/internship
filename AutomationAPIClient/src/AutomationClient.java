@@ -24,8 +24,8 @@ import com.uniken.reild.automation.serverapi.tasks.VerifyTest;
 public class AutomationClient {
 	
 	static SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
-	static String sererBaseURL = "http://localhost:8080/";
-	//static String sererBaseURL = "http://34.235.131.241:8080/";
+	//static String sererBaseURL = "http://localhost:8080/";
+	static String sererBaseURL = "http://34.235.131.241:8080/";
 	
 
 	public static void main(String[] args) {
@@ -58,7 +58,7 @@ public class AutomationClient {
 		bean.setDevice_os("SERVER_API");
 		bean.setSerial_num(format.format(new Date()));
 		bean.setManufacturer("AUTOMATION_CLIENT");
-		bean.setLibrary_version("1.0");
+		bean.setLibrary_version("auto.api");
 	
 		String url = sererBaseURL+ "automation/getJobDetails.htm";
 		HttpPost post = new HttpPost(url);
