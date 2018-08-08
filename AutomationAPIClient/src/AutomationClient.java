@@ -24,13 +24,12 @@ import com.uniken.reild.automation.serverapi.tasks.VerifyTest;
 public class AutomationClient {
 	
 	static SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
-	static String sererBaseURL = "http://localhost:8080/";
-	//static String sererBaseURL = "http://34.235.131.241:8080/";
+	//static String sererBaseURL = "http://localhost:8080/";
+	static String sererBaseURL = "http://34.235.131.241:8080/";
 	
 
 	public static void main(String[] args) {
 		
-		System.out.println(format.format(new Date()));
 		// TODO Auto-generated method stub
 		
 		new AutomationClient().start();
@@ -57,7 +56,7 @@ public class AutomationClient {
 		bean.setBuild_id("AUTOMATION_CLIENT");
 		bean.setDevice_model("AUTOMATION_CLIENT");
 		bean.setDevice_os("SERVER_API");
-		bean.setSerial_num("AUTOMATION_CLIENT");
+		bean.setSerial_num(format.format(new Date()));
 		bean.setManufacturer("AUTOMATION_CLIENT");
 		bean.setLibrary_version("1.0");
 	
@@ -153,6 +152,8 @@ public class AutomationClient {
 			bean.setResult_data(e.getMessage());
 		}
 		bean.setEnd_time(format.format(new Date()));
+		if(bean.getExecution_result().equals("STARTED"))
+			bean.setExecution_result("CANNOT_TEST");
 		updateTestResult(bean); // mark final
 		
 		

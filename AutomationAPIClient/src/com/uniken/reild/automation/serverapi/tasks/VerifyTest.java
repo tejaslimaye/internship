@@ -17,22 +17,18 @@ import com.uniken.automation.beans.ExecutionBean;
 import com.uniken.automation.beans.ExecutionResultBean;
 import com.uniken.automation.beans.ServerBean;
 import com.uniken.reild.automation.serverapi.responses.GenResponse;
+import com.uniken.reild.automation.serverapi.tasks.VerifyTest.RequestJSON.Actions;
 import com.uniken.reild.automation.serverapi.tasks.VerifyTest.RequestJSON.Msg;
+import com.uniken.reild.automation.serverapi.tasks.VerifyTest.RequestJSON.Notification_Msg;
 
 
 public class VerifyTest {
 	
 	static RequestJSON jsonRequest = (new VerifyTest()).new RequestJSON();
-	
+	static String url="";
 	class RequestJSON
 	{
 
-		String msg_id = "21134";
-		String enterprise_id="CBCVerify";
-		String user_id="";
-		int expires_in=30;
-		ArrayList<Msg> msg = new ArrayList<Msg>();
-		Notification_Msg notification_msg = new Notification_Msg();
 		RequestJSON()
 		{
 			msg.add(new Msg());
@@ -47,10 +43,167 @@ public class VerifyTest {
 			o1.setLabel("Reject");
 			actions.add(o1);
 		}
-		ArrayList<Actions> actions = new ArrayList<Actions>();
+		String msg_id = "21134",mode_pref,msg_type,sms_msg,call_msg,callback_url;
+		public String getSms_msg() {
+			return sms_msg;
+		}
+		public void setSms_msg(String sms_msg) {
+			this.sms_msg = sms_msg;
+		}
+		public String getCall_msg() {
+			return call_msg;
+		}
+		public void setCall_msg(String call_msg) {
+			this.call_msg = call_msg;
+		}
+		public String getCallback_url() {
+			return callback_url;
+		}
+		public void setCallback_url(String callback_url) {
+			this.callback_url = callback_url;
+		}
+		public boolean isDs_required() {
+			return ds_required;
+		}
+		public void setDs_required(boolean ds_required) {
+			this.ds_required = ds_required;
+		}
+		public Controls getControls() {
+			return controls;
+		}
+		public void setControls(Controls controls) {
+			this.controls = controls;
+		}
+		boolean ds_required;
+		Controls controls = new Controls();
+		
+		class Controls 
+		{
+			
+			Push_Retry push_retry = new Push_Retry();
+			public Push_Retry getPush_retry() {
+				return push_retry;
+			}
+			public void setPush_retry(Push_Retry push_retry) {
+				this.push_retry = push_retry;
+			}
+			public Push_Fallback getPush_fallback() {
+				return push_fallback;
+			}
+			public void setPush_fallback(Push_Fallback push_fallback) {
+				this.push_fallback = push_fallback;
+			}
+			public OTP getOtp() {
+				return otp;
+			}
+			public void setOtp(OTP otp) {
+				this.otp = otp;
+			}
+			Push_Fallback push_fallback = new Push_Fallback();
+			OTP otp = new OTP();
+			
+			
+			
+			class Push_Retry
+			{
+				String type;
+				public String getType() {
+					return type;
+				}
+				public void setType(String type) {
+					this.type = type;
+				}
+				public int getInterval() {
+					return interval;
+				}
+				public void setInterval(int interval) {
+					this.interval = interval;
+				}
+				public int getNumber() {
+					return number;
+				}
+				public void setNumber(int number) {
+					this.number = number;
+				}
+				int interval,number;
+				
+			}
+			
+			class Push_Fallback
+			{
+				public int getDuration() {
+					return duration;
+				}
+				public void setDuration(int duration) {
+					this.duration = duration;
+				}
+				public String getDatetime() {
+					return datetime;
+				}
+				public void setDatetime(String datetime) {
+					this.datetime = datetime;
+				}
+				public String getFallback_type() {
+					return fallback_type;
+				}
+				public void setFallback_type(String fallback_type) {
+					this.fallback_type = fallback_type;
+				}
+				int duration;
+				String datetime,fallback_type;
+				
+			}
+			class OTP
+			{
+				int attempts;
+				public int getAttempts() {
+					return attempts;
+				}
+				public void setAttempts(int attempts) {
+					this.attempts = attempts;
+				}
+				public String getHash_spec() {
+					return hash_spec;
+				}
+				public void setHash_spec(String hash_spec) {
+					this.hash_spec = hash_spec;
+				}
+				String hash_spec;
+				
+			}
+			
+		}
+		
+		public String getMsg_type() {
+			return msg_type;
+		}
+		public void setMsg_type(String msg_type) {
+			this.msg_type = msg_type;
+		}
+		String enterprise_id="CBCVerify";
+		String user_id="";
+		int expires_in=30;
+		ArrayList<Msg> msg = new ArrayList<Msg>();
+		Notification_Msg notification_msg = new Notification_Msg();
+	
+		ArrayList<Object> actions = new ArrayList<Object>();
+		public String getMode_pref() {
+			return mode_pref;
+		}
+		public void setMode_pref(String mode_pref) {
+			this.mode_pref = mode_pref;
+		}
 		class Actions
 		{
-			String label= "Accept",action="Accept",authlevel="0";
+			String label= "Accept",action="Accept",authlevel="0",badauthlevel=null;
+
+			public String getBadauthlevel() {
+				return badauthlevel;
+			}
+
+			public void setBadauthlevel(String badauthlevel) {
+				this.badauthlevel = badauthlevel;
+			}
 
 			public String getLabel() {
 				return label;
@@ -81,6 +234,14 @@ public class VerifyTest {
 		{
 			String lng = "English", subject="Login", message="Test";
 			Label label = new Label();
+			public Label getLabel() {
+				return label;
+			}
+
+			public void setLabel(Label label) {
+				this.label = label;
+			}
+
 			public String getLng() {
 				return lng;
 			}
@@ -185,29 +346,14 @@ public class VerifyTest {
 		public void setNotification_msg(Notification_Msg notification_msg) {
 			this.notification_msg = notification_msg;
 		}
-		public ArrayList<Actions> getActions() {
-			return actions;
+		public ArrayList<Object> getActions() {
+			return  actions;
 		}
-		public void setActions(ArrayList<Actions> actions) {
+		public void setActions(ArrayList<Object> actions) {
 			this.actions = actions;
 		}
 	}
-	
-		
-	public static GenResponse verifyApiRequestNoEntId(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
-		// TODO Auto-generated method stub
 
-		String entId = jsonRequest.getEnterprise_id();
-		jsonRequest.setEnterprise_id("");
-		jsonRequest.setUser_id(userid);
-		String jSon =  new Gson().toJson(jsonRequest);
-		String responseString = executeVerifyAPI(null, jSon, bean,sbean);
-		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
-		jsonRequest.setEnterprise_id(entId);
-		return resp;
-		
-	}
-	
 	private static void setTestResult(GenResponse resp, ExecutionBean execution, ExecutionResultBean bean) {
 		// TODO Auto-generated method stub
 		if(resp==null)
@@ -228,48 +374,9 @@ public class VerifyTest {
 		
 	}
 
-	public static GenResponse verifyApiRequestInvalidContext(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
-		// TODO Auto-generated method stub
-
-		String url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRV.htm";
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		String jSon =  new Gson().toJson(jsonRequest);
-		String responseString = executeVerifyAPI(url, jSon, bean,sbean);
-		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
-		return resp;
-	}
-
-	public static GenResponse verifyApiRequestInvalidHttp(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
-		// TODO Auto-generated method stub
-
-		String url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRV.htm";
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		String jSon =  new Gson().toJson(jsonRequest);
-		String responseString = executeVerifyAPIGet(url, jSon, bean,sbean);
-		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
-		return resp;
-	}
-	
-	
-	public static GenResponse verifyApiRequestNoUser(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
-		// TODO Auto-generated method stub
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		String jSon =  new Gson().toJson(jsonRequest);
-		
-		String responseString = executeVerifyAPI(null,jSon, bean,sbean);
-		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
-		return resp;
-	}
-	
-	public static String executeVerifyAPIWithoutAuth(String url, String jSon, ExecutionResultBean bean, ServerBean sbean) throws Exception
+	public static String executeVerifyAPIWithoutAuth(ExecutionResultBean bean, ServerBean sbean) throws Exception
 	{
-		if(url==null)
-			url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
-
-		System.out.println(url);
+		String jSon =  new Gson().toJson(jsonRequest);
 		HttpPost post = new HttpPost(url);
 		StringEntity entity = new StringEntity(jSon);
 		post.setEntity(entity);
@@ -312,13 +419,10 @@ public class VerifyTest {
 	
 	}
 
-	public static String executeVerifyAPIGet(String url, String jSon, ExecutionResultBean bean, ServerBean sbean) throws Exception
+	public static GenResponse executeVerifyAPIGet(String url, ExecutionResultBean bean, ServerBean sbean) throws Exception
 	{
-		if(url==null)
-			url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
-
-		System.out.println(url);
 		HttpGet get = new HttpGet(url);
+		String jSon = new Gson().toJson(jsonRequest);
 		StringEntity entity = new StringEntity(jSon);
 		get.setHeader("Accept", "application/json");
 	    get.setHeader("Content-type", "application/json");
@@ -334,15 +438,15 @@ public class VerifyTest {
 		HttpEntity respEntity = httpResp.getEntity();
 		String responseString = EntityUtils.toString(respEntity, "UTF-8");
 		bean.setResult_data(responseString);
-		return responseString;
+		
+		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
+		return resp;
+		
 		
 	}
 	
-	public static String executeVerifyAPI(String url, String jSon, ExecutionResultBean bean, ServerBean sbean) throws Exception
+	public static String executeVerifyAPI( String jSon, ExecutionResultBean bean, ServerBean sbean) throws Exception
 	{
-		if(url==null)
-			url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
-
 		System.out.println(url);
 		HttpPost post = new HttpPost(url);
 		StringEntity entity = new StringEntity(jSon);
@@ -354,56 +458,12 @@ public class VerifyTest {
 	   	return executeFinal(url,jSon, bean, sbean,post,entity);
 	}
 	
-	public static GenResponse verifyApiRequestSuccess(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
+	
+	public static GenResponse executeStandard(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
 		// TODO Auto-generated method stub
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
 		String jSon =  new Gson().toJson(jsonRequest);
 		System.out.println(jSon);
-		String responseString = executeVerifyAPI(null,jSon,bean,sbean);
-		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
-		return resp;
-	}
-	
-	public static GenResponse verifyApiNoMsg(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
-		// TODO Auto-generated method stub
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		ArrayList<Msg> correctMsg = jsonRequest.getMsg();
-		jsonRequest.setMsg(null);
-		String jSon =  new Gson().toJson(jsonRequest);
-		System.out.println(jSon);
-		
-		String responseString = executeVerifyAPI(null,jSon,bean,sbean);
-		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
-		jsonRequest.setMsg(correctMsg);
-		return resp;
-	}
-	
-	public static GenResponse verifyApiNoMsgId(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
-		// TODO Auto-generated method stub
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		String correctMsgId = jsonRequest.getMsg_id(); 
-		
-		jsonRequest.setMsg_id("");
-		String jSon =  new Gson().toJson(jsonRequest);
-		System.out.println(jSon);
-		
-		String responseString = executeVerifyAPI(null,jSon,bean,sbean);
-		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
-		jsonRequest.setMsg_id(correctMsgId);
-		return resp;
-	}
-	
-	
-	public static GenResponse verifyApiNoUserId(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
-		// TODO Auto-generated method stub
-		jsonRequest.setUser_id("");
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		String jSon =  new Gson().toJson(jsonRequest);
-		System.out.println(jSon);
-		String responseString = executeVerifyAPI(null,jSon,bean,sbean);
+		String responseString = executeVerifyAPI(jSon,bean,sbean);
 		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
 		return resp;
 	}
@@ -412,30 +472,22 @@ public class VerifyTest {
 	
 	public static GenResponse verifyApiRequestInvalidSaveReq(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean,String userid) throws Exception {
 		// TODO Auto-generated method stub
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		String jSon =  "{"+new Gson().toJson(jsonRequest)+"}";
+		String jSon =  execution.getTestcase_desc();
 		System.out.println(jSon);
-		String responseString = executeVerifyAPI(null,jSon,bean,sbean);
+		String responseString = executeVerifyAPI(jSon,bean,sbean);
 		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
 		return resp;
 	}
 
 	private static GenResponse verifyApiRequestNoAuth(ExecutionBean execution, ExecutionResultBean bean,ServerBean sbean, String userid)  throws Exception{
 		// TODO Auto-generated method stub
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
-		String jSon =  new Gson().toJson(jsonRequest);
-		System.out.println(jSon);
-		String responseString = executeVerifyAPIWithoutAuth(null,jSon,bean,sbean);
+		String responseString = executeVerifyAPIWithoutAuth(bean,sbean);
 		GenResponse resp = new Gson().fromJson(responseString, GenResponse.class);
 		return resp;
 	}
 	
 	private static GenResponse verifyApiRequestWrongAuth(ExecutionBean execution, ExecutionResultBean bean,ServerBean sbean, String userid)  throws Exception{
 		// TODO Auto-generated method stub
-		jsonRequest.setUser_id(userid);
-		jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
 		String jSon =  new Gson().toJson(jsonRequest);
 		System.out.println(jSon);
 		String responseString = executeVerifyAPIWithWrongAuth(null,jSon,bean,sbean);
@@ -447,20 +499,45 @@ public class VerifyTest {
 	public static void execute(ExecutionBean execution, ExecutionResultBean bean, ServerBean sbean) throws Exception{
 		// TODO Auto-generated method stub
 		GenResponse resp = null;
+		url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRVN.htm";
+		
+		// for VERIFY_API_INVALID_SAVE_REQ , JSON structure is invalid, hence do not parse it... the method getting called in swith take care of it
+		if(!execution.getTestcase_name().equals("VERIFY_API_INVALID_SAVE_REQ"))
+		{
+			  try {
+				jsonRequest = new Gson().fromJson(execution.getTestcase_desc(), RequestJSON.class);
+				jsonRequest.setEnterprise_id(sbean.getEnterprise_id());
+			  } catch(Exception e)
+			  {
+				  System.out.println("Unable to parse: " + execution.getTestcase_desc());
+				  throw e;
+			  }
+		
+		}
+		
 		switch(execution.getTestcase_name())
 		{
-				case "VERIFY_API_REQUEST_SUCCESS": resp = VerifyTest.verifyApiRequestSuccess(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				case "VERIFY_API_REQUEST_NOUSER": resp = VerifyTest.verifyApiRequestNoUser(execution,bean,sbean,"DUMMY"); break;
-				case "VERIFY_API_REQUEST_NOENTID": resp = VerifyTest.verifyApiRequestNoEntId(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				case "VERIFY_API_INVALID_CONTEXT": resp = VerifyTest.verifyApiRequestInvalidContext(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
+				case "VERIFY_API_REQUEST_NOENTID": 	jsonRequest.setEnterprise_id(""); 
+													resp = VerifyTest.executeStandard(execution,bean,sbean,"tejas.limaye@uniken.com"); 
+													break;
+				case "VERIFY_API_INVALID_CONTEXT": 	url = "http://"+sbean.getIp_address()+":"+sbean.getVerify_port()+"/generateRV.htm";
+													resp = VerifyTest.executeStandard(execution,bean,sbean,"tejas.limaye@uniken.com"); 
+													break;
+				case "VERIFY_API_INVALID_EXPIRY":  jsonRequest.setExpires_in(-1);
+												   resp = VerifyTest.executeStandard(execution,bean,sbean,"tejas.limaye@uniken.com"); 
+												   break;
+				
+				case "VERIFY_API_INVALID_HTTP_REQ": resp = VerifyTest.executeVerifyAPIGet(url,bean,sbean); 
+													break;
+
 				case "VERIFY_API_REQUEST_NOAUTH":  resp = VerifyTest.verifyApiRequestNoAuth(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				case "VERIFY_API_WRONG_AUTH":  resp = VerifyTest.verifyApiRequestWrongAuth(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				case "VERIFY_API_INVALID_HTTP_REQ":  resp = VerifyTest.verifyApiRequestInvalidHttp(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
+				case "VERIFY_API_WRONG_AUTH":  	   resp = VerifyTest.verifyApiRequestWrongAuth(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
+				
+				
 				case "VERIFY_API_INVALID_SAVE_REQ":  resp = VerifyTest.verifyApiRequestInvalidSaveReq(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				case "VERIFY_API_NO_MSG_ID":  resp = VerifyTest.verifyApiNoMsgId(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				case "VERIFY_API_NO_USER_ID":  resp = VerifyTest.verifyApiNoUserId(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				case "VERIFY_API_NO_MSG":  resp = VerifyTest.verifyApiNoMsg(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
-				default: bean.setExecution_result("CANNOT_TEST");	
+			
+				default: resp = VerifyTest.executeStandard(execution,bean,sbean,"tejas.limaye@uniken.com"); break;
+				
 		}
 		setTestResult(resp, execution, bean);
 	}
