@@ -1,4 +1,4 @@
-
+var baseURL=window.location.protocol + "://"+window.location.hostname+":"+window.location.port;
 var execSummaryDevices;
 var execSummaryFeatures;
 var execSummaryRunning;
@@ -69,7 +69,7 @@ function fetchServers()
     	controller: {
     	loadData: function(filter) {
     	return  $.ajax({
-        url: "http://localhost:8080/automation/getServer.htm",
+        url:  "/automation/getServer.htm",
         dataType: "json",
         method: "POST",
         });
@@ -113,7 +113,7 @@ function fetchServers()
 function insertServer(item){
  $.ajax({
      type: "POST",
-     url: "http://localhost:8080/automation/updateServerDetails.htm",
+     url: "/automation/updateServerDetails.htm",
      data: "{\"ip_address\":\""+item.ip_address + "\",\"os_version\":\""+item.os_version+ "\",\"enterprise_password\":\""+item.enterprise_password+"\",\"agent_info\":\""+item.agent_info+"\"}",
      success: function(response)
      {
@@ -151,7 +151,7 @@ function fetchExecutions(){
 		  controller: {
 		    loadData: function(filter) {
 		    return  $.ajax({
-		        url: "http://localhost:8080/automation/getExecutionDetails.htm",
+		        url: "/automation/getExecutionDetails.htm",
 		        dataType: "json",
 		        method: "POST",
 		        });
@@ -188,7 +188,7 @@ function fetchLibraries(){
 		  controller: {
 		    loadData: function(filter) {
 		    return  $.ajax({
-		        url: "http://localhost:8080/automation/getLibraryDetails.htm",
+		        url: "/automation/getLibraryDetails.htm",
 		        dataType: "json",
 		        method: "POST",
 		        });
@@ -218,7 +218,7 @@ function insertLibrary(item){
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/automation/addLibrary.htm",
+        url: "/automation/addLibrary.htm",
         data: "{\"lib_name\":\""+item.lib_name + "\",\"lib_type\":\""+item.lib_type+"\",\"lib_version\":\""+item.lib_version+"\"}",
         success: function(response)
         {
@@ -258,7 +258,7 @@ function fetchFeatures()
  		  controller: {
 		    loadData: function(filter) {
 		    return  $.ajax({
-		        url: "http://localhost:8080/automation/getFeatures.htm",
+		        url: "/automation/getFeatures.htm",
 		        dataType: "json",
 		        method: "POST",
 		        });
@@ -288,7 +288,7 @@ function insertFeature(item)
 
      $.ajax({
          type: "POST",
-         url: "http://localhost:8080/automation/addFeature.htm",
+         url: "/automation/addFeature.htm",
          data: "{\"feature_name\":\""+item.feature_name + "\",\"feature_target\":\""+item.feature_target +"\"}",
          success: function(response)
          {
@@ -309,7 +309,7 @@ function fetchTestCases()
 {
 $.ajax({
 method: "POST",
-url: "http://localhost:8080/automation/getFeatures.htm",
+url: "/automation/getFeatures.htm",
 dataType: "json"
 }).done(function(response) {
 //
@@ -347,7 +347,7 @@ dataType: "json"
  		  controller: {
 		    loadData: function(filter) {
 		    return  $.ajax({
-		        url: "http://localhost:8080/automation/getTestCase.htm",
+		        url: "/automation/getTestCase.htm",
 		        dataType: "json",
 		        method: "POST",
 		        });
@@ -395,7 +395,7 @@ function insertTestCase(item)
 
      $.ajax({
          type: "POST",
-         url: "http://localhost:8080/automation/updateTestCase.htm",
+         url: "/automation/updateTestCase.htm",
          data: "{\"testcase_name\":\""+item.testcase_name + "\",\"update_time\":\""+item.update_time+"\",\"feature_name\":\""+item.feature_name+"\",\"testcase_desc\":\""+item.testcase_desc+"\",\"response_code\":\""+item.response_code+"\",\"error_code\":\""+item.error_code+"\",\"error_message\":\""+item.error_message+"\"}",
          success: function(response)
          {
@@ -422,7 +422,7 @@ function insertTestCase(item)
 //function loadLibraries(){
 //	$.ajax({
 //		method: "POST",
-//		url: "http://localhost:8080/automation/getLibraryDetails.htm",
+//		url: "/automation/getLibraryDetails.htm",
 //		dataType: "json"
 //        }).done(function(response) {
 //        	Libraries = response;
@@ -433,7 +433,7 @@ function insertTestCase(item)
 //function loadServer(){
 //	$.ajax({
 //		method: "POST",
-//		url: "http://localhost:8080/automation/getServer.htm",
+//		url: "/automation/getServer.htm",
 //		dataType: "json"
 //        }).done(function(response) {
 //        	servers = response;
@@ -446,14 +446,14 @@ function fetchTestJobs()
 	//loadServer();	
 	$.ajax({
 	method: "POST",
-	url: "http://localhost:8080/automation/getServer.htm",
+	url: "/automation/getServer.htm",
 	dataType: "json"
     }).done(function(response) {
     	servers = response;
     	
 	$.ajax({
 	method: "POST",
-	url: "http://localhost:8080/automation/getLibraryDetails.htm",
+	url: "/automation/getLibraryDetails.htm",
 	dataType: "json"
     }).done(function(response) {
     	libraries = response;
@@ -479,7 +479,7 @@ function fetchTestJobs()
 		    loadData: function() {
 		    	var deferred = $.Deferred();
 		    return  $.ajax({
-		        url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
+		        url: "/automation/getALLTestJobDetails.htm",
 		        dataType: "json",
 		        method: "POST",
 		        success: function(data){
@@ -526,7 +526,7 @@ function insertTestJob(item)
 
      $.ajax({
          type: "POST",
-         url: "http://localhost:8080/automation/updateTestJobDetails.htm",
+         url: "/automation/updateTestJobDetails.htm",
          data: "{\"test_job_description\":\""+item.test_job_description + "\",\"updated_time\":\""+item.updated_time+"\",\"status\":\""+item.status+"\",\"server_id\":\""+item.server_id+"\",\"lib_id\":\""+item.lib_id+"\",\"auto_create_on_new_device\":\""+item.auto_create_on_new_device+"\"}",
          success: function(response)
          {
@@ -565,7 +565,7 @@ function fetchMappingJobs(){
 		  controller: {
 		    loadData: function(filter) {
 		    return  $.ajax({
-		        url: "http://localhost:8080/automation/GetTCMJ.htm",
+		        url: "/automation/GetTCMJ.htm",
 		        dataType: "json",
 		        method: "POST",
 		        });
@@ -588,7 +588,7 @@ function insertMappingJob(item)
 
      $.ajax({
          type: "POST",
-         url: "http://localhost:8080/automation/addTCMJ.htm",
+         url: "/automation/addTCMJ.htm",
          data: "{\"test_case_id\":\""+item.test_case_id+ "\",\"testjob_id\":\""+item.testjob_id+"\"}",
          success: function(response)
          {
@@ -609,7 +609,7 @@ function fetchExecutionHistory()
 {
 	var min = 0, max = 0;
 
-	$.ajax({ url: "http://localhost:8080/automation/getExceutionHistory.htm",
+	$.ajax({ url: "/automation/getExceutionHistory.htm",
 	        context: document.body,
 	        method: "POST",
 	        success: function(response){
@@ -744,7 +744,7 @@ function fetchFailuresByDevices()
 {
 	var min = 0; max = 0;
 
-	$.ajax({ url: "http://localhost:8080/automation/getFailuresByDevices.htm",
+	$.ajax({ url: "/automation/getFailuresByDevices.htm",
 	        context: document.body,
 	        method: "POST",
 	        success: function(response){
@@ -834,7 +834,7 @@ function fetchFailuresByFeatures()
 {
 	var min = 0; max = 0;
 
-	$.ajax({ url: "http://localhost:8080/automation/getFailuresByFeatures.htm",
+	$.ajax({ url: "/automation/getFailuresByFeatures.htm",
 	        context: document.body,
 	        method: "POST",
 	        success: function(response){
@@ -923,7 +923,7 @@ function fetchLiveTests()
 {
 	var min = 0; max = 0;
 
-	$.ajax({ url: "http://localhost:8080/automation/getExecutionSummary.htm",
+	$.ajax({ url: "/automation/getExecutionSummary.htm",
 	        context: document.body,
 	        method: "POST",
 	        success: function(response){

@@ -106,7 +106,7 @@ var helpers =
 <script>
 $.ajax({
             type: "POST",
-            url: "http://localhost:8080/automation/getALLTestJobDetails.htm",
+            url: "/automation/getALLTestJobDetails.htm",
             success: function(data)
             {
                 helpers.buildDropdown(
@@ -144,7 +144,7 @@ var helpers1 =
 <script>
  $.ajax({ 
             type: "POST", 
-             url: "http://localhost:8080/automation/getTestCase.htm",
+             url: "/automation/getTestCase.htm",
             success: function(data)
            { 
                 helpers1.buildDropdown(
@@ -170,7 +170,7 @@ var helpers1 =
         	
             // send ajax
             $.ajax({
-                url: 'http://localhost:8080/automation/addTCMJ.htm', // url where to submit the request
+                url: '/automation/addTCMJ.htm', // url where to submit the request
                 type : "POST", // type of action POST || GET
                 dataType : "json", // data type
                 data : JSON.stringify(tt), // post data || get data
