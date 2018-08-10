@@ -21,6 +21,7 @@
     div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
     .ui-dialog .ui-state-error { padding: .3em; }
     .validateTips { border: 1px solid transparent; padding: 0.3em; }
+    .JsGridRow{text-overflow: ellipsis; word-wrap: initial;overflow-x: hidden;}
   </style>
 
   <body onload="fetchServers();" class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">

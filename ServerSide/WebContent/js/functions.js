@@ -101,7 +101,7 @@ function fetchServers()
 	 	            { name: "enterprise_password", type: "text", width: 50, validate:"required"},
 //	 	            { name: "server_user", type: "text", width: 50},
 //	 	            { name: "server_password", type: "text", width: 50},
-//	 	            { name: "agent_info", type: "text", width: 50, validate:"required"},
+	 	            { name: "agent_info", type: "text", width: 50, validate:"required", css:"JsGridRow"},
 	 	           { type: "control", width: 10}
 	 	            ]
 
