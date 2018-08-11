@@ -130,7 +130,76 @@ function insertServer(item){
 }
 
 
+var executionsData;
+
+
+function fetchExecutionAnalysis()
+{
+	 $.ajax({
+	        url: "/automation/getExecutionAnalysis.htm",
+	        dataType: "json",
+	        method: "POST",
+	        success: function(response)
+	        {
+	       	 if(response.response_code==1)
+	       	 {
+	       		 	alert("error while loading Executions: Check server logs");
+	       		 	return;
+	       	 }
+	       	executionsData = response.executions;
+	       	loadExecutionAnalysis();
+	       	
+	        },
+	        error: function(response)
+	        {
+	       	 	alert(response);
+	        }
+	        
+	 });
+    	
+	 
+}
+
+function loadExecutionAnalysis()
+{
+	
+	alert(executionsData[0].server_id);
+	alert(jQuery("#grid")); 
+	$("#grid").jqGrid('jqPivot',
+			 executionsData,
+			 // pivot options
+			 {
+
+			   xDimension : [
+			    {dataName: 'device_os', label : 'Server-Device-Library', width:200}
+				
+			               ],
+			   yDimension : [
+			   
+							  {dataName: 'execution_status',label:'Status', width:50}
+			               ],
+			   aggregates : [
+			     {member : 'count', aggregator : 'sum', width:50, label:'Total', width:50}
+			    ],
+			   rowTotals: true,
+			   colTotals : true,
+			   footerrow : true,
+			 },
+			 // grid options
+			 {
+			   regional : 'en',
+			   width: 1200,
+			   height:200,
+			   rowNum : 50,
+			   pager: "#pager",
+			   caption: "Test Execution Results by Server and Library Versions"
+			 });
+	
+}
+
+
 function fetchExecutions(){
+	
 	$("#jsGrid_Executions").jsGrid({
 		  width: "100%",
 		  height: "auto",
@@ -199,7 +268,6 @@ function fetchLibraries(){
 		 	   },
 		 	  onItemInserted: function(args)
 		 	  {
-		 		  alert(11);
 		 		  location.reload(true);
 		 	  }
 		  },

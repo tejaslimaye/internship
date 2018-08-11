@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.google.gson.Gson;
+import com.uniken.automation.beans.ExecutionAnalysisBean;
 import com.uniken.automation.beans.ExecutionBean;
 import com.uniken.automation.beans.ExecutionResultBean;
 import com.uniken.automation.beans.FeatureBean;
@@ -13,6 +15,7 @@ import com.uniken.automation.beans.TestExecutionSummaryBean;
 import com.uniken.automation.responses.FeatureResponse;
 import com.uniken.automation.responses.Response;
 import com.uniken.automation.responses.TestExecutionHistoryResponse;
+import com.uniken.automation.responses.ExecutionAnalysisResponse;
 import com.uniken.automation.responses.ExecutionResponse;
 
 public class ExecutionModel extends BaseModel {
@@ -39,7 +42,48 @@ public class ExecutionModel extends BaseModel {
 		
 	}
 
+	
 
+	public static void main(String[] args) throws Exception {
+
+		new ExecutionModel().getExecutionDetails();
+	}
+
+
+	public ExecutionAnalysisResponse getExecutionDetails() throws Exception
+	{
+		ExecutionAnalysisResponse resp = new ExecutionAnalysisResponse();
+		ArrayList<ExecutionAnalysisBean> list = new ArrayList<ExecutionAnalysisBean>();
+		ResultSet rs = executeQuery("select e.execution_id, f.feature_name, t.testcase_name,s.server_id,"
+				+ " concat(s.os_version,'-',d.device_os,'-',l.lib_version) as device_os "
+				+ ",l.lib_version, e.execution_status, e.execution_end_time,1 as ct  "
+								   + " from test_execution e, library l, device d, server s, test_case t, features f, test_job tj, test_run tr "
+								   + " where tr.testrun_id = e.testrun_id and tr.test_job_id = tj.testjob_id and tj.server_id = s.server_id "
+								   + " and tj.lib_id = l.lib_id and tr.device_id = d.device_id and e.testcase_id = t.testcase_id "
+								   + " and f.feature_id = t.test_feature_id and e.execution_status <>'CREATED'");
+		
+		while(rs.next())
+		{
+			ExecutionAnalysisBean bean = new ExecutionAnalysisBean();
+			bean.setExecution_id(rs.getInt("execution_id"));
+			bean.setExecution_status(rs.getString("execution_status"));
+			bean.setExecution_end_time(rs.getString("execution_end_time"));
+			bean.setDevice_os(rs.getString("device_os"));
+			bean.setFeature_name(rs.getString("feature_name"));
+			bean.setTestcase_name(rs.getString("testcase_name"));
+			bean.setServer_id(rs.getInt("server_id"));
+			bean.setCount(rs.getInt("ct"));
+			bean.setLib_version(rs.getString("lib_version"));
+			list.add(bean);
+		}
+		resp.setExecutions(list);
+		
+		System.out.println(new Gson().toJson(list));
+		
+		return resp;
+		
+	}
+	
 	public ExecutionResponse getExecutions() throws Exception
 	{
 		ExecutionResponse resp = new ExecutionResponse();
@@ -66,10 +110,7 @@ public class ExecutionModel extends BaseModel {
 
 
 
-	public static void main(String[] args) {
-
-	}
-
+	
 	public TestExecutionHistoryResponse getExecutionHistoryForDashboard() throws Exception
 	{
 
