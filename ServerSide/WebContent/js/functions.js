@@ -163,8 +163,6 @@ function fetchExecutionAnalysis()
 function loadExecutionAnalysis()
 {
 	
-	alert(executionsData[0].server_id);
-	alert(jQuery("#grid")); 
 	$("#grid").jqGrid('jqPivot',
 			 executionsData,
 			 // pivot options
