@@ -52,6 +52,10 @@ public class JobDetailsController extends HttpServlet {
 				
 			}
 			
+			if(buff.toString().equals("")||buff.toString().equals(" "))
+			{
+				buff.append(request.getHeader("data"));
+			}
 			Gson gsonDevices = new Gson();
 			DeviceBean bean = gsonDevices.fromJson(buff.toString(), DeviceBean.class);
 			resp = model.getJobDetailsForDevice(bean);

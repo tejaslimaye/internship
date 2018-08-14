@@ -35,10 +35,6 @@ function fetchServers()
 {		$("#jsGrid_Servers").jsGrid({
 	width: "100%",
     height: "auto",
-
-    
- 
-    	
      inserting: true,
      editing: true,
      sorting: true,
@@ -76,23 +72,23 @@ function fetchServers()
     },
     	insertItem: function (item) {
     		insertServer(item);
+    		loadData();
     	
     	},
     	onItemInserted: function(args)
     	{
-    		alert(11);
     		location.reload(true);
     	}
     	
      },
   	        fields: [
-	 	            { name: "server_id", type: "number", width: 10},
+	 	            { name: "server_id",  width: 10},
 	 	        
 //	 	            { name: "gm_port", type: "number", width: 50 },
 //	 	           { name: "sdk_port", type: "number", width: 50},
 //	 	            { name: "verify_port", type: "number", width: 50},
 //	 	            { name: "api_port", type: "number", width: 50},
-	 	           { name: "ip_address", type: "number", width: 50, validate:"required"},
+	 	           { name: "ip_address", type: "text", width: 50, validate:"required"},
 	 	            { name: "os_version", type: "text", width: 50, validate:"required"},
 //	 	            { name: "console_user", type: "text", width: 50},
 //	 	            { name: "console_password", type: "text", width: 50},
@@ -101,7 +97,7 @@ function fetchServers()
 	 	            { name: "enterprise_password", type: "text", width: 50, validate:"required"},
 //	 	            { name: "server_user", type: "text", width: 50},
 //	 	            { name: "server_password", type: "text", width: 50},
-	 	            { name: "agent_info", type: "text", width: 50, validate:"required", css:"JsGridRow"},
+	 	           // { name: "agent_info", type: "textarea", width: 50, validate:"required",visible:"false"},
 	 	           { type: "control", width: 10}
 	 	            ]
 
@@ -270,7 +266,7 @@ function fetchLibraries(){
 		 	  }
 		  },
 	        fields: [
-	        	 		{ name: "lib_id", type: "number", width: 10 },
+	        	 		{ name: "lib_id", width: 10 },
 		 	            { name: "lib_name", type: "text", width: 50, validate:"required"},
 		 	            { name: "lib_type", type: "text", width: 50, validate:"required"},
 		 	            { name: "lib_version", type: "text", width: 50, validate:"required"},
@@ -340,7 +336,7 @@ function fetchFeatures()
 		 	  }
 		  },
 	        fields: [
-		 	            { name: "feature_id", type: "number", width: 10},
+		 	            { name: "feature_id", width: 10},
 		 	            { name: "feature_name", type: "text", width: 50, validate:"required"},
 		 	            { name: "feature_target", type: "text", width: 50, validate:"required"},
 		 	            
@@ -429,7 +425,7 @@ dataType: "json"
 		 	  }
 		  },
 	        fields: [
-		 	            { name: "test_case_id", type: "number", width: 30},
+		 	            { name: "test_case_id", width: 30},
 		 	            { name: "testcase_name", type: "text", width: 130, validate:"required"},
 		 	          //{ name: "created_time", type: "text", width: 50},
 		 	          //{ name: "update_time", type: "text", width: 50},
@@ -571,13 +567,12 @@ function fetchTestJobs()
 		 	  }
 		  },
 	        fields: [
-		 	            { name: "testjob_id", type: "number", width: 30},
+		 	            { name: "testjob_id", width: 30},
 		 	            { name: "test_job_description", type: "text", width: 100, validate:"required"},
 //		 	          { name: "created_time", type: "text", width: 100},
 //		 	            { name: "updated_time", type: "text", width: 100},
-		 	          { name: "status", type: "text", width: 100, validate:"required"},
-		 	          
-		 	         { name: "server_id", type: "select", items: servers, valueField: "server_id", textField: "server_id",width: 50, validate:"required"},
+		 	          { name: "status", type: "text",   width: 100, validate:"required"},
+		 	          { name: "server_id", type: "select", items: servers, valueField: "server_id", textField: "server_id",width: 50, validate:"required"},
 		 	          { name: "lib_id", type: "select", items: libraries, valueField: "lib_id", textField: "lib_id",width: 50, validate:"required"},
 		 	            { name: "auto_create_on_new_device", type: "number", width: 30, validate:"required"},
 		 	           { type: "control" }

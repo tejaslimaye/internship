@@ -39,6 +39,7 @@ public class ExecutionController extends HttpServlet {
 		// TODO Auto-generated method stub
 		Response objResponse = new Response();
 		Gson gsonResponse = new Gson();
+		String data = null;
 
 		try
 		{
@@ -50,15 +51,19 @@ public class ExecutionController extends HttpServlet {
 				buff.append(reader.readLine());
 			}
 
+			if(buff.toString().equals("")||buff.toString().equals(" "))
+			{
+				buff.append(request.getHeader("data"));
+			}
+				
 			Gson gsonExecution= new Gson();
 			ExecutionResultBean bean = gsonExecution.fromJson(buff.toString(), ExecutionResultBean.class);
-			if(bean.getExecution_id()==0)
+			if(bean==null || bean.getExecution_id()==0)
 			{
 				throw new Exception("Please provide execution id");
 			}
 			ExecutionModel model = new ExecutionModel();
 			System.out.println("UpdateResults called for Execution bean with id = ["+bean.getExecution_id()+"]");
-
 			model.updateTestExecution(bean);
 			objResponse.setResponse_code(0);	
 		}

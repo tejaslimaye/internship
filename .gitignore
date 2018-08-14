@@ -13,3 +13,4 @@ dbdesign/execupdate_trigger.sql
 ServerSide/WebContent/WEB-INF/lib/automation_commons.jar
 *.properties
 *.class
+*.class

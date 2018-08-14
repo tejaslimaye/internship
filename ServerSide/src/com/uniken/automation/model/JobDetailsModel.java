@@ -59,7 +59,19 @@ public class JobDetailsModel extends BaseModel
 			response.setDevice_avail_code(1); // DEVICE WAS  AVAILABLE
 		}
 		
-		ResultSet rs = executeQuery("select tj.testjob_id from test_job tj, "
+		device.setDeviceId(device_id);
+		System.out.println("1: Device id: " + device_id);
+		ResultSet rs = executeQuery("select count(1) as ct from test_execution where execution_status = 'CREATED' and testrun_id in (select testrun_id from test_run where device_id = " + device_id + ")");
+		int created_ct = 0;
+		if(rs.next())
+		{
+			created_ct = rs.getInt(1);
+			System.out.println("2:created_ct : " + created_ct);
+		}
+		
+		if(created_ct==0)
+		{
+			rs = executeQuery("select tj.testjob_id from test_job tj, "
 					+ "    library l , device d "
 					+ " where d.device_os = l.lib_type "
 					+ " and l.lib_version = '" + device.getLibrary_version()+"' "
@@ -67,13 +79,12 @@ public class JobDetailsModel extends BaseModel
 					+ " and d.device_id =  " + device_id
 					+ " and tj.auto_create_on_new_device=1");
 			
-		if(rs.next())
-		{
-			execute("insert into test_run(test_job_id,device_id) values ("+rs.getInt(1)+","+device_id+")");
-		}
+			if(rs.next())
+			{
+				execute("insert into test_run(test_job_id,device_id) values ("+rs.getInt(1)+","+device_id+")");
+			}
 			
-		device.setDeviceId(device_id);
-		response.setJob_avail_code(0);
+			response.setJob_avail_code(0);
 	
 		/*String strSQL = " select te.execution_id, tr.testrun_id, tc.testcase_id, f.feature_id, "
 				+ " f.feature_name , tc.testcase_name , tc.testcase_desc, tr.device_id , tj.testjob_id  "
@@ -82,9 +93,8 @@ public class JobDetailsModel extends BaseModel
 				+ " and te.testcase_id = tc.testcase_id and f.feature_id = tc.test_feature_id and tr.device_id = " + device_id
 				+ " and l.lib_version = '" + device.getLibrary_version()+ "' and l.lib_type= '" + device.getDevice_os()+ "' and l.lib_id = tj.lib_id ";
 		*/
-	
 			
-		
+		}
 	//	String strSQL = "  select te.*, f.* , tc.* , s.*, tj.*, tr.*, tcmj.*, l.*  from  test_execution te, test_run tr, test_case tc , test_job tj , test_case_job_mapping tcmj , features f, library l  , server s   where  tr.device_id = 42   and  l.lib_version = '1.1'   and l.lib_type= 'ios'   and l.lib_id = tj.lib_id   and tj.testjob_id = tr.test_job_id  and   tc.testcase_id = tcmj.testcase_id    and   te.testcase_id = tc.testcase_id   and  f.feature_id = tc.test_feature_id   and tj.testjob_id = tcmj.testjob_id   and s.server_id = tj.server_id  and te.execution_status = 'CREATED'  order by s.server_id, tj.testjob_id limit 2";
 		
 		String strSQL="select te.*, f.* , tc.* , s.*, tj.*, tr.*, tcmj.*, l.*  from  test_execution te, test_run tr, test_case tc , "
@@ -102,13 +112,12 @@ public class JobDetailsModel extends BaseModel
 		{
 			strSQL = strSQL + " and f.feature_target = 'AUTOMATION_CLIENT'";
 		}
-		else if(device.getSerial_num()!=null && device.getSerial_num().equals("MOBILE"))
+		else 
 		{
 				strSQL = strSQL + " and f.feature_target = 'MOBILE'";
 		}
 		strSQL = strSQL  +" order by s.server_id, tj.testjob_id";
 
-		
 		System.out.println(strSQL);
 		rs = executeQuery(strSQL);
 

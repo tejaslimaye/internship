@@ -22,7 +22,7 @@ import com.uniken.reild.automation.serverapi.tasks.VerifyTest.RequestJSON.Msg;
 import com.uniken.reild.automation.serverapi.tasks.VerifyTest.RequestJSON.Notification_Msg;
 
 
-public class VerifyTest {
+public class VerifyTest  extends BaseTask{
 	
 	static RequestJSON jsonRequest = (new VerifyTest()).new RequestJSON();
 	static String url="";
@@ -354,25 +354,7 @@ public class VerifyTest {
 		}
 	}
 
-	private static void setTestResult(GenResponse resp, ExecutionBean execution, ExecutionResultBean bean) {
-		// TODO Auto-generated method stub
-		if(resp==null)
-			return;
-		if((resp.getResponse_code()==execution.getResponse_code() && resp.getResponse_code()==0) || 
-				  ( resp.getResponse_code()==1 && resp.getError_code()==execution.getError_code() && resp.getError_msg().equals(execution.getError_message())))
-		{
-			bean.setExecution_result("PASSED");
-		}
-		else
-		{
-			bean.setExecution_result("FAILED");
-			System.out.println("Expected: ResponseCode:" + execution.getResponse_code() );
-			System.out.println(", ErrorCode:" + execution.getError_code() );
-			System.out.println(", ErrorMsg:" + execution.getError_message() );
-			
-		}
-		
-	}
+	
 
 	public static String executeVerifyAPIWithoutAuth(ExecutionResultBean bean, ServerBean sbean) throws Exception
 	{

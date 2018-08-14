@@ -20,16 +20,18 @@
     <link href="css/executions.css" rel="stylesheet">
     <link href="css/pace.min.css" rel="stylesheet">
     
-  	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link type="text/css" rel="stylesheet" href="css/jsgrid.min.css" />
-	<link type="text/css" rel="stylesheet" href="css/jsgrid-theme.min.css" />
     <script src="js/jquery.min.js"></script>
+    
+    <script type="text/javascript" src="js/grid.locale-en.js"></script>
+    <script type="text/javascript" src="js/jquery.jqGrid.min.js"></script>
+	<link rel="stylesheet" type="text/css" media="screen" href="css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
+     
+  	<link type="text/css" rel="stylesheet" href="css/jsgrid.min.css" />
+	<link type="text/css" rel="stylesheet" href="css/jsgrid-theme.min.css" />
     <script src="js/jquery.validate.js"></script>
     <script src="js/dx-all.js"></script>
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>						
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    
-     <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.1.5/css/dx.spa.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.1.5/css/dx.spa.css" />
     <link rel="stylesheet" type="text/css" href="https://cdn3.devexpress.com/jslib/18.1.5/css/dx.common.css" />
     <link rel="dx-theme" data-theme="generic.light" href="https://cdn3.devexpress.com/jslib/18.1.5/css/dx.light.css" />
     
@@ -48,3 +50,6 @@
     <script src="js/colors.js"></script>
  
   </head>
+
+
+
