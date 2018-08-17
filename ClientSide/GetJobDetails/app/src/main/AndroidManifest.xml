@@ -14,14 +14,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.jobdetails.shant.getjobdetails.MainActivity">
+        <activity android:name="com.jobdetails.shant.getjobdetails.Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TestResult"></activity>
+        <activity android:name=".Common.TestAPIResult"></activity>
     </application>
 
 </manifest>

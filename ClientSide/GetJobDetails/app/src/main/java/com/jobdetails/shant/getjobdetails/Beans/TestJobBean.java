@@ -1,8 +1,8 @@
-package com.jobdetails.shant.getjobdetails;
+package com.jobdetails.shant.getjobdetails.Beans;
 
 import java.util.ArrayList;
 
-class TestJobBean{
+public class TestJobBean{
 
     private int testjob_id;
     private String test_job_description;

@@ -1,4 +1,4 @@
-package com.jobdetails.shant.getjobdetails;
+package com.jobdetails.shant.getjobdetails.Beans;
 
 /**
  * Created for declaring Mobile Details to be sent to server as http request

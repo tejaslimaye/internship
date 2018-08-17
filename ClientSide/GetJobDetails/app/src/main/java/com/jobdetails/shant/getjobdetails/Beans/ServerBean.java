@@ -1,8 +1,8 @@
-package com.jobdetails.shant.getjobdetails;
+package com.jobdetails.shant.getjobdetails.Beans;
 
 import java.util.ArrayList;
 
-class ServerBean {
+public class ServerBean {
 
     private int server_id;
 

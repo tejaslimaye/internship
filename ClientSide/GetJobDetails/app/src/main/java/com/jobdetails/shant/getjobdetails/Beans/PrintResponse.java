@@ -1,4 +1,4 @@
-package com.jobdetails.shant.getjobdetails;
+package com.jobdetails.shant.getjobdetails.Beans;
 
 
 //Created for Displaying these 3 testcase details on main Screen

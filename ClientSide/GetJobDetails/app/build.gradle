@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.jobdetails.shant.getjobdetails"
         minSdkVersion 18
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,16 +24,24 @@ android {
 //    }
 
     dependencies {
-        implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
-        implementation 'com.android.support:appcompat-v7:26.1.0'
+//        implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+        implementation 'com.android.support:appcompat-v7:28.+'
         implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 //    compile('com.better.workspace.lib:agent:4.4.0') {
 //        exclude group: "com.google.android.gms"
 //    }
+        implementation ('com.better.workspace.lib:agent:4.3.86'){
+            exclude group: "com.google.android.gms"
+        }
         testImplementation 'junit:junit:4.12'
         androidTestImplementation 'com.android.support.test:runner:1.0.2'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-       // compile(name: 'app-sdk-release-branch_v1.4.0', ext: 'aar')
-        //compile 'com.google.code.gson:gson:2.8.0'
-        implementation 'com.android.support:recyclerview-v7:26.1.0'
+        implementation (name: 'app-sdk-release--native-v-1.9.1', ext: 'aar')
+        implementation 'com.google.code.gson:gson:2.8.0'
+        implementation 'com.android.support:recyclerview-v7:28.+'
+
+        implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+        implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+        implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+        implementation 'com.squareup.okhttp3:okhttp:3.4.1'
     }

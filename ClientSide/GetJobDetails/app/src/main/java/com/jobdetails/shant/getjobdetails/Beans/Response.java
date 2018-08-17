@@ -1,7 +1,6 @@
-package com.jobdetails.shant.getjobdetails;
+package com.jobdetails.shant.getjobdetails.Beans;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created for Json parsing got from server as response containing test case details .

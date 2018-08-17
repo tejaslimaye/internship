@@ -1,4 +1,4 @@
-package com.jobdetails.shant.getjobdetails;
+package com.jobdetails.shant.getjobdetails.Beans;
 
 public class ResultResponseCode {
 

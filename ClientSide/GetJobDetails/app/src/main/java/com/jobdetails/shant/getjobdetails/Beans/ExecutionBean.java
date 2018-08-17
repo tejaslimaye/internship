@@ -1,6 +1,6 @@
-package com.jobdetails.shant.getjobdetails;
+package com.jobdetails.shant.getjobdetails.Beans;
 
-class ExecutionBean {
+public class ExecutionBean {
 
     private int execution_id;
     private int testrun_id ;
