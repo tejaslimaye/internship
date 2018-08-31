@@ -5,8 +5,8 @@ import android.app.Application;
 import com.jobdetails.shant.getjobdetails.Beans.JobDetailBean;
 import com.jobdetails.shant.getjobdetails.Common.CommonActivity;
 import com.jobdetails.shant.getjobdetails.Common.Constant;
-import com.jobdetails.shant.getjobdetails.Common.TestAPIResult;
-import com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler;
+import com.jobdetails.shant.getjobdetails.Common.RDNAManager;
+import com.jobdetails.shant.getjobdetails.Common.TestCaseManager;
 import com.uniken.rdna.RDNA;
 
 public class DataPrivacyActivity {
@@ -16,21 +16,19 @@ public class DataPrivacyActivity {
     String agentInfo;
     String authGateWayHNIP;
     int authGateWayPort;
-    TestAPIResult.APIResponseCallBacks callBacks;
-    TestCaseHandler testCaseHandler;
+    com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler testCaseHandler;
     JobDetailBean.Execution objExecution;
     CommonActivity commonActivity;
 
     private String encryptionString = "UNIKEN";
 
-    public DataPrivacyActivity(Object activity, Application mainApplication, int testCaseProgress, String agentInfo, String authGateWayHNIP, int authGateWayPort, TestAPIResult.APIResponseCallBacks callBacks, JobDetailBean.Execution objExecution){
-        this.testCaseHandler = (TestCaseHandler) activity;
+    public DataPrivacyActivity(Object activity, Application mainApplication, int testCaseProgress, String agentInfo, String authGateWayHNIP, int authGateWayPort, JobDetailBean.Execution objExecution){
+        this.testCaseHandler = (com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler) activity;
         this.mainApplication = mainApplication;
         this.testCaseProgress = testCaseProgress;
         this.agentInfo = agentInfo;
         this.authGateWayHNIP = authGateWayHNIP;
         this.authGateWayPort = authGateWayPort;
-        this.callBacks = callBacks;
         this.objExecution = objExecution;
         this.commonActivity = new CommonActivity();
 
@@ -85,10 +83,10 @@ public class DataPrivacyActivity {
 
     private void testEncryptDataPacket(String testCase){
 
-        if(Constant.objRDNA != null) {
+        if(RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAStatus<byte[]> cipherDefaultSalt = Constant.objRDNA.result.getDefaultCipherSalt();
-            RDNA.RDNAStatus<String> cipherDefaultSpec = Constant.objRDNA.result.getDefaultCipherSpec();
+            RDNA.RDNAStatus<byte[]> cipherDefaultSalt = RDNAManager.getObjSyncRDNA().result.getDefaultCipherSalt();
+            RDNA.RDNAStatus<String> cipherDefaultSpec = RDNAManager.getObjSyncRDNA().result.getDefaultCipherSpec();
 
             int privacyScope = 1;
             String cipherSpec = cipherDefaultSpec.result;
@@ -118,7 +116,7 @@ public class DataPrivacyActivity {
 
             }
 
-            RDNA.RDNAStatus<byte[]> encryptStat = Constant.objRDNA.result.encryptDataPacket(privacyScope, cipherSpec, cipherSalt, encryptBytes);
+            RDNA.RDNAStatus<byte[]> encryptStat = RDNAManager.getObjSyncRDNA().result.encryptDataPacket(privacyScope, cipherSpec, cipherSalt, encryptBytes);
 
             commonActivity.resultChecker(testCaseHandler,encryptStat.errorCode, objExecution.getErrorCode());
 
@@ -131,12 +129,12 @@ public class DataPrivacyActivity {
 
     private void testDecryptDataPacket(String testCase){
 
-        if(Constant.objRDNA != null) {
+        if(RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAStatus<byte[]> cipherDefaultSalt = Constant.objRDNA.result.getDefaultCipherSalt();
-            RDNA.RDNAStatus<String> cipherDefaultSpec = Constant.objRDNA.result.getDefaultCipherSpec();
+            RDNA.RDNAStatus<byte[]> cipherDefaultSalt = RDNAManager.getObjSyncRDNA().result.getDefaultCipherSalt();
+            RDNA.RDNAStatus<String> cipherDefaultSpec = RDNAManager.getObjSyncRDNA().result.getDefaultCipherSpec();
 
-            RDNA.RDNAStatus<byte[]> encryptStat = Constant.objRDNA.result.encryptDataPacket(1, cipherDefaultSpec.result, cipherDefaultSalt.result, encryptionString.getBytes());
+            RDNA.RDNAStatus<byte[]> encryptStat = RDNAManager.getObjSyncRDNA().result.encryptDataPacket(1, cipherDefaultSpec.result, cipherDefaultSalt.result, encryptionString.getBytes());
 
             int privacyScope = 1;
             String cipherSpec = cipherDefaultSpec.result;
@@ -167,7 +165,7 @@ public class DataPrivacyActivity {
 
             }
 
-            RDNA.RDNAStatus<byte[]> decryptStat = Constant.objRDNA.result.decryptDataPacket(privacyScope, cipherSpec, cipherSalt, encryptedBytes);
+            RDNA.RDNAStatus<byte[]> decryptStat = RDNAManager.getObjSyncRDNA().result.decryptDataPacket(privacyScope, cipherSpec, cipherSalt, encryptedBytes);
 
             commonActivity.resultChecker(testCaseHandler,decryptStat.errorCode, objExecution.getErrorCode());
 

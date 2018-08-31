@@ -1,11 +1,14 @@
 package com.jobdetails.shant.getjobdetails.Common;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Application;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.jobdetails.shant.getjobdetails.Beans.JobDetailBean;
 import com.jobdetails.shant.getjobdetails.Beans.TestCaseResult;
@@ -13,7 +16,6 @@ import com.jobdetails.shant.getjobdetails.Beans.UpdateResultResponse;
 import com.jobdetails.shant.getjobdetails.Network.APIClient;
 import com.jobdetails.shant.getjobdetails.Protocol.APIInterface;
 import com.jobdetails.shant.getjobdetails.Protocol.CountUpdater;
-import com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler;
 import com.jobdetails.shant.getjobdetails.TestCaseActivity.DataPrivacyActivity;
 import com.jobdetails.shant.getjobdetails.TestCaseActivity.InfoGettersActivity;
 import com.jobdetails.shant.getjobdetails.TestCaseActivity.InitializationActivity;
@@ -30,11 +32,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.jobdetails.shant.getjobdetails.Common.Constant.rdnaInitSuccess;
 import static com.jobdetails.shant.getjobdetails.Common.Constant.resultFail;
 import static com.jobdetails.shant.getjobdetails.Common.Constant.resultPass;
+import static com.uniken.rdna.RDNA.Initialize;
 
-public class TestAPIResult implements TestCaseHandler {
+public class TestCaseManager implements com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler {
 
     Application mainApplication;
     CountUpdater countUpdater;
@@ -46,17 +48,13 @@ public class TestAPIResult implements TestCaseHandler {
     int serverExecutionProgress = 0;
     int totalServerExecutionCount = 0;
 
-    String agentinfo = "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";
-    String authGateWayHNIP = "18.206.222.73";
-    int authGateWayPort = 4443;
-
     int failedCount = 0;
     int passedCount = 0;
     int notTestedCount = 0;
 
+    String initFeatureNM = "Initialization on Mobile";
 
-
-    public TestAPIResult(Application mainApplication, Activity activity) {
+    public TestCaseManager(Application mainApplication, Activity activity) {
         this.mainApplication = mainApplication;
         this.countUpdater = (CountUpdater) activity;
     }
@@ -72,9 +70,10 @@ public class TestAPIResult implements TestCaseHandler {
         for (int i = 0; i < jobDetailBean.getServerExecutionDetails().size(); i++) {
             JobDetailBean.ServerExecutionDetail serverBean = jobDetailBean.getServerExecutionDetails().get(i);
 
-            agentinfo = serverBean.getAgentInfo();
-            authGateWayPort = serverBean.getSdkPort();
-            authGateWayHNIP = serverBean.getIpAddress();
+            ConnectionProfile connectionProfile = new ConnectionProfile();
+            connectionProfile.setAgentInfo(serverBean.getAgentInfo());
+            connectionProfile.setAuthGateWayPort(serverBean.getSdkPort());
+            connectionProfile.setAuthGateWayHNIP(serverBean.getIpAddress());
 
             for (int j = 0; j < serverBean.getTestjobexecutions().size(); j++) {
                 testJobBean = serverBean.getTestjobexecutions().get(j);
@@ -96,8 +95,6 @@ public class TestAPIResult implements TestCaseHandler {
         if(testCaseNo < testJobBean.getExecutions().size()) {
 
             JobDetailBean.Execution obj = testJobBean.getExecutions().get(testCaseNo);
-            String exID = Integer.toString(obj.getExecutionId());
-
             checkTestCaseResult(obj, obj.getFeatureName());
 
         }
@@ -109,13 +106,39 @@ public class TestAPIResult implements TestCaseHandler {
         if (testCaseProgress == totalTestCaseCount) {
             progressText = "Completed";
         }
-
         countUpdater.updateCount(totalTestCaseCount, completedTestCases, passedCount, failedCount, notTestedCount, progressText);
+    }
+
+    private void initSDK(){
+
+        InitCallBacks callBacks = new InitCallBacks(mainApplication);
+
+        RDNA.RDNALoggingLevel loggingLevel = RDNA.RDNALoggingLevel.RDNA_LOG_VERBOSE;
+        RDNA.RDNAStatus<RDNA> objRDNA = Initialize(ConnectionProfile.getAgentInfo(), callBacks, ConnectionProfile.getAuthGateWayHNIP(), ConnectionProfile.getAuthGateWayPort(), null, null, null, null, null, loggingLevel, this);//  obj.result.
+
+        if(!RDNAManager.isRdnaInitSuccess()){
+            RDNAManager.setObjSyncRDNA(objRDNA);
+        }
+    }
+
+    private void terminateSDK(){
+
+        int objRDNA = RDNAManager.getObjSyncRDNA().result.terminate();
+
+        if(objRDNA == 0){
+            RDNAManager.setObjSyncRDNA(null);
+        }
     }
 
     public void checkTestCaseResult(JobDetailBean.Execution objExecution, String featureName) {
 
-        String resultStatus = "";
+        if(RDNAManager.getObjAsyncINIT() == null && !featureName.equalsIgnoreCase("Initialization on Mobile")){
+            initSDK();
+            return;
+        } else if(RDNAManager.getObjAsyncINIT() != null && featureName.equalsIgnoreCase("Initialization on Mobile")){
+            terminateSDK();
+        }
+
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String startTime = df.format(Calendar.getInstance().getTime());
         TestCaseResult testCaseResult = new TestCaseResult();
@@ -128,51 +151,42 @@ public class TestAPIResult implements TestCaseHandler {
         testCaseResult.setResultData("");
 
         testCasesStatusList.put(objExecution.getTestcaseName(), testCaseResult);
-        sendTestResultData(testCaseResult);
+//        sendTestResultData(testCaseResult);
 
         testCaseHandler(featureName,objExecution);
-        /*APIResponseCallBacks callBacks = new APIResponseCallBacks(mainApplication);
-        if(featureName.equals("Initialization on Mobile")) {
-            new InitializationActivity(TestAPIResult.this, mainApplication, testCaseProgress, agentinfo, authGateWayHNIP, authGateWayPort, callBacks).initTestCase(objExecution);
-
-        }else {
-            testCaseExecuted(1,0,0,1,Constant.resultCanNotTest);
-        }*/
     }
 
 
     private void testCaseHandler(String featureName, JobDetailBean.Execution objExecution){
 
-        APIResponseCallBacks callBacks = new APIResponseCallBacks(mainApplication);
-
         switch (featureName) {
 
             case "Initialization on Mobile":
-                new InitializationActivity(TestAPIResult.this,mainApplication,testCaseProgress,agentinfo,authGateWayHNIP,authGateWayPort,callBacks, objExecution).initTestCase();
+                new InitializationActivity(TestCaseManager.this,mainApplication,testCaseProgress,ConnectionProfile.getAgentInfo(),ConnectionProfile.getAuthGateWayHNIP(),ConnectionProfile.getAuthGateWayPort(), objExecution).initTestCase();
                 break;
 
             case "SERVICE_INFO":
-                new ServiceInfoActivity(TestAPIResult.this,mainApplication,testCaseProgress,agentinfo,authGateWayHNIP,authGateWayPort,callBacks, objExecution).initTestCase();
+                new ServiceInfoActivity(TestCaseManager.this,mainApplication,testCaseProgress, ConnectionProfile.getAgentInfo(),ConnectionProfile.getAuthGateWayHNIP(),ConnectionProfile.getAuthGateWayPort(), objExecution).initTestCase();
                 break;
 
             case "SERVICE_ACCESS":
-                new ServiceInfoActivity(TestAPIResult.this,mainApplication,testCaseProgress,agentinfo,authGateWayHNIP,authGateWayPort,callBacks, objExecution).initTestCase();
+                new ServiceInfoActivity(TestCaseManager.this,mainApplication,testCaseProgress, ConnectionProfile.getAgentInfo(),ConnectionProfile.getAuthGateWayHNIP(),ConnectionProfile.getAuthGateWayPort(), objExecution).initTestCase();
                 break;
 
             case "INFO_GETTERS":
-                new InfoGettersActivity(TestAPIResult.this,mainApplication,testCaseProgress,agentinfo,authGateWayHNIP,authGateWayPort,callBacks, objExecution).initTestCase();
+                new InfoGettersActivity(TestCaseManager.this,mainApplication,testCaseProgress, ConnectionProfile.getAgentInfo(),ConnectionProfile.getAuthGateWayHNIP(),ConnectionProfile.getAuthGateWayPort(), objExecution).initTestCase();
                 break;
 
             case "DATA_PRIVACY":
-                new DataPrivacyActivity(TestAPIResult.this,mainApplication,testCaseProgress,agentinfo,authGateWayHNIP,authGateWayPort,callBacks, objExecution).initTestCase();
+                new DataPrivacyActivity(TestCaseManager.this,mainApplication,testCaseProgress, ConnectionProfile.getAgentInfo(),ConnectionProfile.getAuthGateWayHNIP(),ConnectionProfile.getAuthGateWayPort(), objExecution).initTestCase();
                 break;
 
 /*            case "EXECUTE_HTTP_API":
-                new ExecHttpAPIActivity(TestAPIResult.this,mainApplication,testCaseProgress,agentinfo,authGateWayHNIP,authGateWayPort,callBacks, objExecution).initTestCase();
+                new ExecHttpAPIActivity(TestCaseManager.this,mainApplication,testCaseProgress,agentInfo,authGateWayHNIP,authGateWayPort, objExecution).initTestCase();
                 break;*/
 
             case "USER_SESSION_API":
-                new UserSessionActivity(TestAPIResult.this,mainApplication,testCaseProgress,agentinfo,authGateWayHNIP,authGateWayPort,callBacks, objExecution).initTestCase();
+                new UserSessionActivity(TestCaseManager.this,mainApplication,testCaseProgress, ConnectionProfile.getAgentInfo(),ConnectionProfile.getAuthGateWayHNIP(),ConnectionProfile.getAuthGateWayPort(), objExecution).initTestCase();
                 break;
 
             default:
@@ -190,7 +204,6 @@ public class TestAPIResult implements TestCaseHandler {
         updateDataToServer.enqueue(new Callback<UpdateResultResponse>() {
             @Override
             public void onResponse(Call<UpdateResultResponse> call, Response<UpdateResultResponse> response) {
-
                 Log.d("updateResult:","Sucess: "+ response.body() +"");
 
             }
@@ -244,7 +257,7 @@ public class TestAPIResult implements TestCaseHandler {
 
         testCasesStatusList.put(objExecution.getTestcaseName(), testCaseResult);
 
-        sendTestResultData(testCaseResult);
+//        sendTestResultData(testCaseResult);
 
         return testCaseResult;
     }
@@ -269,12 +282,6 @@ public class TestAPIResult implements TestCaseHandler {
     }
 
     private void updatePassCount(){
-
-        /*Log.e("pass", String.valueOf(passedCount));
-        Log.e("fail", String.valueOf(failedCount));
-        Log.e("TestCaseProgress",String.valueOf(testCaseProgress));
-        Log.e("RunningTests",testJobBean.getExecutions().get(testCaseProgress).getTestcaseName());*/
-
         //update end time
         try {
             updateEndTime(testCaseProgress,resultPass);
@@ -291,13 +298,6 @@ public class TestAPIResult implements TestCaseHandler {
     }
 
     private void updateFailCount(){
-
-/*        Log.e("pass", String.valueOf(passedCount));
-        Log.e("fail", String.valueOf(failedCount));
-        Log.e("TestCaseProgress",String.valueOf(testCaseProgress));
-        Log.e("RunningTests",testJobBean.getExecutions().get(testCaseProgress).getTestcaseName());*/
-
-
         //update end time
         try {
             updateEndTime(testCaseProgress,resultFail);
@@ -312,11 +312,30 @@ public class TestAPIResult implements TestCaseHandler {
         callSyncTestCase(this.testCaseProgress);
     }
 
-    public class APIResponseCallBacks implements RDNA.RDNACallbacks {
+    public void createDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mainApplication.getApplicationContext());
+        builder.setTitle("Initialization failed.\nDo you want to retry? ");
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                callSyncTestCase(testCaseProgress);
+            }
+        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        // Create the AlertDialog object and return it
+        builder.create();
+
+    }
+
+    public class InitCallBacks implements RDNA.RDNACallbacks {
 
         Application mainApplication;
 
-        public APIResponseCallBacks(Application application) {
+        public InitCallBacks(Application application) {
             this.mainApplication = application;
         }
 
@@ -326,11 +345,17 @@ public class TestAPIResult implements TestCaseHandler {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("UI thread:", "on main thread");
-                        if (rdnaStatusInit.errCode == 0) {
-                            rdnaInitSuccess = true;
+
+                        if (!RDNAManager.isRdnaInitSuccess()) {
+                            RDNAManager.setObjAsyncINIT(rdnaStatusInit);
                         }
-                        updatePassCount();
+
+
+                        if (rdnaStatusInit.errCode == 0) {
+                            RDNAManager.setRdnaInitSuccess(true);
+                        }
+
+                        callSyncTestCase(testCaseProgress);
                     }
                 });
 
@@ -340,8 +365,7 @@ public class TestAPIResult implements TestCaseHandler {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("UI thread:", "on main thread");
-                        updateFailCount();
+                        createDialog();
                     }
                 });
                 return 1;
@@ -370,6 +394,7 @@ public class TestAPIResult implements TestCaseHandler {
 
         @Override
         public int onTerminate(RDNA.RDNAStatusTerminate rdnaStatusTerminate) {
+            callSyncTestCase(testCaseProgress);
             return 0;
         }
 
@@ -390,6 +415,9 @@ public class TestAPIResult implements TestCaseHandler {
 
         @Override
         public int onCheckChallengeResponseStatus(RDNA.RDNAStatusCheckChallengeResponse rdnaStatusCheckChallengeResponse) {
+
+            new UserSessionActivity().activeUser(rdnaStatusCheckChallengeResponse.challenges, rdnaStatusCheckChallengeResponse.status.statusCode, new CommonActivity(), RDNAManager.getTestCaseHandler());
+
             return 0;
         }
 
@@ -458,6 +486,5 @@ public class TestAPIResult implements TestCaseHandler {
             return 0;
         }
     }
-
 
 }

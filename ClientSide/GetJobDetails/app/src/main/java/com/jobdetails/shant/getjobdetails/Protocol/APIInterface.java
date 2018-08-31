@@ -1,25 +1,23 @@
 package com.jobdetails.shant.getjobdetails.Protocol;
 
 import com.jobdetails.shant.getjobdetails.Beans.JobDetailBean;
-import com.jobdetails.shant.getjobdetails.Beans.Mob_Details;
+import com.jobdetails.shant.getjobdetails.Beans.InitialiseBean;
 import com.jobdetails.shant.getjobdetails.Beans.TestCaseResult;
 import com.jobdetails.shant.getjobdetails.Beans.UpdateResultResponse;
 import com.jobdetails.shant.getjobdetails.Beans.UserErrorBean;
-import com.jobdetails.shant.getjobdetails.Beans.UserProfileBean;
 
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 
 public interface APIInterface {
 
     @POST("/automation/getJobDetails.htm")
-    Call<JobDetailBean> getTestCasesJob(@Body Mob_Details mob_details);
+    Call<JobDetailBean> getTestCasesJob(@Body InitialiseBean initialiseBean);
 
 //    @GET("/bins/18enq0")
     @GET("/bins/1edbf8")

@@ -13,12 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.jobdetails.shant.getjobdetails.Beans.JobDetailBean;
-import com.jobdetails.shant.getjobdetails.Common.Constant;
-import com.jobdetails.shant.getjobdetails.Common.TestAPIResult;
+import com.jobdetails.shant.getjobdetails.Common.CommonActivity;
+import com.jobdetails.shant.getjobdetails.Common.RDNAManager;
+import com.jobdetails.shant.getjobdetails.Common.TestCaseManager;
 import com.jobdetails.shant.getjobdetails.Network.APIClient;
-import com.jobdetails.shant.getjobdetails.Beans.Mob_Details;
+import com.jobdetails.shant.getjobdetails.Beans.InitialiseBean;
 import com.jobdetails.shant.getjobdetails.Protocol.APIInterface;
 import com.jobdetails.shant.getjobdetails.Protocol.CountUpdater;
 import com.jobdetails.shant.getjobdetails.R;
@@ -28,7 +28,6 @@ import com.uniken.rdna.RDNA;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-import static com.jobdetails.shant.getjobdetails.Common.Constant.rdnaInitSuccess;
 import static com.uniken.rdna.RDNA.Initialize;
 import static com.uniken.rdna.RDNA.getSDKVersion;
 
@@ -56,7 +55,6 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
 
         initFormData();
         getTestCasesData();
-
     }
 
     /*
@@ -68,18 +66,10 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
 //        String lib_version = getLibraryVersion();
         String lib_version = "1.9.1";
 
-        Mob_Details mob_details = new Mob_Details("NEW19",Build.MODEL,"Android",Build.VERSION.RELEASE,Build.ID,Build.MANUFACTURER,Build.BRAND,lib_version);
-
-        Log.d(TAG,"Serial = " +mob_details.getSerial_num());
-        Log.d(TAG,"Model = " +mob_details.getDevice_model());
-        Log.d(TAG,"OS = " +mob_details.getDevice_os());
-        Log.d(TAG,"OS version  = " +mob_details.getOs_version());
-        Log.d(TAG,"ID = " +mob_details.getBuild_id());
-        Gson gson = new Gson();
-        String json = gson.toJson(mob_details);
+        InitialiseBean initialiseBean = new InitialiseBean("NEW19",Build.MODEL,"Android",Build.VERSION.RELEASE,Build.ID,Build.MANUFACTURER,Build.BRAND,lib_version);
 
         APIInterface apiInterface = APIClient.getJobDetailJSON().create(APIInterface.class);
-        Call<JobDetailBean> jsonAPICall = apiInterface.getTestCasesJob(mob_details);
+        Call<JobDetailBean> jsonAPICall = apiInterface.getTestCasesJob(initialiseBean);
 //        Call<JobDetailBean> jsonAPICall = apiInterface.getTestCasesDummyJob();
 
         jsonAPICall.enqueue(new Callback<JobDetailBean>() {
@@ -126,21 +116,21 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
         if (jobDetailBean.getJobAvailCode() == 0) {
             inProgress.setText("No Tests Available");
         } else {
-/*            TestAPIResult testResult = new TestAPIResult(this.getApplication(), MainActivity.this);
-            testResult.startTestExecution(jobDetailBean);*/
-            JobDetailBean.ServerExecutionDetail serverBean = jobDetailBeanGL.getServerExecutionDetails().get(0);
+            TestCaseManager testResult = new TestCaseManager(this.getApplication(), MainActivity.this);
+            testResult.startTestExecution(jobDetailBean);
+            /*JobDetailBean.ServerExecutionDetail serverBean = jobDetailBeanGL.getServerExecutionDetails().get(0);
 
             String agentInfo = serverBean.getAgentInfo();
             int authGateWayPort = serverBean.getSdkPort();
             String authGateWayIP = serverBean.getIpAddress();
             APIResponseCallBacks callBacks = new APIResponseCallBacks(this.getApplication());
 
-            RDNA.RDNALoggingLevel loggingLevel = RDNA.RDNALoggingLevel.RDNA_LOG_DEBUG;
+            RDNA.RDNALoggingLevel loggingLevel = RDNA.RDNALoggingLevel.RDNA_LOG_VERBOSE;
             RDNA.RDNAStatus<RDNA> objRDNA = Initialize(agentInfo, callBacks, authGateWayIP, authGateWayPort, null, null, null, null, null, loggingLevel, this);//  obj.result.
 
-            if(!rdnaInitSuccess){
-                Constant.objRDNA = objRDNA;
-            }
+            if(!RDNAManager.isRdnaInitSuccess()){
+                RDNAManager.setObjSyncRDNA(objRDNA);
+            }*/
         }
 
     }
@@ -169,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
     }
 
 
-    public class APIResponseCallBacks implements RDNA.RDNACallbacks {
+    /*public class APIResponseCallBacks implements RDNA.RDNACallbacks {
 
         Application mainApplication;
 
@@ -184,17 +174,18 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
                     @Override
                     public void run() {
                         Log.e("UI thread:", "on main thread");
-                        if (rdnaStatusInit.errCode == 0) {
-                            rdnaInitSuccess = true;
+
+                        if (!RDNAManager.isRdnaInitSuccess()) {
+                            RDNAManager.setObjAsyncINIT(rdnaStatusInit);
                         }
 
-/*                        TestAPIResult testResult = new TestAPIResult(mainApplication, MainActivity.this);
-                        testResult.startTestExecution(jobDetailBeanGL);*/
 
+                        if (rdnaStatusInit.errCode == 0) {
+                            RDNAManager.setRdnaInitSuccess(true);
+                        }
 
-                        UserSessionActivity userSessionActivity = new UserSessionActivity();
-                        userSessionActivity.testCustomEnrollUser();
-
+                        TestCaseManager testResult = new TestCaseManager(mainApplication, MainActivity.this);
+                        testResult.startTestExecution(jobDetailBeanGL);
                     }
                 });
 
@@ -248,6 +239,10 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
 
         @Override
         public int onCheckChallengeResponseStatus(RDNA.RDNAStatusCheckChallengeResponse rdnaStatusCheckChallengeResponse) {
+
+//            GlobalBus.getBus().post(new postRDNAChallenge);
+            new UserSessionActivity().activeUser(rdnaStatusCheckChallengeResponse.challenges, rdnaStatusCheckChallengeResponse.status.statusCode, new CommonActivity(), RDNAManager.getTestCaseHandler());
+
             return 0;
         }
 
@@ -308,6 +303,7 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
 
         @Override
         public int onSdkLogPrintRequest(RDNA.RDNALoggingLevel rdnaLoggingLevel, String s) {
+//            Log.wtf("RDNA-CORE LOGS **** ", s);
             return 0;
         }
 
@@ -315,5 +311,5 @@ public class MainActivity extends AppCompatActivity implements CountUpdater{
         public int onSecurityThreat(String s) {
             return 0;
         }
-    }
+    }*/
 }

@@ -4,7 +4,7 @@ package com.jobdetails.shant.getjobdetails.Beans;
  * Created for declaring Mobile Details to be sent to server as http request
  */
 
-public class Mob_Details {
+public class InitialiseBean {
 
     private String serial_num;
     private String device_model;
@@ -36,7 +36,7 @@ public class Mob_Details {
     private String brand;
     private String library_version;
 
-    public Mob_Details(String serial_num, String device_model, String device_os, String os_version, String build_id, String manufacturer, String brand,String library_version)
+    public InitialiseBean(String serial_num, String device_model, String device_os, String os_version, String build_id, String manufacturer, String brand, String library_version)
     {
         this.serial_num=serial_num;
         this.device_model=device_model;

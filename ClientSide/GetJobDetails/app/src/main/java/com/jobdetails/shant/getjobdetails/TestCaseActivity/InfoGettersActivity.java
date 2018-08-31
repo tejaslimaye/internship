@@ -5,8 +5,8 @@ import android.app.Application;
 import com.jobdetails.shant.getjobdetails.Beans.JobDetailBean;
 import com.jobdetails.shant.getjobdetails.Common.CommonActivity;
 import com.jobdetails.shant.getjobdetails.Common.Constant;
-import com.jobdetails.shant.getjobdetails.Common.TestAPIResult;
-import com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler;
+import com.jobdetails.shant.getjobdetails.Common.RDNAManager;
+import com.jobdetails.shant.getjobdetails.Common.TestCaseManager;
 import com.uniken.rdna.RDNA;
 
 public class InfoGettersActivity {
@@ -16,19 +16,17 @@ public class InfoGettersActivity {
     String agentinfo;
     String authGateWayHNIP;
     int authGateWayPort;
-    TestAPIResult.APIResponseCallBacks callBacks;
-    TestCaseHandler testCaseHandler;
+    com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler testCaseHandler;
     JobDetailBean.Execution objExecution;
     CommonActivity commonActivity;
 
-    public InfoGettersActivity(Object activity, Application mainApplication, int testCaseProgress, String agentinfo, String authGateWayHNIP, int authGateWayPort, TestAPIResult.APIResponseCallBacks callBacks,JobDetailBean.Execution objExecution){
-        this.testCaseHandler = (TestCaseHandler) activity;
+    public InfoGettersActivity(Object activity, Application mainApplication, int testCaseProgress, String agentinfo, String authGateWayHNIP, int authGateWayPort, JobDetailBean.Execution objExecution) {
+        this.testCaseHandler = (com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler) activity;
         this.mainApplication = mainApplication;
         this.testCaseProgress = testCaseProgress;
         this.agentinfo = agentinfo;
         this.authGateWayHNIP = authGateWayHNIP;
         this.authGateWayPort = authGateWayPort;
-        this.callBacks = callBacks;
         this.objExecution = objExecution;
         this.commonActivity = new CommonActivity();
 
@@ -41,7 +39,7 @@ public class InfoGettersActivity {
      * */
     public void initTestCase() {
 
-        switch (objExecution.getTestcaseName()){
+        switch (objExecution.getTestcaseName()) {
 
             case "GET_DEFAULT_CIPHER_SPEC":
                 testDefaultCipherSpec();
@@ -77,95 +75,95 @@ public class InfoGettersActivity {
         }
     }
 
-    private void testDefaultCipherSpec(){
+    private void testDefaultCipherSpec() {
 
-        if(Constant.objRDNA != null) {
-            RDNA.RDNAStatus<String> sdkStat = Constant.objRDNA.result.getDefaultCipherSpec();
-            commonActivity.resultChecker(testCaseHandler,sdkStat.errorCode, objExecution.getErrorCode());
-        }else {
+        if (RDNAManager.getObjSyncRDNA() != null) {
+            RDNA.RDNAStatus<String> sdkStat = RDNAManager.getObjSyncRDNA().result.getDefaultCipherSpec();
+            commonActivity.resultChecker(testCaseHandler, sdkStat.errorCode, objExecution.getErrorCode());
+        } else {
             commonActivity.updateCanNotTest(testCaseHandler);
         }
     }
 
-    private void testDefaultCipherSalt(){
+    private void testDefaultCipherSalt() {
 
-        if(Constant.objRDNA != null) {
+        if (RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAStatus<byte[]> sdkStat = Constant.objRDNA.result.getDefaultCipherSalt();
-            commonActivity.resultChecker(testCaseHandler,sdkStat.errorCode, objExecution.getErrorCode());
+            RDNA.RDNAStatus<byte[]> sdkStat = RDNAManager.getObjSyncRDNA().result.getDefaultCipherSalt();
+            commonActivity.resultChecker(testCaseHandler, sdkStat.errorCode, objExecution.getErrorCode());
 
-        }else {
+        } else {
             commonActivity.updateCanNotTest(testCaseHandler);
         }
 
     }
 
-    private void testSDKVersion(){
+    private void testSDKVersion() {
 
-        if(Constant.objRDNA != null) {
+        if (RDNAManager.getObjSyncRDNA() != null) {
 
-            String sdkStat = Constant.objRDNA.result.getSDKVersion();
-            if(!sdkStat.equalsIgnoreCase("")){
+            String sdkStat = RDNAManager.getObjSyncRDNA().result.getSDKVersion();
+            if (!sdkStat.equalsIgnoreCase("")) {
                 commonActivity.updatePassedTest(testCaseHandler);
-            }else {
+            } else {
                 commonActivity.updateFailedTest(testCaseHandler);
             }
 
-        }else {
+        } else {
             commonActivity.updateCanNotTest(testCaseHandler);
         }
     }
 
-    private void testErrorCode(){
+    private void testErrorCode() {
 
-        if(Constant.objRDNA != null) {
+        if (RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAErrorID errorStat = Constant.objRDNA.result.getErrorInfo(291504204);
-            if(!errorStat.name().equalsIgnoreCase("")){
+            RDNA.RDNAErrorID errorStat = RDNAManager.getObjSyncRDNA().result.getErrorInfo(291504204);
+            if (!errorStat.name().equalsIgnoreCase("")) {
                 commonActivity.updatePassedTest(testCaseHandler);
-            }else {
+            } else {
                 commonActivity.updateFailedTest(testCaseHandler);
             }
 
-        }else {
+        } else {
             commonActivity.updateCanNotTest(testCaseHandler);
         }
     }
 
-    private void testSessionID(){
+    private void testSessionID() {
 
-        if(Constant.objRDNA != null) {
+        if (RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAStatus<String> RDNAStat = Constant.objRDNA.result.getSessionID();
-            commonActivity.resultChecker(testCaseHandler,RDNAStat.errorCode, objExecution.getErrorCode());
+            RDNA.RDNAStatus<String> RDNAStat = RDNAManager.getObjSyncRDNA().result.getSessionID();
+            commonActivity.resultChecker(testCaseHandler, RDNAStat.errorCode, objExecution.getErrorCode());
 
-        }else {
-            commonActivity.updateCanNotTest(testCaseHandler);
-        }
-
-    }
-
-    private void testGetDeviceID(){
-
-        if(Constant.objRDNA != null) {
-
-            RDNA.RDNAStatus<String> RDNAStat = Constant.objRDNA.result.getDeviceID();
-            commonActivity.resultChecker(testCaseHandler,RDNAStat.errorCode, objExecution.getErrorCode());
-
-        }else {
+        } else {
             commonActivity.updateCanNotTest(testCaseHandler);
         }
 
     }
 
-    private void testAgentID(){
+    private void testGetDeviceID() {
 
-        if(Constant.objRDNA != null) {
+        if (RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAStatus<String> RDNAStat = Constant.objRDNA.result.getAgentID();
-            commonActivity.resultChecker(testCaseHandler,RDNAStat.errorCode, objExecution.getErrorCode());
+            RDNA.RDNAStatus<String> RDNAStat = RDNAManager.getObjSyncRDNA().result.getDeviceID();
+            commonActivity.resultChecker(testCaseHandler, RDNAStat.errorCode, objExecution.getErrorCode());
 
-        }else {
+        } else {
+            commonActivity.updateCanNotTest(testCaseHandler);
+        }
+
+    }
+
+    private void testAgentID() {
+
+        if (RDNAManager.getObjSyncRDNA() != null) {
+
+            RDNA.RDNAStatus<String> RDNAStat = RDNAManager.getObjSyncRDNA().result.getAgentID();
+            commonActivity.resultChecker(testCaseHandler, RDNAStat.errorCode, objExecution.getErrorCode());
+
+        } else {
             commonActivity.updateCanNotTest(testCaseHandler);
         }
     }

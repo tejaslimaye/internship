@@ -18,9 +18,6 @@ public class Constant {
     public final static String mainURL = "http://34.235.131.241";
     public final static String urlPortNo = ":8080";
     public final static String enrollUserPort = ":9080";
-//    public final static String mainURL = "https://api.myjson.com";
-    public static RDNA.RDNAStatus<RDNA> objRDNA;
-    public static boolean rdnaInitSuccess = false;
 
 
 

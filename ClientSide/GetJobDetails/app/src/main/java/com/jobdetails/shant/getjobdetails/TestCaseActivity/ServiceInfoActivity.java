@@ -6,11 +6,9 @@ import android.util.Log;
 import com.jobdetails.shant.getjobdetails.Beans.JobDetailBean;
 import com.jobdetails.shant.getjobdetails.Common.CommonActivity;
 import com.jobdetails.shant.getjobdetails.Common.Constant;
-import com.jobdetails.shant.getjobdetails.Common.TestAPIResult;
-import com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler;
+import com.jobdetails.shant.getjobdetails.Common.RDNAManager;
+import com.jobdetails.shant.getjobdetails.Common.TestCaseManager;
 import com.uniken.rdna.RDNA;
-
-import static com.uniken.rdna.RDNA.Initialize;
 
 public class ServiceInfoActivity {
 
@@ -19,19 +17,17 @@ public class ServiceInfoActivity {
     String agentinfo;
     String authGateWayHNIP;
     int authGateWayPort;
-    TestAPIResult.APIResponseCallBacks callBacks;
-    TestCaseHandler testCaseHandler;
+    com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler testCaseHandler;
     JobDetailBean.Execution objExecution;
     CommonActivity commonActivity;
 
-    public ServiceInfoActivity(Object activity, Application mainApplication, int testCaseProgress, String agentinfo, String authGateWayHNIP, int authGateWayPort, TestAPIResult.APIResponseCallBacks callBacks,JobDetailBean.Execution objExecution){
-        this.testCaseHandler = (TestCaseHandler) activity;
+    public ServiceInfoActivity(Object activity, Application mainApplication, int testCaseProgress, String agentinfo, String authGateWayHNIP, int authGateWayPort, JobDetailBean.Execution objExecution){
+        this.testCaseHandler = (com.jobdetails.shant.getjobdetails.Protocol.TestCaseHandler) activity;
         this.mainApplication = mainApplication;
         this.testCaseProgress = testCaseProgress;
         this.agentinfo = agentinfo;
         this.authGateWayHNIP = authGateWayHNIP;
         this.authGateWayPort = authGateWayPort;
-        this.callBacks = callBacks;
         this.objExecution = objExecution;
         this.commonActivity = new CommonActivity();
 
@@ -102,9 +98,9 @@ public class ServiceInfoActivity {
 
     private void getAllServices(){
 
-        if(Constant.objRDNA != null) {
+        if(RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAStatus<RDNA.RDNAService[]> objService = Constant.objRDNA.result.getAllServices();
+            RDNA.RDNAStatus<RDNA.RDNAService[]> objService = RDNAManager.getObjSyncRDNA().result.getAllServices();
             commonActivity.resultChecker(testCaseHandler,objService.errorCode, objExecution.getErrorCode());
 
         }else {
@@ -116,9 +112,9 @@ public class ServiceInfoActivity {
 
         RDNA.RDNAService firstService = null;
 
-        if(Constant.objRDNA != null) {
+        if(RDNAManager.getObjSyncRDNA() != null) {
 
-            RDNA.RDNAStatus<RDNA.RDNAService[]> objService = Constant.objRDNA.result.getAllServices();
+            RDNA.RDNAStatus<RDNA.RDNAService[]> objService = RDNAManager.getObjSyncRDNA().result.getAllServices();
             if (objService.errorCode == 0){
 
                 RDNA.RDNAService[] RDNAServicesAll = objService.result;
@@ -150,7 +146,7 @@ public class ServiceInfoActivity {
             String targetHNIP = firstService.targetHNIP;
             RDNA.RDNAPort portInfo = firstService.portInfo;
 
-            RDNA.RDNAStatus<RDNA.RDNAService> RDNAStatus = Constant.objRDNA.result.getServiceByServiceName(serviceName);
+            RDNA.RDNAStatus<RDNA.RDNAService> RDNAStatus = RDNAManager.getObjSyncRDNA().result.getServiceByServiceName(serviceName);
 
             commonActivity.resultChecker(testCaseHandler,RDNAStatus.errorCode, objExecution.getErrorCode());
 
@@ -165,7 +161,7 @@ public class ServiceInfoActivity {
 
         if(firstService != null){
 
-            RDNA.RDNAStatus<RDNA.RDNAService> RDNAStatus = Constant.objRDNA.result.getServiceByServiceName(serviceName);
+            RDNA.RDNAStatus<RDNA.RDNAService> RDNAStatus = RDNAManager.getObjSyncRDNA().result.getServiceByServiceName(serviceName);
             commonActivity.resultChecker(testCaseHandler,RDNAStatus.errorCode, objExecution.getErrorCode());
 
         }else {
@@ -210,7 +206,7 @@ public class ServiceInfoActivity {
             }
 
 
-            RDNA.RDNAStatus<RDNA.RDNAService[]> RDNAStatus = Constant.objRDNA.result.getServiceByTargetCoordinate(targetHNIP,targetPort);
+            RDNA.RDNAStatus<RDNA.RDNAService[]> RDNAStatus = RDNAManager.getObjSyncRDNA().result.getServiceByTargetCoordinate(targetHNIP,targetPort);
             commonActivity.resultChecker(testCaseHandler,RDNAStatus.errorCode, objExecution.getErrorCode());
 
         }else {
@@ -236,16 +232,16 @@ public class ServiceInfoActivity {
 
                 case "SERVICE_ACCESS_START_WRONG_SERVICE_NAME":
                     firstService.serviceName = "ASDDD";
-                    serviceStat = Constant.objRDNA.result.serviceAccessStart(firstService);
+                    serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStart(firstService);
                     break;
 
                 case "SERVICE_ACCESS_START_RUNNING_SERVICE":
-                    int startStatus = Constant.objRDNA.result.serviceAccessStart(firstService);
-                    serviceStat = Constant.objRDNA.result.serviceAccessStart(firstService);
+                    int startStatus = RDNAManager.getObjSyncRDNA().result.serviceAccessStart(firstService);
+                    serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStart(firstService);
                     break;
                 case "SERVICE_ACCESS_START_STOPPED_SERVICE":
-                    int stopStatus = Constant.objRDNA.result.serviceAccessStop(firstService);
-                    serviceStat = Constant.objRDNA.result.serviceAccessStart(firstService);
+                    int stopStatus = RDNAManager.getObjSyncRDNA().result.serviceAccessStop(firstService);
+                    serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStart(firstService);
                     break;
 
                 default:
@@ -278,16 +274,16 @@ public class ServiceInfoActivity {
 
                 case "SERVICE_ACCESS_STOP_WRONG_SERVICE_NAME":
                     firstService.serviceName = "ASDDD";
-                    serviceStat = Constant.objRDNA.result.serviceAccessStop(firstService);
+                    serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStop(firstService);
                     break;
 
                 case "SERVICE_ACCESS_STOP_RUNNING_SERVICE":
-                    int startStatus = Constant.objRDNA.result.serviceAccessStart(firstService);
-                    serviceStat = Constant.objRDNA.result.serviceAccessStop(firstService);
+                    int startStatus = RDNAManager.getObjSyncRDNA().result.serviceAccessStart(firstService);
+                    serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStop(firstService);
                     break;
                 case "SERVICE_ACCESS_STOP_STOPPED_SERVICE":
-                    int stopStatus = Constant.objRDNA.result.serviceAccessStop(firstService);
-                    serviceStat = Constant.objRDNA.result.serviceAccessStop(firstService);
+                    int stopStatus = RDNAManager.getObjSyncRDNA().result.serviceAccessStop(firstService);
+                    serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStop(firstService);
                     break;
 
                 default:
@@ -308,7 +304,7 @@ public class ServiceInfoActivity {
 
         if(firstService != null){
 
-            int serviceStat = Constant.objRDNA.result.serviceAccessStartAll();
+            int serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStartAll();
             commonActivity.resultChecker(testCaseHandler,serviceStat, objExecution.getErrorCode());
 
         }else {
@@ -323,7 +319,7 @@ public class ServiceInfoActivity {
 
         if(firstService != null){
 
-            int serviceStat = Constant.objRDNA.result.serviceAccessStopAll();
+            int serviceStat = RDNAManager.getObjSyncRDNA().result.serviceAccessStopAll();
             commonActivity.resultChecker(testCaseHandler,serviceStat, objExecution.getErrorCode());
 
         }else {
